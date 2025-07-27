@@ -9,7 +9,7 @@ echo "============================================================"
 # Create fusion_v13 directory
 mkdir -p fusion_v13
 
-# Copy all Fusion files
+# Copy all Fusion files from master folder
 echo "📁 Copying Fusion v13 files..."
 cp -r Fusion_V13_Shipped/* fusion_v13/
 
