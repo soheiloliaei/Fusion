@@ -4,18 +4,11 @@
 
 ### Step 1: Upload Files
 Upload ALL the following files to ChatGPT:
-- execution_chain_orchestrator.py
-- agent_registry.py
+- prompt_patterns.py
 - creative_director_agent.py
 - creative_director_patterns.py
-- pattern_registry.py
-- pattern_matcher.py
-- pattern_promoter.py
-- prompt_patterns.py
-- pattern_promotion.py
-- pattern_memory_loader.py
-- packager.py
-- version_audit.py
+- agent_registry.py
+- execution_chain_orchestrator.py
 
 ### Step 2: Add Master Prompt
 Copy the contents of `master_prompt.md` and paste it into ChatGPT's Custom Instructions.

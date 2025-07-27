@@ -3,7 +3,7 @@
 # Fusion v13.0 Installer
 # Installs Fusion v13 into any Cursor project
 
-echo "🚀 Installing Fusion v13.0..."
+echo "🚀 Installing Fusion v13 to your Cursor project..."
 echo "============================================================"
 
 # Create fusion_v13 directory
@@ -11,7 +11,7 @@ mkdir -p fusion_v13
 
 # Copy all Fusion files from master folder
 echo "📁 Copying Fusion v13 files..."
-cp -r Fusion_V13_Shipped/* fusion_v13/
+cp -r ~/fusion_v13/* ./fusion_v13/
 
 # Create __init__.py if missing
 touch fusion_v13/__init__.py
