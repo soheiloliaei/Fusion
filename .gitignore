@@ -1,0 +1,11 @@
+# Fusion v13.0 Git Ignore
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+.DS_Store
+*.log
