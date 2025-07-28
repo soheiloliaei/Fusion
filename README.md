@@ -12,7 +12,7 @@ Fusion v13.0 is an AI orchestration system that routes prompts through specializ
 - VP of Design provides AI-first critique
 
 ### VP of Design Agent
-- 15+ years UX/UI expertise
+- 20+ years UX/UI expertise
 - AI-first, product-led design thinking
 - Focuses on user experience, design systems, business impact
 - Replaces old "Creative Director" with actual design guru
