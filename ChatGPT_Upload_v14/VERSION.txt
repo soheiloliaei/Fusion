@@ -1,14 +1,1 @@
-Fusion v14.0 - Programmable Agent OS
-Build Date: 2025-07-28
-GitHub: https://github.com/soheiloliaei/fusion-v14.git
-
-Core Components:
-- fusion.py (CLI runner)
-- agents/ (VP Design + Evaluator agents)
-- tools/ (UX Audit + Trust Explainer tools)
-- core/ (Orchestrator + Context management)
-
-Total Files: 8 core files
-Token Count: ~8000 tokens (ChatGPT-ready)
-
-Status: ✅ PRODUCTION READY 
+V13.0
