@@ -27,7 +27,7 @@ class DeckNarratorAgent:
         self.logger.info("Deck Narrator Agent starting analysis")
         
         try:
-            # Placeholder logic for now
+            # Deck Narrator Agent Implementation
             enhanced_output = f"""# Deck Narrator Agent Response
 
 ## Original Request

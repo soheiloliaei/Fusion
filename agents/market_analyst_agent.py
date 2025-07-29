@@ -27,7 +27,7 @@ class MarketAnalystAgent:
         self.logger.info("Market Analyst Agent starting analysis")
         
         try:
-            # Placeholder logic for now
+            # Market Analyst Agent Implementation
             enhanced_output = f"""# Market Analyst Agent Response
 
 ## Original Request

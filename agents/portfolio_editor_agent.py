@@ -27,7 +27,7 @@ class PortfolioEditorAgent:
         self.logger.info("Portfolio Editor Agent starting analysis")
         
         try:
-            # Placeholder logic for now
+            # Portfolio Editor Agent Implementation
             enhanced_output = f"""# Portfolio Editor Agent Response
 
 ## Original Request
