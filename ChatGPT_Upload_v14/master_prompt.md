@@ -1,212 +1,297 @@
-# Fusion v14 - Master Prompt
+# Fusion v14 Master Prompt
 
-## Overview
-Fusion v14 is an advanced agent-based system for design, development, and strategic planning. It consists of 22 specialized agents organized into 5 categories, each with specific capabilities and expertise.
+## System Overview
 
-## Agent Categories
+Fusion v14 is a programmable agent OS that orchestrates specialized agents and tools to provide comprehensive design analysis, evaluation, and recommendations. The system operates asynchronously with sophisticated memory management and pattern-based fallback mechanisms.
 
-### Core Agents
-- **vp_design**: Design critique and enhancement
-- **evaluator**: Comprehensive evaluation and scoring
-- **creative_director**: Creative strategy and direction
+## Core Architecture
 
-### Strategic Agents  
-- **strategy_pilot**: Long-range strategic planning
-- **vp_of_design**: Design executive decisions
-- **vp_of_product**: Product executive decisions
+### Agent System
+- **VP Design Agent**: Specialized in design analysis, user-centered design principles, and accessibility compliance
+- **Evaluator Agent**: Comprehensive evaluation across multiple criteria with confidence scoring
+- **Tool Integration**: Modular tools (UX Audit, Trust Explainer) that enhance agent capabilities
+- **Pattern Registry**: Intelligent pattern matching and fallback for optimal performance
 
-### Technical Agents
-- **design_technologist**: Figma-to-code conversion
-- **product_navigator**: Feature analysis and complexity scoring
-
-### Companion Agents
-- **principal_designer**: AI-native design partner
-- **component_librarian**: Design system management
-- **content_designer**: Microcopy and content strategy
-- **ai_interaction_designer**: AI-human interaction patterns
-
-### Meta Agents
-- **strategy_archivist**: Strategic knowledge management
-- **market_analyst**: Market trends and competitive analysis
-- **workflow_optimizer**: Process optimization
-- **product_historian**: Product evolution tracking
-
-### Narrative & Content Agents
-- **deck_narrator**: Compelling narratives and presentations
-- **portfolio_editor**: Design work curation
-- **research_summarizer**: Research synthesis
-- **feedback_amplifier**: User feedback analysis
-
-### Intelligence & Orchestration Agents
-- **prompt_master**: Pattern matching and prompt optimization
-- **dispatcher**: Intelligent agent routing
-
-## Usage
-
-### Single Agent Execution
-```bash
-python3 fusion.py run [agent_name] "your prompt"
-```
-
-### Pipeline Execution
-```bash
-python3 fusion.py pipeline "your prompt"
-```
-
-## Key Features
-
-### Memory System
-- Each agent maintains memory of past interactions
-- Pattern recognition and learning capabilities
-- Confidence scoring and fallback mechanisms
-
-### Intelligent Routing
-- Dispatcher agent analyzes prompts and routes to optimal agents
-- Fallback chains for low-confidence scenarios
-- Performance-based agent selection
-
-### Structured Output
-- All agents provide structured, actionable results
-- Confidence scoring for quality assessment
-- Shared state management across pipeline
+### Execution Flow
+1. **Input Processing**: Analyze user input for intent and requirements
+2. **Agent Selection**: Choose appropriate agent(s) based on input type
+3. **Tool Coordination**: Apply relevant tools to enhance analysis
+4. **Pattern Application**: Use patterns for improved results when confidence is low
+5. **Output Generation**: Provide comprehensive, actionable recommendations
+6. **Memory Storage**: Store interaction for learning and context
 
 ## Agent Capabilities
 
-### Design & UX
-- UI/UX design critique and enhancement
-- Accessibility-first design principles
-- Component library management
-- Design system token extraction
+### VP Design Agent
+**Purpose**: Design analysis and recommendations with focus on user experience
 
-### Strategy & Planning
-- Long-range strategic roadmaps
-- Competitive analysis and simulation
-- Business goal prioritization
-- Market opportunity identification
+**Core Functions**:
+- Design principle application (user-centered, accessibility, visual hierarchy)
+- Request type identification (UI design, UX design, brand design, general design)
+- Design element extraction (color, typography, layout, interaction, navigation)
+- User needs assessment (accessibility, mobile-friendly, performance, simplicity)
+- Constraint identification (budget, time, existing systems)
+- Target audience analysis (business, consumer, technical, general users)
 
-### Technical Implementation
-- Figma-to-code conversion (Tailwind/React)
-- Component complexity analysis
-- Development viability assessment
-- Technical architecture planning
+**Design Principles Applied**:
+1. User-centered design (always applied)
+2. Accessibility first (when accessibility is a user need)
+3. Consistent visual hierarchy (for UI and general design)
+4. Clear information architecture (for UX and general design)
+5. Responsive design patterns (when mobile-friendly is needed)
+6. Performance optimization (when performance is a user need)
+7. Brand consistency (for brand design)
 
-### Content & Communication
-- Microcopy and content strategy
-- Stakeholder-ready narratives
-- Research synthesis and summarization
-- User feedback amplification
+**Output Structure**:
+- Enhanced output with design recommendations
+- Confidence scoring based on analysis quality
+- Tool usage tracking
+- Shared state updates
+- Execution time metrics
 
-### Intelligence & Orchestration
-- Prompt pattern recognition
-- Intelligent agent routing
-- Memory-based learning
-- Fallback chain management
+### Evaluator Agent
+**Purpose**: Comprehensive evaluation and scoring across multiple criteria
 
-## System Architecture
+**Evaluation Criteria**:
+1. **Clarity** (15% weight): How clear and understandable is the output?
+2. **Completeness** (15% weight): How complete is the response to the request?
+3. **Actionability** (20% weight): How actionable are the recommendations?
+4. **Accuracy** (15% weight): How accurate is the information provided?
+5. **Relevance** (15% weight): How relevant is the output to the input?
+6. **Innovation** (10% weight): How innovative or creative is the approach?
+7. **Product Value** (10% weight): How much business/product value does it provide?
 
-### Core Components
-- **fusion.py**: Main CLI runner
-- **execution_orchestrator_v14.py**: Pipeline orchestration
-- **agent_memory.py**: Memory management system
-- **pattern_registry.json**: Pattern definitions
+**Evaluation Process**:
+- Context extraction from input
+- Multi-criteria evaluation with weighted scoring
+- Reasoning generation for each criterion
+- Overall confidence calculation
+- Detailed evaluation report generation
 
-### Memory & Learning
-- JSON-based memory storage
-- Pattern recognition from past interactions
-- Confidence scoring and trend analysis
-- Similar prompt detection
+**Quality Assessment**:
+- Excellent Quality (≥0.9): Ready for production use
+- Good Quality (≥0.8): Minor improvements recommended
+- Acceptable Quality (≥0.7): Some improvements needed
+- Needs Improvement (<0.7): Significant enhancements required
 
-### Quality Assurance
-- Comprehensive evaluation criteria
-- Confidence scoring for all outputs
-- Fallback mechanisms for low-confidence scenarios
-- Structured output validation
+## Tool System
+
+### UX Audit Tool
+**Purpose**: Comprehensive UX analysis using heuristic evaluation and metrics
+
+**Heuristic Evaluation** (Nielsen's 10 heuristics):
+1. Visibility of system status
+2. Match between system and real world
+3. User control and freedom
+4. Consistency and standards
+5. Error prevention
+6. Recognition rather than recall
+7. Flexibility and efficiency of use
+8. Aesthetic and minimalist design
+9. Help users recognize, diagnose, and recover from errors
+10. Help and documentation
+
+**UX Metrics Analysis**:
+- **Usability**: ease_of_use, learnability, efficiency
+- **Accessibility**: wcag_compliance, screen_reader, keyboard_navigation
+- **Performance**: load_time, response_time, smoothness
+- **Engagement**: user_retention, time_on_site, interaction_rate
+
+**Output**: Comprehensive UX audit report with specific recommendations
+
+### Trust Explainer Tool
+**Purpose**: Trust-building analysis and enhancement recommendations
+
+**Trust Elements Analysis**:
+- **Transparency**: clear_pricing, data_usage, privacy_policy, terms_of_service
+- **Security**: encryption, secure_payment, data_protection, compliance
+- **Social Proof**: reviews, testimonials, user_count, expert_endorsements
+- **Reliability**: uptime, performance, support_quality, update_frequency
+- **Expertise**: credentials, experience, certifications, industry_recognition
+
+**Trust Indicators Evaluation**:
+- **Visual**: professional_design, brand_consistency, quality_icons, modern_ui
+- **Content**: clear_messaging, helpful_information, transparent_processes, educational_content
+- **Interaction**: responsive_feedback, error_handling, loading_states, progress_indicators
+- **Social**: user_reviews, social_media, community_features, expert_opinions
+
+**Output**: Trust enhancement plan with specific implementation strategies
+
+## Pattern System
+
+### Pattern Registry
+**Purpose**: Intelligent pattern management with fallback mechanisms
+
+**Built-in Patterns**:
+1. **design_enhancement**: Apply design principles and accessibility
+2. **ux_audit**: Perform comprehensive UX audit
+3. **trust_building**: Analyze and enhance trust elements
+4. **comprehensive_evaluation**: Full evaluation with detailed scoring
+5. **basic_evaluation**: Essential evaluation criteria
+
+**Pattern Features**:
+- Smart pattern matching based on input keywords
+- Confidence-based pattern application
+- Fallback system for low-confidence results
+- Performance tracking and statistics
+- Custom pattern creation capabilities
+
+**Pattern Selection Logic**:
+- Design-related inputs → design_enhancement, ux_audit, or trust_building
+- Evaluation-related inputs → comprehensive_evaluation
+- Default fallback → design_enhancement
+
+## Memory and Context Management
+
+### Fusion Context
+**Purpose**: Shared state and memory management across all agents and tools
+
+**Memory Components**:
+- **Interaction Memory**: Store all agent interactions with timestamps
+- **Pattern Memory**: Pattern-specific data and performance metrics
+- **Shared State**: Persistent state across agent executions
+- **Execution History**: Complete execution tracking and statistics
+
+**Memory Features**:
+- Export/import capabilities for persistence
+- Relevant memory retrieval based on query similarity
+- Pattern usage statistics and success rates
+- Context summary generation
+
+**Context Summary Includes**:
+- Session ID and timestamp
+- Total interactions and average confidence
+- Memory size and shared state keys
+- Recent interaction history
+- Pattern memory statistics
+
+## Configuration System
+
+### .fusion.json Configuration
+**Purpose**: Centralized configuration for all system components
+
+**Key Settings**:
+- **version**: System version (v14.0)
+- **max_prompt_tokens**: Token limit for prompts (8000)
+- **enabled_agents**: List of active agents
+- **tools_enabled**: Enable/disable tool system
+- **pattern_fallback**: Enable pattern fallback system
+- **memory_enabled**: Enable memory management
+- **async_mode**: Enable async execution
+- **auto_commit**: Enable automatic commits
+- **debug_mode**: Enable debug logging
+- **log_level**: Logging level (INFO)
+
+## CLI Interface
+
+### Command Structure
+**Main Commands**:
+- `run <agent> <input>`: Execute single agent
+- `pipeline <input>`: Execute full agent pipeline
+- `pattern <input>`: Execute with pattern fallback
+- `status`: Show system status and statistics
+- `help`: Show help information
+
+**Example Usage**:
+```bash
+# Single agent execution
+python fusion.py run vp_design "Design a mobile app interface"
+
+# Pipeline execution
+python fusion.py pipeline "Create a user-friendly dashboard"
+
+# Pattern-based execution
+python fusion.py pattern "Evaluate this design proposal"
+
+# System status
+python fusion.py status
+```
+
+**Output Format**:
+- Structured results with confidence scores
+- Execution time metrics
+- Tool usage tracking
+- Error handling with clear messages
+- Colored output for better readability
+
+## Error Handling and Fallback
+
+### Error Recovery
+- **Agent Failures**: Automatic fallback to alternative agents
+- **Tool Failures**: Graceful degradation without tool functionality
+- **Pattern Failures**: Fallback to basic patterns or direct execution
+- **Memory Failures**: Continue execution without memory features
+
+### Confidence-Based Fallback
+- **High Confidence** (≥0.8): Use results directly
+- **Medium Confidence** (0.6-0.8): Apply enhancement patterns
+- **Low Confidence** (<0.6): Apply comprehensive fallback patterns
+
+### Logging and Debugging
+- **Structured Logging**: All operations logged with timestamps
+- **Error Tracking**: Detailed error information for debugging
+- **Performance Monitoring**: Execution time and resource usage
+- **Debug Mode**: Enhanced logging for development
+
+## Integration and Extensibility
+
+### Adding New Agents
+1. Create agent class with async `run()` method
+2. Implement required interface methods
+3. Register with orchestrator
+4. Update configuration
+
+### Adding New Tools
+1. Create tool class with async `run()` method
+2. Implement tool-specific analysis logic
+3. Register with orchestrator
+4. Update agent tool usage
+
+### Adding New Patterns
+1. Define pattern metadata and enhancement logic
+2. Register with pattern registry
+3. Define fallback relationships
+4. Test pattern performance
+
+### Custom Configuration
+- Modify `.fusion.json` for system settings
+- Add custom agents to enabled_agents list
+- Configure tool-specific settings
+- Set pattern fallback preferences
 
 ## Best Practices
 
-### Prompt Engineering
-- Be specific about desired outcomes
-- Include context and constraints
-- Specify target audience when relevant
-- Use clear action verbs
+### Input Guidelines
+- **Be Specific**: Provide detailed requirements and context
+- **Include Constraints**: Mention budget, time, or technical limitations
+- **Specify Audience**: Indicate target users and their needs
+- **Mention Goals**: Describe desired outcomes and success criteria
 
-### Agent Selection
-- Use dispatcher for automatic routing
-- Leverage specialized agents for domain-specific tasks
-- Consider pipeline execution for complex workflows
-- Monitor confidence scores for quality assurance
+### Output Interpretation
+- **Confidence Scores**: Higher scores indicate more reliable results
+- **Tool Usage**: Check which tools were applied for comprehensive analysis
+- **Pattern Application**: Note which patterns were used for enhancement
+- **Recommendations**: Prioritize high-confidence recommendations
 
-### Memory Utilization
-- Agents learn from past interactions
-- Similar prompts trigger pattern recognition
-- Confidence improves with usage
-- Fallback chains ensure reliability
-
-## Integration Points
-
-### Design Tools
-- Figma integration for design-to-code
-- Component library management
-- Design system token extraction
-- Accessibility compliance checking
-
-### Development Workflow
-- Technical feasibility assessment
-- Complexity scoring for features
-- Edge case identification
-- Implementation roadmap planning
-
-### Strategic Planning
-- Market analysis and competitive intelligence
-- Long-range strategic roadmaps
-- Business goal alignment
-- Risk assessment and mitigation
-
-## Quality Metrics
-
-### Confidence Scoring
-- All agents provide 0.0-1.0 confidence scores
-- Threshold-based fallback triggers
-- Performance tracking and improvement
-- Pattern-based confidence calculation
-
-### Evaluation Criteria
-- Clarity and comprehensibility
-- Completeness of response
-- Actionability of recommendations
-- Accuracy and relevance
-- Innovation and creativity
-- Business value contribution
+### System Optimization
+- **Memory Management**: Export memory periodically for persistence
+- **Pattern Performance**: Monitor pattern success rates and adjust thresholds
+- **Tool Selection**: Use appropriate tools based on input type
+- **Error Monitoring**: Check logs for recurring issues
 
 ## Future Enhancements
 
 ### Planned Features
-- Advanced pattern recognition
-- Cross-agent collaboration
-- Real-time learning and adaptation
-- Enhanced fallback mechanisms
-- Performance optimization
+- **MCP Integration**: Connect to external services (GitHub, Figma, etc.)
+- **Multi-modal Support**: Handle images, documents, and voice input
+- **Advanced Learning**: Pattern performance-based learning
+- **External APIs**: Integration with design and development tools
+- **Professional UI**: Web-based interface for non-technical users
 
-### Scalability
-- Modular agent architecture
-- Pluggable memory systems
-- Extensible pattern registry
-- Configurable routing heuristics
+### Architecture Evolution
+- **Microservices**: Decompose into independent services
+- **Plugin System**: Dynamic loading of agents and tools
+- **Distributed Execution**: Multi-node agent orchestration
+- **Real-time Collaboration**: Multi-user simultaneous usage
 
-## Support & Maintenance
-
-### Troubleshooting
-- Check agent availability with `python3 fusion.py run [agent] "test"`
-- Monitor confidence scores for quality issues
-- Review memory patterns for learning insights
-- Validate pipeline execution for complex workflows
-
-### Performance Optimization
-- Memory-based pattern recognition
-- Confidence-based routing decisions
-- Fallback chain optimization
-- Structured output validation
-
----
-
-*Fusion v14 - Advanced Agent-Based Design & Development System* 
+This master prompt provides comprehensive guidance for understanding and using Fusion v14, ensuring consistent behavior across all system components while maintaining flexibility for future enhancements. 
