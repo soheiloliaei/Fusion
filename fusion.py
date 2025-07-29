@@ -16,6 +16,24 @@ from agents.product_navigator_agent import ProductNavigatorAgent
 from agents.strategy_pilot_agent import StrategyPilotAgent
 from agents.vp_of_design_agent import VPOfDesignAgent
 from agents.vp_of_product_agent import VPOfProductAgent
+
+# Companion Agents
+from agents.principal_designer_agent import PrincipalDesignerAgent
+from agents.component_librarian_agent import ComponentLibrarianAgent
+from agents.content_designer_agent import ContentDesignerAgent
+from agents.ai_interaction_designer_agent import AIInteractionDesignerAgent
+
+# Meta Agents
+from agents.strategy_archivist_agent import StrategyArchivistAgent
+from agents.market_analyst_agent import MarketAnalystAgent
+from agents.workflow_optimizer_agent import WorkflowOptimizerAgent
+from agents.product_historian_agent import ProductHistorianAgent
+
+# Narrative & Content Agents
+from agents.deck_narrator_agent import DeckNarratorAgent
+from agents.portfolio_editor_agent import PortfolioEditorAgent
+from agents.research_summarizer_agent import ResearchSummarizerAgent
+from agents.feedback_amplifier_agent import FeedbackAmplifierAgent
 from core.execution_orchestrator_v14 import ExecutionOrchestrator
 
 print("🧠 DEBUG: fusion.py top-level code executed")
@@ -47,19 +65,42 @@ def main():
 
         # Dynamic agent loading
         agent_map = {
+            # Core Agents
             "vp_design": VPDesignAgent,
             "evaluator": EvaluatorAgent,
             "creative_director": CreativeDirectorAgent,
             "design_technologist": DesignTechnologistAgent,
             "product_navigator": ProductNavigatorAgent,
+            
+            # Strategic Agents
             "strategy_pilot": StrategyPilotAgent,
             "vp_of_design": VPOfDesignAgent,
             "vp_of_product": VPOfProductAgent,
+            
+            # Companion Agents
+            "principal_designer": PrincipalDesignerAgent,
+            "component_librarian": ComponentLibrarianAgent,
+            "content_designer": ContentDesignerAgent,
+            "ai_interaction_designer": AIInteractionDesignerAgent,
+            
+            # Meta Agents
+            "strategy_archivist": StrategyArchivistAgent,
+            "market_analyst": MarketAnalystAgent,
+            "workflow_optimizer": WorkflowOptimizerAgent,
+            "product_historian": ProductHistorianAgent,
+            
+            # Narrative & Content Agents
+            "deck_narrator": DeckNarratorAgent,
+            "portfolio_editor": PortfolioEditorAgent,
+            "research_summarizer": ResearchSummarizerAgent,
+            "feedback_amplifier": FeedbackAmplifierAgent,
+            
             "prompt_master": "PromptMasterAgent"  # Placeholder
         }
         
         if args.agent in agent_map:
-            if args.agent in ["vp_design", "evaluator", "creative_director", "design_technologist", "product_navigator", "strategy_pilot", "vp_of_design", "vp_of_product"]:
+            # All agents are now working (except prompt_master placeholder)
+            if args.agent in agent_map and args.agent != "prompt_master":
                 # Working agents
                 agent_class = agent_map[args.agent]
                 agent = agent_class()
@@ -68,8 +109,9 @@ def main():
             else:
                 # Placeholder agents (need implementation)
                 print(f"⚠️ Agent '{args.agent}' is available but not yet implemented")
-                print(f"Available working agents: vp_design, evaluator, creative_director, design_technologist, product_navigator, strategy_pilot, vp_of_design, vp_of_product")
-                print(f"Available placeholder agents: {', '.join([k for k in agent_map.keys() if k not in ['vp_design', 'evaluator', 'creative_director', 'design_technologist', 'product_navigator', 'strategy_pilot', 'vp_of_design', 'vp_of_product']])}")
+                working_agents = [k for k in agent_map.keys() if k != "prompt_master"]
+                print(f"Available working agents: {', '.join(working_agents)}")
+                print(f"Available placeholder agents: prompt_master")
                 sys.exit(1)
         else:
             print(f"❌ Error: Unknown agent '{args.agent}'")
@@ -92,22 +134,41 @@ def main():
         from tools.ux_audit_tool import UXAuditTool
         from tools.trust_explainer_tool import TrustExplainerTool
         
-        # Register working agents
+        # Register all working agents
         orchestrator.register_agent("vp_design", VPDesignAgent())
         orchestrator.register_agent("evaluator", EvaluatorAgent())
+        orchestrator.register_agent("creative_director", CreativeDirectorAgent())
         orchestrator.register_agent("design_technologist", DesignTechnologistAgent())
         orchestrator.register_agent("product_navigator", ProductNavigatorAgent())
         orchestrator.register_agent("strategy_pilot", StrategyPilotAgent())
         orchestrator.register_agent("vp_of_design", VPOfDesignAgent())
         orchestrator.register_agent("vp_of_product", VPOfProductAgent())
         
+        # Register companion agents
+        orchestrator.register_agent("principal_designer", PrincipalDesignerAgent())
+        orchestrator.register_agent("component_librarian", ComponentLibrarianAgent())
+        orchestrator.register_agent("content_designer", ContentDesignerAgent())
+        orchestrator.register_agent("ai_interaction_designer", AIInteractionDesignerAgent())
+        
+        # Register meta agents
+        orchestrator.register_agent("strategy_archivist", StrategyArchivistAgent())
+        orchestrator.register_agent("market_analyst", MarketAnalystAgent())
+        orchestrator.register_agent("workflow_optimizer", WorkflowOptimizerAgent())
+        orchestrator.register_agent("product_historian", ProductHistorianAgent())
+        
+        # Register narrative & content agents
+        orchestrator.register_agent("deck_narrator", DeckNarratorAgent())
+        orchestrator.register_agent("portfolio_editor", PortfolioEditorAgent())
+        orchestrator.register_agent("research_summarizer", ResearchSummarizerAgent())
+        orchestrator.register_agent("feedback_amplifier", FeedbackAmplifierAgent())
+        
         # Register tools
         orchestrator.register_tool("ux_audit", UXAuditTool())
         orchestrator.register_tool("trust_explainer", TrustExplainerTool())
         
-        print(f"✅ Registered agents: vp_design, evaluator, design_technologist, product_navigator, strategy_pilot, vp_of_design, vp_of_product")
+        print(f"✅ Registered 20 working agents across all categories")
         print(f"✅ Registered tools: ux_audit, trust_explainer")
-        print(f"📋 Available agents (not yet implemented): creative_director, prompt_master")
+        print(f"📋 Available agents (not yet implemented): prompt_master")
         
         output = asyncio.run(orchestrator.execute_pipeline(input_text))
         print(f"🧩 Pipeline Output:\n{output}")
