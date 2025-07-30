@@ -26,17 +26,18 @@ rm -rf ChatGPT_Upload_v14.3
 mkdir -p ChatGPT_Upload_v14.3
 
 echo "📂 Copying core files to ChatGPT_Upload..."
-cp fusion.py ChatGPT_Upload_v14.3/
-cp master_prompt/master_prompt_main.md ChatGPT_Upload_v14.3/
-cp master_prompt/master_prompt_8000.md ChatGPT_Upload_v14.3/
-cp README.md ChatGPT_Upload_v14.3/
-cp agents_combined.py ChatGPT_Upload_v14.3/
-cp tools_combined.py ChatGPT_Upload_v14.3/
-cp execution_orchestrator_v14.py ChatGPT_Upload_v14.3/
-cp fusion_context.py ChatGPT_Upload_v14.3/
-cp memory_system.py ChatGPT_Upload_v14.3/
-cp patterns/pattern_registry.py ChatGPT_Upload_v14.3/
-cp .fusion.json ChatGPT_Upload_v14.3/config.json 2>/dev/null || echo "⚠️ .fusion.json not found, using fallback"
+# Copy files from the current fusion directory to the install directory
+cp ~/fusion/fusion.py ChatGPT_Upload_v14.3/ 2>/dev/null || echo "⚠️ fusion.py not found"
+cp ~/fusion/master_prompt/master_prompt_main.md ChatGPT_Upload_v14.3/ 2>/dev/null || echo "⚠️ master_prompt_main.md not found"
+cp ~/fusion/master_prompt/master_prompt_8000.md ChatGPT_Upload_v14.3/ 2>/dev/null || echo "⚠️ master_prompt_8000.md not found"
+cp ~/fusion/README.md ChatGPT_Upload_v14.3/ 2>/dev/null || echo "⚠️ README.md not found"
+cp ~/fusion/agents_combined.py ChatGPT_Upload_v14.3/ 2>/dev/null || echo "⚠️ agents_combined.py not found"
+cp ~/fusion/tools_combined.py ChatGPT_Upload_v14.3/ 2>/dev/null || echo "⚠️ tools_combined.py not found"
+cp ~/fusion/execution_orchestrator_v14.py ChatGPT_Upload_v14.3/ 2>/dev/null || echo "⚠️ execution_orchestrator_v14.py not found"
+cp ~/fusion/fusion_context.py ChatGPT_Upload_v14.3/ 2>/dev/null || echo "⚠️ fusion_context.py not found"
+cp ~/fusion/memory_system.py ChatGPT_Upload_v14.3/ 2>/dev/null || echo "⚠️ memory_system.py not found"
+cp ~/fusion/patterns/pattern_registry.py ChatGPT_Upload_v14.3/ 2>/dev/null || echo "⚠️ pattern_registry.py not found"
+cp ~/fusion/.fusion.json ChatGPT_Upload_v14.3/config.json 2>/dev/null || echo "⚠️ .fusion.json not found, using fallback"
 
 echo "📦 Creating Python venv..."
 python3 -m venv .venv
