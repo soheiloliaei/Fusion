@@ -352,6 +352,144 @@ python3 fusion.py run rewrite_loop "Your raw draft here..."
 - **Deck Content**: Restructure weak openings for strategic impact
 - **Portfolio Pieces**: Enhance structure and voice alignment
 
+### Design Agent Stack (Fusion v14.3)
+
+**Purpose**: AI-native design agents for evaluating, architecting, and polishing design work
+
+**Core Components**:
+
+#### DesignJudgmentEngine
+**Purpose**: Evaluates a design from screenshots, Figma frames, or visual JSON
+
+**Evaluation Framework**:
+- **Heuristics Score**: 0.0-1.0 based on design quality
+- **Trend Alignment**: Strong/Moderate/Weak industry alignment
+- **Criticisms**: Specific design issues identified
+- **Missing Influences**: Recommended design references
+
+**Output**:
+```json
+{
+  "heuristics_score": 0.91,
+  "trend_alignment": "Strong",
+  "criticisms": ["Minor spacing inconsistencies", "Could benefit from more breathing room"],
+  "influences_missing": ["Apple", "Airbnb", "Netflix", "OpenAI", "Anthropic", "Origin", "Intercom Fin"],
+  "recommendations": ["Study Apple's Human Interface Guidelines", "Reference Airbnb's design system patterns"]
+}
+```
+
+#### PromptArchitectAgent
+**Purpose**: Analyzes strategic declarations and outputs AI-native prompt architecture with fallback logic
+
+**Detection Patterns**:
+- **Fallback UX**: Error states, failure modes, trust validation
+- **Copilot Tiles**: AI assistant patterns, progressive disclosure
+- **Trust Score**: User confidence, verification flows
+- **Auto Execution**: Automatic actions, confirmation patterns
+
+**Output**:
+```json
+{
+  "detected_declaration": "Fallback UX for high-stakes flows",
+  "prompt_template": "Given [context], recommend fallback states using [Copilot tiles + user trust score]",
+  "tile_logic_hints": ["Trigger fallback if confidence < 0.6", "Ask user to confirm before auto-executing"],
+  "ai_native_patterns": ["Progressive disclosure", "Trust-based interactions", "Graceful degradation"]
+}
+```
+
+#### AINativeUXDesigner
+**Purpose**: Converts raw ideas into wireframe-ready formats (ASCII, JSON, Tailwind blocks)
+
+**Layout Types**:
+- **Copilot Tile**: 2-column MCP tile
+- **Dashboard**: 3-column responsive grid
+- **Modal**: Centered overlay with backdrop
+- **Navigation**: Horizontal tab bar
+
+**Output**:
+```json
+{
+  "layout_type": "Data visualization tile",
+  "ascii_sketch": "[Chart Header] | [Transaction List]\n[Summary Stats] | [Action Buttons]",
+  "tailwind_tokens": {
+    "padding": "p-4",
+    "font": "font-inter",
+    "radius": "rounded-2xl",
+    "background": "bg-gray-50"
+  },
+  "wireframe_ready": true,
+  "mcp_compatible": true
+}
+```
+
+#### DesignPolishAgent
+**Purpose**: Applies critique feedback and uplifts craft to Apple/OpenAI level pixel detail
+
+**Polish Categories**:
+- **Spacing**: Harmonized spacing patterns
+- **Typography**: Modernized font weights and line heights
+- **Visual Hierarchy**: Improved iconography and borders
+- **Color**: Enhanced contrast and accessibility
+
+**Output**:
+```json
+{
+  "fixes_applied": ["Harmonized spacing", "Modernized typography"],
+  "before_after_diff": {
+    "nav_spacing": "16px → 24px",
+    "font_weight": "Medium → Semibold",
+    "line_height": "1.4 → 1.5"
+  },
+  "craft_level": "Apple/OpenAI standard",
+  "pixel_perfect": true
+}
+```
+
+#### DesignSystemEngineer
+**Purpose**: Generates consistent token sets and MCP-compatible Tailwind from visual inputs
+
+**Token Generation**:
+- **Primary Colors**: Brand-specific color palettes
+- **Typography**: Font families and weights
+- **Spacing**: Consistent spacing scales
+- **Border Radius**: Modern rounded corners
+
+**Output**:
+```json
+{
+  "design_tokens": {
+    "primary": "#00C244",
+    "background": "#F9FAFB",
+    "radius": "16px",
+    "font": "Cash Sans"
+  },
+  "mcp_ready": true,
+  "magic_ui_integration": "✅ Tailwind tokens match Magic UI MCP primitives",
+  "output_files": ["tailwind.config.js", "tokens.json"],
+  "css_variables": {
+    "--primary": "#00C244",
+    "--background": "#F9FAFB",
+    "--radius": "16px"
+  }
+}
+```
+
+**CLI Usage**:
+```bash
+python3 fusion.py run design_judgment_engine "Evaluate this Figma frame for craft and Apple-level standards"
+python3 fusion.py run ai_native_ux_designer "Design a Copilot tile that summarizes Bitcoin transaction history with fallback"
+python3 fusion.py run design_system_engineer "Generate Tailwind tokens for this Figma screenshot"
+python3 fusion.py run prompt_architect "Design fallback UX for high-stakes flows with trust score validation"
+python3 fusion.py run design_polish_agent "Apply Apple-level polish to this design with improved spacing and typography"
+```
+
+**Use Cases**:
+- **Design Evaluation**: Assess Figma frames against industry standards
+- **AI-Native UX**: Convert ideas into wireframe-ready formats
+- **Design Systems**: Generate consistent token sets for projects
+- **Design Polish**: Uplift craft to Apple/OpenAI standards
+- **Prompt Architecture**: Structure AI interactions with fallback logic
+
 ## Tool System
 
 ### UX Audit Tool
