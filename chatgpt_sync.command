@@ -2,21 +2,28 @@
 
 echo "🔁 Syncing ChatGPT_Upload..."
 
+# Set the correct project directory (where the actual files are)
+PROJECT_DIR=~/fusion
+UPLOAD_DIR="$PROJECT_DIR/ChatGPT_Upload_v14.3"
+
+# Change to the project directory
+cd "$PROJECT_DIR"
+
 # Clean and recreate upload directory
-rm -rf ChatGPT_Upload_v14.3
-mkdir -p ChatGPT_Upload_v14.3
+rm -rf "$UPLOAD_DIR"
+mkdir -p "$UPLOAD_DIR"
 
-# Copy core files into upload folder (using relative paths)
-cp fusion.py ChatGPT_Upload_v14.3/
-cp master_prompt/master_prompt.md ChatGPT_Upload_v14.3/
-cp README.md ChatGPT_Upload_v14.3/
-cp agents_combined.py ChatGPT_Upload_v14.3/
-cp tools_combined.py ChatGPT_Upload_v14.3/
-cp execution_orchestrator_v14.py ChatGPT_Upload_v14.3/
-cp fusion_context.py ChatGPT_Upload_v14.3/
-cp memory_system.py ChatGPT_Upload_v14.3/
-cp patterns/pattern_registry.py ChatGPT_Upload_v14.3/
-cp .fusion.json ChatGPT_Upload_v14.3/config.json
+# Copy core files into upload folder
+cp fusion.py "$UPLOAD_DIR/"
+cp master_prompt/master_prompt.md "$UPLOAD_DIR/"
+cp README.md "$UPLOAD_DIR/"
+cp agents_combined.py "$UPLOAD_DIR/"
+cp tools_combined.py "$UPLOAD_DIR/"
+cp execution_orchestrator_v14.py "$UPLOAD_DIR/"
+cp fusion_context.py "$UPLOAD_DIR/"
+cp memory_system.py "$UPLOAD_DIR/"
+cp patterns/pattern_registry.py "$UPLOAD_DIR/"
+cp .fusion.json "$UPLOAD_DIR/config.json"
 
-echo "✅ Files prepared in ChatGPT_Upload_v14.3"
-open ChatGPT_Upload_v14.3
+echo "✅ Files prepared in $UPLOAD_DIR"
+open "$UPLOAD_DIR"
