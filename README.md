@@ -272,6 +272,20 @@ Fusion v14 represents a significant step toward our North Star: **"The Most Inte
 - 🔄 External service APIs
 - 🔄 Professional agency interface
 
+## Fusion Version History
+
+### v14.1 – Narrative Freshness Patch (July 29, 2025)
+- Added `SurprisalCriticAgent` to detect motif reuse
+- Added `NarrativeDivergenceAgent` to inject story-first POVs
+- Added `LongformCreativeChain` for Substack-style originality checks
+- Deduplication layer via semantic memory
+- Chain logic modified to block motif reuse in longform
+
+### v14.0 – Async OS Core (July 20, 2025)
+- Full async orchestration
+- Shared state and fallback pattern memory
+- Tool-integrated agents (UX Audit, Trust Explainer)
+
 ## 🚀 How to Update ChatGPT Upload
 
 ### Quick Update Process

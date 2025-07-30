@@ -8,35 +8,11 @@ import argparse
 import asyncio
 import sys
 
-from agents.vp_design_agent import VPDesignAgent
-from agents.evaluator_agent import EvaluatorAgent
-from agents.creative_director_agent import CreativeDirectorAgent
-from agents.design_technologist_agent import DesignTechnologistAgent
-from agents.product_navigator_agent import ProductNavigatorAgent
-from agents.strategy_pilot_agent import StrategyPilotAgent
-from agents.vp_of_design_agent import VPOfDesignAgent
-from agents.vp_of_product_agent import VPOfProductAgent
-from agents.prompt_master_agent import PromptMasterAgent
-from agents.dispatcher_agent import DispatcherAgent
-
-# Companion Agents
-from agents.principal_designer_agent import PrincipalDesignerAgent
-from agents.component_librarian_agent import ComponentLibrarianAgent
-from agents.content_designer_agent import ContentDesignerAgent
-from agents.ai_interaction_designer_agent import AIInteractionDesignerAgent
-
-# Meta Agents
-from agents.strategy_archivist_agent import StrategyArchivistAgent
-from agents.market_analyst_agent import MarketAnalystAgent
-from agents.workflow_optimizer_agent import WorkflowOptimizerAgent
-from agents.product_historian_agent import ProductHistorianAgent
-
-# Narrative & Content Agents
-from agents.deck_narrator_agent import DeckNarratorAgent
-from agents.portfolio_editor_agent import PortfolioEditorAgent
-from agents.research_summarizer_agent import ResearchSummarizerAgent
-from agents.feedback_amplifier_agent import FeedbackAmplifierAgent
-from core.execution_orchestrator_v14 import ExecutionOrchestrator
+from agents_combined import (
+    VPDesignAgent, EvaluatorAgent, CreativeDirectorAgent, PromptMasterAgent,
+    SurprisalCriticAgent, NarrativeDivergenceAgent, LongformCreativeChain
+)
+from execution_orchestrator_v14 import ExecutionOrchestrator
 
 print("🧠 DEBUG: fusion.py top-level code executed")
 
@@ -71,42 +47,19 @@ def main():
             "vp_design": VPDesignAgent,
             "evaluator": EvaluatorAgent,
             "creative_director": CreativeDirectorAgent,
-            "design_technologist": DesignTechnologistAgent,
-            "product_navigator": ProductNavigatorAgent,
-            
-            # Strategic Agents
-            "strategy_pilot": StrategyPilotAgent,
-            "vp_of_design": VPOfDesignAgent,
-            "vp_of_product": VPOfProductAgent,
-            
-            # Companion Agents
-            "principal_designer": PrincipalDesignerAgent,
-            "component_librarian": ComponentLibrarianAgent,
-            "content_designer": ContentDesignerAgent,
-            "ai_interaction_designer": AIInteractionDesignerAgent,
-            
-            # Meta Agents
-            "strategy_archivist": StrategyArchivistAgent,
-            "market_analyst": MarketAnalystAgent,
-            "workflow_optimizer": WorkflowOptimizerAgent,
-            "product_historian": ProductHistorianAgent,
-            
-            # Narrative & Content Agents
-            "deck_narrator": DeckNarratorAgent,
-            "portfolio_editor": PortfolioEditorAgent,
-            "research_summarizer": ResearchSummarizerAgent,
-            "feedback_amplifier": FeedbackAmplifierAgent,
-            
-            # Intelligence & Orchestration Agents
             "prompt_master": PromptMasterAgent,
-            "dispatcher": DispatcherAgent
+            
+            # Narrative Freshness Agents (v14.1)
+            "surprisal_critic": SurprisalCriticAgent,
+            "narrative_divergence": NarrativeDivergenceAgent,
+            "longform_creative_chain": LongformCreativeChain
         }
         
         if args.agent in agent_map:
             # All agents are now working
             agent_class = agent_map[args.agent]
             agent = agent_class()
-            output = asyncio.run(agent.run_async(input_text, {}))
+            output = asyncio.run(agent.run(input_text))
             print(f"🎨 Output from {args.agent}:\n{output}")
         else:
             print(f"❌ Error: Unknown agent '{args.agent}'")

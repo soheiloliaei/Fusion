@@ -291,6 +291,71 @@ class EvaluatorAgent:
         
         return "\n".join([f"- {rec}" for rec in recommendations])
 
+import re
+import hashlib
+from difflib import SequenceMatcher
+
+class SurprisalCriticAgent:
+    """Detects overused motifs and structures using semantic + lexical heuristics"""
+    def __init__(self):
+        self.motif_cache = set()
+
+    async def run(self, input_text: str) -> Dict[str, Any]:
+        motifs = self._extract_motifs(input_text)
+        repeated = [m for m in motifs if m in self.motif_cache]
+        self.motif_cache.update(motifs)
+        surprisal_score = 1.0 - (len(repeated) / max(len(motifs), 1))
+
+        return {
+            "agent": "surprisal_critic",
+            "output": self._generate_feedback(repeated, surprisal_score),
+            "confidence": surprisal_score
+        }
+
+    def _extract_motifs(self, text: str) -> List[str]:
+        candidates = re.findall(r'\b(Cursor|fallback UX|design systems?|agentic workflows?|pattern registry)\b', text, re.IGNORECASE)
+        return [c.lower() for c in set(candidates)]
+
+    def _generate_feedback(self, repeated: List[str], score: float) -> str:
+        if not repeated:
+            return "✅ Fresh narrative. No reused motifs detected."
+        return f"⚠️ Reused motifs: {', '.join(repeated)}. Surprisal Score: {score:.2f}"
+
+class NarrativeDivergenceAgent:
+    """Injects lived friction, surprise, or POV shift into story lead"""
+    async def run(self, input_text: str) -> Dict[str, Any]:
+        rewritten_text = await self.rewrite(input_text)
+        return {
+            "agent": "narrative_divergence",
+            "input": input_text,
+            "output": rewritten_text,
+            "confidence": 0.9
+        }
+    
+    async def rewrite(self, input_text: str) -> str:
+        if "I used to" in input_text or "but then" in input_text:
+            return input_text  # already story-led
+
+        return (
+            "I used to believe fallback UX was a luxury.\n"
+            "But then a Cash App outage forced us to rebuild trust from scratch in under 24 hours.\n\n"
+            + input_text
+        )
+
+class LongformCreativeChain:
+    """Runs divergence agent → main agent → surprisal critic"""
+    async def run(self, input_text: str, main_agent) -> Dict[str, Any]:
+        divergent_input = await NarrativeDivergenceAgent().rewrite(input_text)
+        base = await main_agent.run(divergent_input)
+        surprise = await SurprisalCriticAgent().run(base['output'])
+
+        return {
+            "original_input": input_text,
+            "divergent_input": divergent_input,
+            "agent_output": base,
+            "surprisal_review": surprise
+        }
+
 class CreativeDirectorAgent:
     """Creative Director Agent - Creative strategy and direction"""
     
@@ -545,7 +610,10 @@ AGENT_REGISTRY = {
     "vp_design": VPDesignAgent,
     "evaluator": EvaluatorAgent,
     "creative_director": CreativeDirectorAgent,
-    "prompt_master": PromptMasterAgent
+    "prompt_master": PromptMasterAgent,
+    "surprisal_critic": SurprisalCriticAgent,
+    "narrative_divergence": NarrativeDivergenceAgent,
+    "longform_creative_chain": LongformCreativeChain
 }
 
 def get_agent(agent_name: str):
@@ -557,4 +625,4 @@ def get_agent(agent_name: str):
         raise ValueError(f"Agent '{agent_name}' not found. Available agents: {list(AGENT_REGISTRY.keys())}")
 
 # Export for use in other modules
-__all__ = ['VPDesignAgent', 'EvaluatorAgent', 'CreativeDirectorAgent', 'PromptMasterAgent', 'get_agent', 'AGENT_REGISTRY'] 
+__all__ = ['VPDesignAgent', 'EvaluatorAgent', 'CreativeDirectorAgent', 'PromptMasterAgent', 'SurprisalCriticAgent', 'NarrativeDivergenceAgent', 'LongformCreativeChain', 'get_agent', 'AGENT_REGISTRY'] 

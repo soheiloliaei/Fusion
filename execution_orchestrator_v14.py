@@ -9,7 +9,7 @@ from typing import Dict, Any, List, Optional
 from datetime import datetime
 import logging
 
-from .fusion_context import FusionContext
+from fusion_context import FusionContext
 
 class ExecutionOrchestrator:
     """

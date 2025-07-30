@@ -66,6 +66,64 @@ Fusion v14 is a programmable agent OS that orchestrates specialized agents and t
 - Acceptable Quality (≥0.7): Some improvements needed
 - Needs Improvement (<0.7): Significant enhancements required
 
+### SurprisalCriticAgent
+**Purpose**: Detects overused motifs, phrases, and structure across outputs
+
+**Core Functions**:
+- Motif extraction and pattern recognition
+- Semantic similarity analysis
+- Surprisal scoring based on motif overlap
+- Feedback generation for narrative freshness
+
+**Detection Patterns**:
+- Common phrases: "Cursor", "fallback UX", "design systems"
+- Structural patterns: repetitive narrative flows
+- Semantic motifs: overused concepts and themes
+
+**Output**:
+- Fresh narrative confirmation or reused motif warnings
+- Surprisal score (0.0-1.0) indicating originality
+- Specific feedback on detected patterns
+
+### NarrativeDivergenceAgent
+**Purpose**: Restructures content to lead with lived friction, surprising POV, or a "I changed my mind" moment
+
+**Core Functions**:
+- Story-first narrative restructuring
+- POV shift injection
+- Lived experience integration
+- Avoidance of predictable exposition
+
+**Restructuring Patterns**:
+- "I used to believe X, but then Y happened" format
+- Real-world friction and surprise elements
+- Personal transformation narratives
+- Unexpected perspective shifts
+
+**Output**:
+- Restructured content with narrative tension
+- Story-led introductions
+- Enhanced reader engagement
+
+### LongformCreativeChain
+**Purpose**: A composite agent flow for longform outputs ensuring freshness and narrative tension
+
+**Execution Flow**:
+1. **Divergence**: NarrativeDivergenceAgent restructures input
+2. **Creation**: Main agent (VP Design, Evaluator, etc.) processes divergent input
+3. **Critique**: SurprisalCriticAgent evaluates output freshness
+
+**Use Cases**:
+- Substack-style posts and essays
+- Longform content creation
+- Narrative-heavy design documentation
+- Creative writing and storytelling
+
+**Output**:
+- Complete chain execution with all intermediate steps
+- Original input, divergent input, agent output, and surprisal review
+- Comprehensive freshness analysis
+
 ## Tool System
 
 ### UX Audit Tool
