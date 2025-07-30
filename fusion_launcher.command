@@ -1,6 +1,8 @@
 #!/bin/bash
 
 echo "🚀 Installing Fusion v14.3 in current directory..."
+echo "📍 Current directory: $(pwd)"
+echo ""
 
 # CONFIG
 REPO_URL="https://github.com/soheiloliaei/Fusion.git"
@@ -63,8 +65,8 @@ chmod +x "$CURRENT_DIR/fusion.py" 2>/dev/null
 echo ""
 echo "✅ Fusion v14.3 installed in: $CURRENT_DIR"
 echo ""
-echo "📁 Files installed:"
-ls -la "$CURRENT_DIR" | grep -E "(fusion|master_prompt|agents|tools|patterns)" | head -10
+echo "📁 Files installed in current directory:"
+ls -la "$CURRENT_DIR" | grep -E "(fusion|master_prompt|agents|tools|patterns|autocritique|task_classifier|voice_modulation)" | head -15
 echo ""
 
 # Step 5: Show available commands
