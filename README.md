@@ -272,6 +272,35 @@ Fusion v14 represents a significant step toward our North Star: **"The Most Inte
 - 🔄 External service APIs
 - 🔄 Professional agency interface
 
+## 🖥️ CLI Interface
+
+### Command Structure
+**Main Commands**:
+- `run <agent> <input>`: Execute single agent
+- `pipeline <input>`: Execute full agent pipeline
+- `brief <input>`: Classify task intent and audience
+- `help`: Show help information
+
+**Example Usage**:
+```bash
+# Single agent execution
+python3 fusion.py run vp_design "Design a mobile app interface"
+
+# Pipeline execution
+python3 fusion.py pipeline "Create a user-friendly dashboard"
+
+# Task classification
+python3 fusion.py brief "I'm writing a POV on fallback UX for senior leadership"
+```
+
+**Task Classification Output**:
+```bash
+🧠 Task Classifier Result:
+Chain: POVDeclarationChain
+Agents: ['vp_product', 'vp_design', 'content_designer']
+Voice: executive
+```
+
 ## Fusion Version History
 
 ### v14.1 – Narrative Freshness Patch (July 29, 2025)
