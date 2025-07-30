@@ -249,6 +249,51 @@ Fusion v14 is a programmable agent OS that orchestrates specialized agents and t
 - **POVChain**: Executive review with voice matching
 - **AutoCritiqueLoop**: Iterative quality improvement
 
+### AutoCritique Loop
+
+**Purpose**: Complete auto-review loop for any longform content: POVs, decks, Substacks, essays
+
+**Core Components**:
+- **EvaluatorAgent**: Structural evaluation and quality assessment
+- **NarrativeQualityChain**: Freshness scoring and voice matching
+- **RewriteAdvisor**: Targeted improvement suggestions
+- **VoiceModulationEngine**: Tone adaptation for target audience
+
+**Workflow**:
+1. **Evaluation**: Assess structure, clarity, and completeness
+2. **Scoring**: Rate freshness, detect clichés, check voice alignment
+3. **Recommendations**: Generate specific improvement suggestions
+4. **Voice Modulation**: Adapt tone for target audience
+
+**Output Format**:
+```json
+{
+  "evaluation": {
+    "agent": "evaluator",
+    "output": "Comprehensive evaluation results...",
+    "confidence": 0.845,
+    "execution_time": 0.00001
+  },
+  "score": 0.84,
+  "verdict": "Good quality, minor improvements needed",
+  "issues": ["weak framing", "reused motifs"],
+  "recommendations": ["Open with stronger hook", "Add specific examples"],
+  "voice_feedback": "Tone matches executive voice well",
+  "modulated_instruction": "Rewrite this as if it's being sent to C-level executives..."
+}
+```
+
+**CLI Usage**:
+```bash
+python3 fusion.py run autocritique_loop "Your content here"
+```
+
+**Use Cases**:
+- **POV Drafts**: Executive review with strategic framing
+- **Substack Essays**: Freshness check with irreverent voice
+- **Deck Content**: Structural clarity with executive tone
+- **Portfolio Pieces**: Quality assessment with thoughtful voice
+
 ## Tool System
 
 ### UX Audit Tool
