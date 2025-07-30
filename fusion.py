@@ -12,7 +12,8 @@ from agents_combined import (
     VPDesignAgent, EvaluatorAgent, CreativeDirectorAgent, PromptMasterAgent,
     SurprisalCriticAgent, NarrativeDivergenceAgent, LongformCreativeChain,
     NarrativeFreshnessRater, StructuralClarityChecker, VoiceMatchEvaluator,
-    RewriteAdvisor, NarrativeQualityChain, RewriteLoopAgent
+    RewriteAdvisor, NarrativeQualityChain, RewriteLoopAgent,
+    DesignJudgmentEngine, PromptArchitectAgent, AINativeUXDesigner, DesignPolishAgent, DesignSystemEngineer
 )
 from autocritique_loop import AutoCritiqueLoop
 from execution_orchestrator_v14 import ExecutionOrchestrator
@@ -68,7 +69,12 @@ def main():
             "rewrite_advisor": RewriteAdvisor,
             "narrative_quality_chain": NarrativeQualityChain,
             "autocritique_loop": AutoCritiqueLoop,
-            "rewrite_loop": RewriteLoopAgent
+            "rewrite_loop": RewriteLoopAgent,
+            "design_judgment_engine": DesignJudgmentEngine,
+            "prompt_architect": PromptArchitectAgent,
+            "ai_native_ux_designer": AINativeUXDesigner,
+            "design_polish_agent": DesignPolishAgent,
+            "design_system_engineer": DesignSystemEngineer
         }
         
         if args.agent in agent_map:

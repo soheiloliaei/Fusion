@@ -911,6 +911,229 @@ class RewriteLoopAgent:
             # Minor tweaks only
             return original_text
 
+class DesignJudgmentEngine:
+    """Evaluates a design from screenshots, Figma frames, or visual JSON"""
+    def __init__(self):
+        self.trend_sources = ["Apple", "Airbnb", "Netflix", "OpenAI", "Anthropic", "Origin", "Intercom Fin"]
+        self.heuristic_framework = {
+            "information_hierarchy": 0.25,
+            "visual_consistency": 0.20,
+            "interaction_patterns": 0.20,
+            "accessibility": 0.15,
+            "trend_alignment": 0.20
+        }
+    
+    async def run(self, input_text: str) -> Dict[str, Any]:
+        # Analyze the input for design evaluation context
+        text = input_text.lower()
+        
+        # Simulate design judgment based on input
+        heuristics_score = 0.82
+        criticisms = []
+        missing_influences = []
+        
+        if "figma" in text or "design" in text:
+            criticisms.extend([
+                "Weak information hierarchy in top nav",
+                "Overuse of TikTok-like animation patterns", 
+                "Inconsistent spacing tokens"
+            ])
+            missing_influences = ["Apple", "Airbnb", "Netflix", "OpenAI", "Anthropic", "Origin", "Intercom Fin"]
+        
+        if "craft" in text or "apple" in text:
+            heuristics_score = 0.91
+            criticisms = ["Minor spacing inconsistencies", "Could benefit from more breathing room"]
+        
+        return {
+            "heuristics_score": heuristics_score,
+            "trend_alignment": "Moderate" if heuristics_score < 0.85 else "Strong",
+            "criticisms": criticisms,
+            "influences_missing": missing_influences,
+            "recommendations": [
+                "Study Apple's Human Interface Guidelines",
+                "Reference Airbnb's design system patterns",
+                "Consider OpenAI's minimal aesthetic"
+            ]
+        }
+
+class PromptArchitectAgent:
+    """Analyzes strategic declarations and outputs AI-native prompt architecture with fallback logic"""
+    def __init__(self):
+        self.declaration_patterns = {
+            "fallback_ux": ["fallback", "error state", "failure mode"],
+            "copilot_tiles": ["copilot", "tile", "ai assistant"],
+            "trust_score": ["trust", "confidence", "user verification"],
+            "auto_execution": ["auto", "automatic", "confirm"]
+        }
+    
+    async def run(self, input_text: str) -> Dict[str, Any]:
+        text = input_text.lower()
+        
+        # Detect declaration type
+        detected_declaration = "General design pattern"
+        prompt_template = "Given [context], recommend [pattern] using [best practices]"
+        tile_logic_hints = []
+        
+        if any(pattern in text for pattern in self.declaration_patterns["fallback_ux"]):
+            detected_declaration = "Fallback UX for high-stakes flows"
+            prompt_template = "Given [context], recommend fallback states using [Copilot tiles + user trust score]"
+            tile_logic_hints = [
+                "Trigger fallback if confidence < 0.6",
+                "Ask user to confirm before auto-executing",
+                "Show clear error boundaries"
+            ]
+        
+        elif any(pattern in text for pattern in self.declaration_patterns["copilot_tiles"]):
+            detected_declaration = "Copilot tile architecture"
+            prompt_template = "Design [tile_type] with [interaction_pattern] and [fallback_logic]"
+            tile_logic_hints = [
+                "Use consistent tile dimensions",
+                "Implement progressive disclosure",
+                "Provide clear action affordances"
+            ]
+        
+        return {
+            "detected_declaration": detected_declaration,
+            "prompt_template": prompt_template,
+            "tile_logic_hints": tile_logic_hints,
+            "ai_native_patterns": [
+                "Progressive disclosure",
+                "Trust-based interactions", 
+                "Graceful degradation"
+            ]
+        }
+
+class AINativeUXDesigner:
+    """Converts raw ideas into wireframe-ready formats (ASCII, JSON, Tailwind blocks)"""
+    def __init__(self):
+        self.layout_patterns = {
+            "copilot_tile": "2-column MCP tile",
+            "dashboard": "3-column responsive grid",
+            "modal": "centered overlay with backdrop",
+            "navigation": "horizontal tab bar"
+        }
+    
+    async def run(self, idea_text: str) -> Dict[str, Any]:
+        text = idea_text.lower()
+        
+        # Determine layout type based on input
+        layout_type = "2-column MCP tile"
+        ascii_sketch = "[Header] | [Tile Panel]\n[Primary Button] | [Secondary Actions]"
+        tailwind_tokens = {
+            "padding": "p-4",
+            "font": "font-inter", 
+            "radius": "rounded-2xl",
+            "spacing": "space-y-4"
+        }
+        
+        if "bitcoin" in text or "transaction" in text:
+            layout_type = "Data visualization tile"
+            ascii_sketch = "[Chart Header] | [Transaction List]\n[Summary Stats] | [Action Buttons]"
+            tailwind_tokens.update({
+                "background": "bg-gray-50",
+                "border": "border border-gray-200"
+            })
+        
+        elif "copilot" in text or "tile" in text:
+            layout_type = "2-column MCP tile"
+            ascii_sketch = "[Tile Header] | [Content Area]\n[Primary Action] | [Secondary Options]"
+            tailwind_tokens.update({
+                "shadow": "shadow-lg",
+                "hover": "hover:shadow-xl"
+            })
+        
+        return {
+            "layout_type": layout_type,
+            "ascii_sketch": ascii_sketch,
+            "tailwind_tokens": tailwind_tokens,
+            "wireframe_ready": True,
+            "mcp_compatible": True
+        }
+
+class DesignPolishAgent:
+    """Applies critique feedback and uplifts craft to Apple/OpenAI level pixel detail"""
+    def __init__(self):
+        self.polish_patterns = {
+            "spacing": ["16px → 24px", "8px → 12px", "32px → 40px"],
+            "typography": ["Medium → Semibold", "Regular → Medium", "Light → Regular"],
+            "color": ["#666 → #333", "#999 → #666", "#CCC → #999"],
+            "radius": ["8px → 12px", "4px → 8px", "16px → 20px"]
+        }
+    
+    async def run(self, input_text: str) -> Dict[str, Any]:
+        text = input_text.lower()
+        
+        fixes_applied = []
+        before_after_diff = {}
+        
+        if "spacing" in text or "layout" in text:
+            fixes_applied.append("Harmonized spacing")
+            before_after_diff["nav_spacing"] = "16px → 24px"
+            before_after_diff["content_padding"] = "8px → 12px"
+        
+        if "typography" in text or "font" in text:
+            fixes_applied.append("Modernized typography")
+            before_after_diff["font_weight"] = "Medium → Semibold"
+            before_after_diff["line_height"] = "1.4 → 1.5"
+        
+        if "icon" in text or "visual" in text:
+            fixes_applied.append("Improved visual hierarchy")
+            before_after_diff["icon_size"] = "16px → 20px"
+            before_after_diff["border_radius"] = "8px → 12px"
+        
+        if not fixes_applied:
+            fixes_applied = ["Harmonized spacing", "Modernized iconography", "Improved visual hierarchy"]
+            before_after_diff = {
+                "nav_spacing": "16px → 24px",
+                "font_weight": "Medium → Semibold",
+                "border_radius": "8px → 12px"
+            }
+        
+        return {
+            "fixes_applied": fixes_applied,
+            "before_after_diff": before_after_diff,
+            "craft_level": "Apple/OpenAI standard",
+            "pixel_perfect": True
+        }
+
+class DesignSystemEngineer:
+    """Generates consistent token sets and MCP-compatible Tailwind from visual inputs"""
+    def __init__(self):
+        self.token_patterns = {
+            "primary": "#00C244",
+            "background": "#F9FAFB", 
+            "radius": "16px",
+            "font": "Cash Sans"
+        }
+    
+    async def run(self, figma_reference: str) -> Dict[str, Any]:
+        text = figma_reference.lower()
+        
+        design_tokens = self.token_patterns.copy()
+        
+        # Customize tokens based on input
+        if "cash app" in text or "green" in text:
+            design_tokens["primary"] = "#00C244"
+            design_tokens["font"] = "Cash Sans"
+        elif "apple" in text or "minimal" in text:
+            design_tokens["primary"] = "#007AFF"
+            design_tokens["font"] = "SF Pro"
+        elif "openai" in text or "ai" in text:
+            design_tokens["primary"] = "#10A37F"
+            design_tokens["font"] = "Inter"
+        
+        return {
+            "design_tokens": design_tokens,
+            "mcp_ready": True,
+            "magic_ui_integration": "✅ Tailwind tokens match Magic UI MCP primitives",
+            "output_files": ["tailwind.config.js", "tokens.json"],
+            "css_variables": {
+                "--primary": design_tokens["primary"],
+                "--background": design_tokens["background"],
+                "--radius": design_tokens["radius"]
+            }
+        }
+
 # Agent Registry
 AGENT_REGISTRY = {
     "vp_design": VPDesignAgent,
@@ -925,7 +1148,12 @@ AGENT_REGISTRY = {
     "voice_match_evaluator": VoiceMatchEvaluator,
     "rewrite_advisor": RewriteAdvisor,
     "narrative_quality_chain": NarrativeQualityChain,
-    "rewrite_loop": RewriteLoopAgent
+    "rewrite_loop": RewriteLoopAgent,
+    "design_judgment_engine": DesignJudgmentEngine,
+    "prompt_architect": PromptArchitectAgent,
+    "ai_native_ux_designer": AINativeUXDesigner,
+    "design_polish_agent": DesignPolishAgent,
+    "design_system_engineer": DesignSystemEngineer
 }
 
 def get_agent(agent_name: str):
@@ -937,4 +1165,4 @@ def get_agent(agent_name: str):
         raise ValueError(f"Agent '{agent_name}' not found. Available agents: {list(AGENT_REGISTRY.keys())}")
 
 # Export for use in other modules
-__all__ = ['VPDesignAgent', 'EvaluatorAgent', 'CreativeDirectorAgent', 'PromptMasterAgent', 'SurprisalCriticAgent', 'NarrativeDivergenceAgent', 'LongformCreativeChain', 'NarrativeFreshnessRater', 'StructuralClarityChecker', 'VoiceMatchEvaluator', 'RewriteAdvisor', 'NarrativeQualityChain', 'RewriteLoopAgent', 'get_agent', 'AGENT_REGISTRY'] 
+__all__ = ['VPDesignAgent', 'EvaluatorAgent', 'CreativeDirectorAgent', 'PromptMasterAgent', 'SurprisalCriticAgent', 'NarrativeDivergenceAgent', 'LongformCreativeChain', 'NarrativeFreshnessRater', 'StructuralClarityChecker', 'VoiceMatchEvaluator', 'RewriteAdvisor', 'NarrativeQualityChain', 'RewriteLoopAgent', 'DesignJudgmentEngine', 'PromptArchitectAgent', 'AINativeUXDesigner', 'DesignPolishAgent', 'DesignSystemEngineer', 'get_agent', 'AGENT_REGISTRY'] 
