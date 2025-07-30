@@ -1,0 +1,382 @@
+# Fusion v14 - Programmable Agent OS
+
+Fusion v14 is the next-generation version of Fusion — a programmable agent OS, not just an orchestration system. It represents the evolution from v13 to agentic design infrastructure — async, tool-powered, traceable, and extensible.
+
+## 🚀 What's New in Fusion v14
+
+### **Architecture Evolution**
+- **Async-First Design**: All agents and tools are built with async/await patterns
+- **Tool-Based Architecture**: Modular tools that can be combined and orchestrated
+- **Shared State Management**: Sophisticated context and memory management
+- **Pattern Fallback System**: Intelligent pattern matching and fallback mechanisms
+
+### **Enhanced Capabilities**
+- **VP Design Agent**: Refactored as tool runner with comprehensive design analysis
+- **Evaluator Agent**: Async evaluator with scoring and context logging
+- **UX Audit Tool**: Modular tool for comprehensive UX critique
+- **Trust Explainer Tool**: Trust UX annotator for building user confidence
+- **Pattern Registry**: Advanced pattern management with metadata and statistics
+
+### **Key Improvements Over Fusion v13**
+- **Better Error Handling**: Robust error recovery and fallback mechanisms
+- **Memory Management**: Persistent context and learning capabilities
+- **Tool Integration**: Seamless tool coordination and state sharing
+- **Pattern Intelligence**: Smart pattern matching and performance tracking
+- **CLI Interface**: Clean command-line interface for easy interaction
+
+## 📁 Project Structure
+
+```
+Fusion_v14/
+├── fusion.py                 # CLI runner
+├── .fusion.json             # Configuration file
+├── fusion_push.command      # Auto-commit script
+├── README.md               # This file
+├── core/
+│   ├── fusion_context.py           # Shared state + memory
+│   └── execution_orchestrator_v14.py # Async orchestrator
+├── agents/
+│   ├── vp_design_agent.py         # Tool runner agent
+│   └── evaluator_agent.py         # Async evaluator
+├── tools/
+│   ├── ux_audit_tool.py          # UX critique tool
+│   └── trust_explainer_tool.py   # Trust analysis tool
+├── patterns/
+│   └── pattern_registry.py       # Pattern management
+└── analytics/                    # Analytics and metrics
+```
+
+## 🛠️ Installation & Setup
+
+### Prerequisites
+- Python 3.8+
+- Git repository (for auto-push functionality)
+
+### Quick Start
+1. **Clone or navigate to the Fusion v14 directory**
+   ```bash
+   cd ~/Desktop/Fusion_v14
+   ```
+
+2. **Run Fusion v14**
+   ```bash
+   python fusion.py help
+   ```
+
+3. **Test the system**
+   ```bash
+   python fusion.py status
+   ```
+
+## 🎯 Usage Examples
+
+### Single Agent Execution
+```bash
+# Run VP Design Agent
+python fusion.py run vp_design "Design a mobile app interface for a food delivery service"
+
+# Run Evaluator Agent
+python fusion.py run evaluator "Evaluate this design proposal for accessibility and usability"
+```
+
+### Pipeline Execution
+```bash
+# Run full pipeline
+python fusion.py pipeline "Create a user-friendly dashboard for business analytics"
+```
+
+### Pattern-Based Execution
+```bash
+# Run with pattern fallback
+python fusion.py pattern "Design an accessible e-commerce checkout flow"
+```
+
+### System Status
+```bash
+# Check system status
+python fusion.py status
+```
+
+## 🔧 Configuration
+
+The system is configured via `.fusion.json`:
+
+```json
+{
+  "version": "v14.0",
+  "entry": "fusion.py",
+  "max_prompt_tokens": 8000,
+  "enabled_agents": ["vp_design", "evaluator"],
+  "tools_enabled": true,
+  "github_push": true,
+  "async_mode": true,
+  "memory_enabled": true,
+  "pattern_fallback": true,
+  "auto_commit": true,
+  "debug_mode": false,
+  "log_level": "INFO"
+}
+```
+
+## 🤖 Agents
+
+### VP Design Agent
+- **Purpose**: Design analysis and recommendations
+- **Capabilities**: 
+  - Design principle application
+  - User-centered design analysis
+  - Accessibility compliance checking
+  - Visual hierarchy optimization
+- **Tools**: UX Audit Tool, Trust Explainer Tool
+
+### Evaluator Agent
+- **Purpose**: Comprehensive evaluation and scoring
+- **Capabilities**:
+  - Multi-criteria evaluation
+  - Confidence scoring
+  - Detailed recommendations
+  - Performance metrics
+- **Criteria**: Clarity, Completeness, Actionability, Accuracy, Relevance, Innovation, Product Value
+
+## 🛠️ Tools
+
+### UX Audit Tool
+- **Purpose**: Comprehensive UX analysis
+- **Features**:
+  - Heuristic evaluation (Nielsen's 10 heuristics)
+  - UX metrics analysis
+  - Accessibility assessment
+  - Performance evaluation
+  - Engagement analysis
+
+### Trust Explainer Tool
+- **Purpose**: Trust-building analysis
+- **Features**:
+  - Trust element analysis
+  - Trust indicator evaluation
+  - Social proof assessment
+  - Security and transparency analysis
+  - Trust enhancement recommendations
+
+## 📊 Patterns
+
+### Built-in Patterns
+- **design_enhancement**: Apply design principles and accessibility
+- **ux_audit**: Perform comprehensive UX audit
+- **trust_building**: Analyze and enhance trust elements
+- **comprehensive_evaluation**: Full evaluation with detailed scoring
+- **basic_evaluation**: Essential evaluation criteria
+
+### Pattern Features
+- **Smart Matching**: Automatic pattern selection based on input
+- **Fallback System**: Intelligent fallback to alternative patterns
+- **Performance Tracking**: Usage statistics and success rates
+- **Custom Patterns**: Create and register custom patterns
+
+## 🔄 Auto-Push Script
+
+The `fusion_push.command` script automatically commits and pushes changes to GitHub:
+
+```bash
+# Make executable (already done)
+chmod +x fusion_push.command
+
+# Run auto-push
+./fusion_push.command
+```
+
+**Features**:
+- Automatic change detection
+- Timestamped commit messages
+- Branch-aware pushing
+- Error handling and validation
+- Colored output for clarity
+
+## 📈 Analytics & Memory
+
+### Context Management
+- **Shared State**: Persistent state across agents
+- **Memory Storage**: Interaction history and learning
+- **Pattern Memory**: Pattern-specific data storage
+- **Export/Import**: Memory persistence capabilities
+
+### Performance Tracking
+- **Execution Statistics**: Timing and confidence metrics
+- **Pattern Performance**: Success rates and usage patterns
+- **Agent Performance**: Individual agent statistics
+- **Tool Usage**: Tool effectiveness tracking
+
+## 🔍 Comparison: Fusion v13 vs v14
+
+| Feature | Fusion v13 | Fusion v14 |
+|---------|------------|------------|
+| **Architecture** | Sequential orchestration | Async agent OS |
+| **Agents** | Basic critique/elevation | Tool-powered agents |
+| **Tools** | Limited internal tools | Modular tool ecosystem |
+| **Memory** | Basic pattern storage | Sophisticated context management |
+| **Patterns** | Simple fallback | Intelligent pattern registry |
+| **Error Handling** | Basic try/catch | Robust fallback mechanisms |
+| **CLI Interface** | None | Full command-line interface |
+| **Auto-Push** | Manual | Automated with timestamps |
+| **Configuration** | Hardcoded | JSON-based configuration |
+| **Extensibility** | Limited | Highly extensible |
+
+## 🚀 Advanced Features
+
+### Custom Pattern Creation
+```python
+# Create custom pattern
+pattern_registry.create_custom_pattern(
+    name="mobile_optimization",
+    pattern_type="tool_enhancement",
+    agent="vp_design",
+    enhancement="Optimize for mobile devices with responsive design principles",
+    tools=["ux_audit_tool"],
+    category="mobile",
+    tags=["responsive", "mobile", "optimization"]
+)
+```
+
+### Memory Export/Import
+```python
+# Export memory
+context.export_memory("fusion_memory.json")
+
+# Import memory
+context.import_memory("fusion_memory.json")
+```
+
+### Pattern Statistics
+```python
+# Get pattern performance
+stats = pattern_registry.get_pattern_stats("design_enhancement")
+print(f"Success rate: {stats['success_rate']:.2f}")
+```
+
+## 🎯 North Star Vision
+
+Fusion v14 represents a significant step toward our North Star: **"The Most Intelligent Creative Agency in a Box"**
+
+### Current Capabilities
+- ✅ Async agent orchestration
+- ✅ Tool-based architecture
+- ✅ Pattern intelligence
+- ✅ Memory management
+- ✅ CLI interface
+- ✅ Auto-push functionality
+
+### Future Enhancements
+- 🔄 MCP integration (GitHub, Figma, etc.)
+- 🔄 Multi-modal capabilities
+- 🔄 Advanced pattern learning
+- 🔄 External service APIs
+- 🔄 Professional agency interface
+
+## 🖥️ CLI Interface
+
+### Command Structure
+**Main Commands**:
+- `run <agent> <input>`: Execute single agent
+- `pipeline <input>`: Execute full agent pipeline
+- `brief <input>`: Classify task intent and audience
+- `help`: Show help information
+
+**Example Usage**:
+```bash
+# Single agent execution
+python3 fusion.py run vp_design "Design a mobile app interface"
+
+# Pipeline execution
+python3 fusion.py pipeline "Create a user-friendly dashboard"
+
+# Task classification
+python3 fusion.py brief "I'm writing a POV on fallback UX for senior leadership"
+```
+
+**Task Classification Output**:
+```bash
+🧠 Task Classifier Result:
+Chain: POVDeclarationChain
+Agents: ['vp_product', 'vp_design', 'content_designer']
+Voice: executive
+
+🎙 Modulated Sample Output:
+Here's a draft memo about fallback UX and modular interface scaffolds.
+
+Rewrite this as if it's being sent to C-level executives. Prioritize clarity, strategic framing, and remove any fluff.
+```
+
+## Fusion Version History
+
+### v14.3 – Full AI-Native Design Intelligence (July 29, 2025)
+- **Design Judgment Engine**: Evaluates designs against Apple/OpenAI standards
+- **AI-Native UX Designer**: Converts ideas into wireframe-ready formats
+- **Prompt Architect Agent**: Analyzes strategic declarations for AI-native patterns
+- **Design Polish Agent**: Applies Apple-level polish to designs
+- **Design System Engineer**: Generates MCP-compatible Tailwind tokens
+- **Figma Integration**: Parse URLs and extract design insights
+- **Image Analysis**: Analyze uploaded images for design critique
+- **Motion Design Analysis**: Evaluate animation principles in GIF/MP4 files
+- **Complete Design Pipeline**: End-to-end flow from concept to implementation
+- **MCP Compatibility**: Magic UI integration for seamless deployment
+
+### v14.2 – Narrative Quality & Rewrite Loops (July 29, 2025)
+- **Narrative Quality Scoring**: Composite scoring with freshness, clarity, and voice evaluation
+- **AutoCritique Loop**: Complete auto-review loop for longform content
+- **Rewrite Loop Engine**: Automated rewrite engine with diagnostic output
+- **Voice Modulation Engine**: Apply specific voice tones (executive, irreverent, thoughtful)
+- **Task Classifier Agent**: Detect intent, audience, and project type from natural language
+
+### v14.1 – Narrative Freshness Patch (July 29, 2025)
+- Added `SurprisalCriticAgent` to detect motif reuse
+- Added `NarrativeDivergenceAgent` to inject story-first POVs
+- Added `LongformCreativeChain` for Substack-style originality checks
+- Deduplication layer via semantic memory
+- Chain logic modified to block motif reuse in longform
+
+### v14.0 – Async OS Core (July 20, 2025)
+- Full async orchestration
+- Shared state and fallback pattern memory
+- Tool-integrated agents (UX Audit, Trust Explainer)
+
+## 🚀 How to Update ChatGPT Upload
+
+### Quick Update Process
+1. **Make changes** to core files or prompt in `~/fusion/`
+2. **Run the update script**: `./fusion_push.command`
+3. **Upload contents** of `~/fusion/ChatGPT_Upload/` into ChatGPT project context
+
+### Example Workflow
+```bash
+# Make your changes to core files
+cd ~/fusion
+# Edit fusion.py, agents_combined.py, etc.
+
+# Update the upload folder
+./fusion_push.command
+
+# Upload ChatGPT_Upload/ contents to ChatGPT
+```
+
+### Version Management
+- **Full versions** stored in `~/fusion/` (unlimited files)
+- **Upload versions** in `~/fusion/ChatGPT_Upload/` (≤10 files, <8000 tokens)
+- **Version history** tracked in `README.md`
+- **Auto-push** to GitHub: `https://github.com/soheiloliaei/Fusion.git`
+
+## 🤝 Contributing
+
+Fusion v14 is designed to be highly extensible. You can:
+
+1. **Add New Agents**: Create custom agents following the async pattern
+2. **Create Tools**: Build modular tools for specific capabilities
+3. **Define Patterns**: Register custom patterns for specialized workflows
+4. **Enhance Memory**: Extend context management for new use cases
+
+## 📝 License
+
+This project is part of the Fusion ecosystem. See individual component licenses for details.
+
+---
+
+**Fusion v14** - The evolution from orchestration to programmable agent OS. 🚀

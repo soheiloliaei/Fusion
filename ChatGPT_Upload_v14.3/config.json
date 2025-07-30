@@ -1,0 +1,17 @@
+{
+    "version": "v14.0",
+    "entry": "fusion.py",
+    "max_prompt_tokens": 8000,
+    "enabled_agents": [
+        "vp_design",
+        "evaluator"
+    ],
+    "tools_enabled": true,
+    "github_push": true,
+    "async_mode": true,
+    "memory_enabled": true,
+    "pattern_fallback": true,
+    "auto_commit": true,
+    "debug_mode": false,
+    "log_level": "INFO"
+}

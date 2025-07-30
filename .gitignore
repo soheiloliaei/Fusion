@@ -7,3 +7,4 @@ __pycache__/
 .vscode/
 .idea/
 
+!ChatGPT_Upload_v14.3/
