@@ -12,7 +12,7 @@ from agents_combined import (
     VPDesignAgent, EvaluatorAgent, CreativeDirectorAgent, PromptMasterAgent,
     SurprisalCriticAgent, NarrativeDivergenceAgent, LongformCreativeChain,
     NarrativeFreshnessRater, StructuralClarityChecker, VoiceMatchEvaluator,
-    RewriteAdvisor, NarrativeQualityChain
+    RewriteAdvisor, NarrativeQualityChain, RewriteLoopAgent
 )
 from autocritique_loop import AutoCritiqueLoop
 from execution_orchestrator_v14 import ExecutionOrchestrator
@@ -67,7 +67,8 @@ def main():
             "voice_match_evaluator": VoiceMatchEvaluator,
             "rewrite_advisor": RewriteAdvisor,
             "narrative_quality_chain": NarrativeQualityChain,
-            "autocritique_loop": AutoCritiqueLoop
+            "autocritique_loop": AutoCritiqueLoop,
+            "rewrite_loop": RewriteLoopAgent
         }
         
         if args.agent in agent_map:
