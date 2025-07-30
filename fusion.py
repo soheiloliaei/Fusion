@@ -6,7 +6,9 @@ Programmable agent OS for design and evaluation
 
 import argparse
 import asyncio
+import json
 import sys
+from typing import Dict, Any
 
 from agents_combined import (
     VPDesignAgent, EvaluatorAgent, CreativeDirectorAgent, PromptMasterAgent,
@@ -22,7 +24,52 @@ from voice_modulation_engine import VoiceModulationEngine
 
 print("🧠 DEBUG: fusion.py top-level code executed")
 
-def main():
+async def run_design_chain(prompt: str) -> Dict[str, Any]:
+    """Full DesignChain workspace - end-to-end design flow orchestration"""
+    # Step 1: Interpret declarations
+    prompt_result = await PromptArchitectAgent().run(prompt)
+    
+    # Step 2: Generate wireframes
+    ux_result = await AINativeUXDesigner().run(prompt)
+    
+    # Step 3: Evaluate raw output
+    judgment_result = await DesignJudgmentEngine().run(prompt)
+    
+    # Step 4: Polish design
+    polish_result = await DesignPolishAgent().run(prompt)
+    
+    # Step 5: Tokenize for system
+    token_result = await DesignSystemEngineer().run(prompt)
+    
+    return {
+        "declarations": prompt_result,
+        "wireframe": ux_result,
+        "critique": judgment_result,
+        "polish": polish_result,
+        "tokens": token_result,
+    }
+
+async def run_tile_prototyping_mode(prompt: str) -> Dict[str, Any]:
+    """CopilotTile prototyping mode - focused on AI-powered tiles"""
+    tile_logic = await PromptArchitectAgent().run(prompt)
+    wireframe = await AINativeUXDesigner().run(prompt)
+    tokens = await DesignSystemEngineer().run(prompt)
+    return {
+        "tile_logic": tile_logic,
+        "wireframe": wireframe,
+        "tailwind_tokens": tokens
+    }
+
+async def run_design_autocritique_loop(prompt_or_frame: str) -> Dict[str, Any]:
+    """Auto-Critique loop - live design quality feedback"""
+    critique = await DesignJudgmentEngine().run(prompt_or_frame)
+    polish = await DesignPolishAgent().run(prompt_or_frame)
+    return {
+        "critique": critique,
+        "polish_recommendations": polish
+    }
+
+async def main():
     parser = argparse.ArgumentParser(description="Fusion v14 CLI")
     subparsers = parser.add_subparsers(dest="command")
 
@@ -38,6 +85,16 @@ def main():
     # 'brief' command: task classification
     brief_parser = subparsers.add_parser("brief", help="Classify task intent and audience")
     brief_parser.add_argument("input", nargs=argparse.REMAINDER, help="Brief description")
+    
+    # Design Intelligence Stack commands
+    design_chain_parser = subparsers.add_parser("design_chain", help="Full DesignChain workspace - end-to-end design flow")
+    design_chain_parser.add_argument("prompt", nargs=argparse.REMAINDER, help="Design prompt")
+    
+    tile_mode_parser = subparsers.add_parser("tile_mode", help="CopilotTile prototyping mode - focused on AI-powered tiles")
+    tile_mode_parser.add_argument("prompt", nargs=argparse.REMAINDER, help="Tile design prompt")
+    
+    autocritique_parser = subparsers.add_parser("autocritique", help="Auto-Critique loop - live design quality feedback")
+    autocritique_parser.add_argument("design_input", nargs=argparse.REMAINDER, help="Design input to critique")
 
     # Parse args
     args = parser.parse_args()
@@ -106,6 +163,36 @@ def main():
         modulated = modulator.apply_voice(example_output, result["voice"])
         print("\n🎙 Modulated Sample Output:")
         print(modulated)
+    
+    elif args.command == "design_chain":
+        if not args.prompt:
+            print("❌ Error: 'design_chain' command requires a prompt")
+            sys.exit(1)
+        design_prompt = " ".join(args.prompt)
+        print(f"🧠 Running DesignChain workspace on: {design_prompt}")
+        result = await run_design_chain(design_prompt)
+        print("🎨 DesignChain Result:")
+        print(json.dumps(result, indent=2))
+    
+    elif args.command == "tile_mode":
+        if not args.prompt:
+            print("❌ Error: 'tile_mode' command requires a prompt")
+            sys.exit(1)
+        tile_prompt = " ".join(args.prompt)
+        print(f"🧩 Running CopilotTile prototyping mode on: {tile_prompt}")
+        result = await run_tile_prototyping_mode(tile_prompt)
+        print("🎨 Tile Mode Result:")
+        print(json.dumps(result, indent=2))
+    
+    elif args.command == "autocritique":
+        if not args.design_input:
+            print("❌ Error: 'autocritique' command requires design input")
+            sys.exit(1)
+        design_input = " ".join(args.design_input)
+        print(f"🪞 Running Auto-Critique loop on: {design_input}")
+        result = await run_design_autocritique_loop(design_input)
+        print("🎨 Auto-Critique Result:")
+        print(json.dumps(result, indent=2))
 
     elif args.command == "pipeline":
         if not args.input:
@@ -218,4 +305,4 @@ def main():
 
 if __name__ == "__main__":
     print("🧠 DEBUG: Entering main()")
-    main() 
+    asyncio.run(main()) 
