@@ -13,6 +13,7 @@ from agents_combined import (
     SurprisalCriticAgent, NarrativeDivergenceAgent, LongformCreativeChain
 )
 from execution_orchestrator_v14 import ExecutionOrchestrator
+from task_classifier_agent import TaskClassifierAgent
 
 print("🧠 DEBUG: fusion.py top-level code executed")
 
@@ -28,6 +29,10 @@ def main():
     # 'pipeline' command: full pipeline execution
     pipeline_parser = subparsers.add_parser("pipeline", help="Run pipeline with prompt")
     pipeline_parser.add_argument("input", nargs=argparse.REMAINDER, help="Pipeline input")
+
+    # 'brief' command: task classification
+    brief_parser = subparsers.add_parser("brief", help="Classify task intent and audience")
+    brief_parser.add_argument("input", nargs=argparse.REMAINDER, help="Brief description")
 
     # Parse args
     args = parser.parse_args()
@@ -65,6 +70,19 @@ def main():
             print(f"❌ Error: Unknown agent '{args.agent}'")
             print(f"Available agents: {', '.join(agent_map.keys())}")
             sys.exit(1)
+
+    elif args.command == "brief":
+        if not args.input:
+            print("❌ Error: 'brief' command requires input")
+            sys.exit(1)
+
+        brief_input = " ".join(args.input)
+        classifier = TaskClassifierAgent()
+        result = classifier.classify(brief_input)
+        print("🧠 Task Classifier Result:")
+        print(f"Chain: {result['chain_name']}")
+        print(f"Agents: {result['agent_chain']}")
+        print(f"Voice: {result['voice']}")
 
     elif args.command == "pipeline":
         if not args.input:
