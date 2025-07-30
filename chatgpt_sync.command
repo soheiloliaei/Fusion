@@ -15,7 +15,8 @@ mkdir -p "$UPLOAD_DIR"
 
 # Copy core files into upload folder
 cp fusion.py "$UPLOAD_DIR/"
-cp master_prompt/master_prompt_8000.md "$UPLOAD_DIR/master_prompt.md"
+cp master_prompt/master_prompt_main.md "$UPLOAD_DIR/"
+cp master_prompt/master_prompt_8000.md "$UPLOAD_DIR/"
 cp README.md "$UPLOAD_DIR/"
 cp agents_combined.py "$UPLOAD_DIR/"
 cp tools_combined.py "$UPLOAD_DIR/"
@@ -26,5 +27,7 @@ cp patterns/pattern_registry.py "$UPLOAD_DIR/"
 cp .fusion.json "$UPLOAD_DIR/config.json"
 
 echo "✅ Files prepared in $UPLOAD_DIR"
-echo "📝 Using master_prompt_8000.md (under 8000 tokens)"
+echo "📝 Both master prompt versions included:"
+echo "   - master_prompt_main.md (complete version)"
+echo "   - master_prompt_8000.md (ChatGPT version)"
 open "$UPLOAD_DIR"
