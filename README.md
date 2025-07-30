@@ -308,6 +308,25 @@ Rewrite this as if it's being sent to C-level executives. Prioritize clarity, st
 
 ## Fusion Version History
 
+### v14.3 – Full AI-Native Design Intelligence (July 29, 2025)
+- **Design Judgment Engine**: Evaluates designs against Apple/OpenAI standards
+- **AI-Native UX Designer**: Converts ideas into wireframe-ready formats
+- **Prompt Architect Agent**: Analyzes strategic declarations for AI-native patterns
+- **Design Polish Agent**: Applies Apple-level polish to designs
+- **Design System Engineer**: Generates MCP-compatible Tailwind tokens
+- **Figma Integration**: Parse URLs and extract design insights
+- **Image Analysis**: Analyze uploaded images for design critique
+- **Motion Design Analysis**: Evaluate animation principles in GIF/MP4 files
+- **Complete Design Pipeline**: End-to-end flow from concept to implementation
+- **MCP Compatibility**: Magic UI integration for seamless deployment
+
+### v14.2 – Narrative Quality & Rewrite Loops (July 29, 2025)
+- **Narrative Quality Scoring**: Composite scoring with freshness, clarity, and voice evaluation
+- **AutoCritique Loop**: Complete auto-review loop for longform content
+- **Rewrite Loop Engine**: Automated rewrite engine with diagnostic output
+- **Voice Modulation Engine**: Apply specific voice tones (executive, irreverent, thoughtful)
+- **Task Classifier Agent**: Detect intent, audience, and project type from natural language
+
 ### v14.1 – Narrative Freshness Patch (July 29, 2025)
 - Added `SurprisalCriticAgent` to detect motif reuse
 - Added `NarrativeDivergenceAgent` to inject story-first POVs
