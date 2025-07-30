@@ -14,6 +14,7 @@ from agents_combined import (
     NarrativeFreshnessRater, StructuralClarityChecker, VoiceMatchEvaluator,
     RewriteAdvisor, NarrativeQualityChain
 )
+from autocritique_loop import AutoCritiqueLoop
 from execution_orchestrator_v14 import ExecutionOrchestrator
 from task_classifier_agent import TaskClassifierAgent
 from voice_modulation_engine import VoiceModulationEngine
@@ -65,7 +66,8 @@ def main():
             "structural_clarity_checker": StructuralClarityChecker,
             "voice_match_evaluator": VoiceMatchEvaluator,
             "rewrite_advisor": RewriteAdvisor,
-            "narrative_quality_chain": NarrativeQualityChain
+            "narrative_quality_chain": NarrativeQualityChain,
+            "autocritique_loop": AutoCritiqueLoop
         }
         
         if args.agent in agent_map:
