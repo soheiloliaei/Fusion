@@ -294,6 +294,64 @@ python3 fusion.py run autocritique_loop "Your content here"
 - **Deck Content**: Structural clarity with executive tone
 - **Portfolio Pieces**: Quality assessment with thoughtful voice
 
+### Rewrite Loop Execution Engine
+
+**Purpose**: Automated rewrite engine that takes diagnostic output and generates clean, modulated rewrites
+
+**Core Components**:
+- **NarrativeQualityChain**: Provides quality assessment and critique
+- **VoiceModulationEngine**: Adapts tone for target audience
+- **RewriteAdvisor**: Generates specific improvement suggestions
+- **RewriteLoopAgent**: Orchestrates the complete rewrite process
+
+**Workflow**:
+1. **Quality Assessment**: Evaluate freshness, structure, and voice alignment
+2. **Issue Analysis**: Identify clichés, weak framing, and structural problems
+3. **Rewrite Instructions**: Generate specific improvement guidance
+4. **Voice Modulation**: Apply target voice style (executive, irreverent, founder, etc.)
+5. **Draft Generation**: Create rewritten version based on quality score
+
+**Scoring-Based Rewrite Strategy**:
+- **Score < 0.3**: Major rewrite with fresh opening and cliché replacement
+- **Score 0.3-0.7**: Moderate rewrite with specific improvements
+- **Score > 0.7**: Minor tweaks, preserve original structure
+
+**Available Voice Styles**:
+- **executive**: Strategic, business-focused, C-level appropriate
+- **irreverent**: Bold, subversive, attention-grabbing
+- **founder**: Direct, vision-driven, honest
+- **thoughtful**: Nuanced, collaborative, peer-appropriate
+- **twitter-style**: Viral, debate-provoking, concise
+
+**Output Format**:
+```json
+{
+  "original_draft": "Original content...",
+  "quality_report": {
+    "score": 0.84,
+    "verdict": "Good quality, minor improvements needed",
+    "issues": ["weak framing", "reused motifs"],
+    "recommendations": ["Open with stronger hook", "Add specific examples"]
+  },
+  "rewrite_instructions": "Open with a stronger hook or clear POV statement. Replace clichés: game changer, revolutionary...",
+  "modulated_instruction": "Rewrite this as if it's being sent to C-level executives...",
+  "rewritten_draft": "Fallback UX isn't optional. It's the trust reserve teams forget until it breaks...",
+  "target_voice": "executive",
+  "verdict": "Good quality, minor improvements needed"
+}
+```
+
+**CLI Usage**:
+```bash
+python3 fusion.py run rewrite_loop "Your raw draft here..."
+```
+
+**Use Cases**:
+- **POV Rewrites**: Transform raw thoughts into executive-ready content
+- **Substack Essays**: Convert cliché-heavy drafts into fresh narratives
+- **Deck Content**: Restructure weak openings for strategic impact
+- **Portfolio Pieces**: Enhance structure and voice alignment
+
 ## Tool System
 
 ### UX Audit Tool
