@@ -153,6 +153,102 @@ Fusion v14 is a programmable agent OS that orchestrates specialized agents and t
 - Provides voice-specific rewriting instructions
 - Enhances content appropriateness for target audience
 
+### Narrative Quality Scoring Layer
+
+**Purpose**: Comprehensive narrative quality evaluation with freshness scoring, structural analysis, and voice matching
+
+**Core Components**:
+
+#### NarrativeFreshnessRater
+**Purpose**: Uses surprisal signals and motif detection to rate narrative freshness
+
+**Detection Patterns**:
+- **Reused Motifs**: Cursor, fallback UX, design systems, agentic workflows
+- **Cliché Detection**: "game changer", "paradigm shift", "revolutionary", "innovative solution"
+- **Freshness Scoring**: 0.0-1.0 based on originality and uniqueness
+
+**Output**:
+- Freshness score with detailed breakdown
+- List of detected clichés and reused motifs
+- Specific feedback on narrative originality
+
+#### StructuralClarityChecker
+**Purpose**: Detects weak framing, buried leads, or vague scaffolding
+
+**Structural Analysis**:
+- **Buried Lead Detection**: Identifies weak openings vs. strong story hooks
+- **Vague Scaffolding**: Flags uncertain language and hedging
+- **Weak Framing**: Checks for clear POV statements and strong positioning
+- **Repetitive Structure**: Identifies monotonous sentence patterns
+
+**Output**:
+- List of structural issues found
+- Issue count and severity assessment
+- Specific structural recommendations
+
+#### VoiceMatchEvaluator
+**Purpose**: Checks if tone aligns with declared audience
+
+**Voice Contexts**:
+- **Executive**: Strategic, business-focused language
+- **Thoughtful**: Nuanced, collaborative tone
+- **Irreverent**: Bold, subversive, attention-grabbing
+- **Founder**: Direct, vision-driven, honest
+- **Twitter-style**: Viral, debate-provoking, concise
+
+**Output**:
+- Voice alignment score (0.0-1.0)
+- Expected vs. actual voice comparison
+- Specific voice adjustment feedback
+
+#### RewriteAdvisor
+**Purpose**: Offers targeted suggestions per failure point
+
+**Suggestion Categories**:
+- **Structural**: Opening hooks, POV statements, paragraph purpose
+- **Freshness**: Cliché replacement, motif alternatives
+- **Voice**: Tone adjustment, audience alignment
+- **Flow**: Sentence variation, logical progression
+
+**Output**:
+- Prioritized improvement suggestions
+- Context-specific recommendations
+- Actionable rewrite guidance
+
+#### NarrativeQualityChain
+**Purpose**: Composite scoring engine for comprehensive narrative evaluation
+
+**Scoring Algorithm**:
+- **Base Score**: Freshness rating (0.0-1.0)
+- **Voice Bonus**: +0.2 for strong voice alignment
+- **Structure Penalty**: -0.05 per structural issue
+- **Final Score**: Clamped to 0.0-1.0 range
+
+**Verdict Categories**:
+- **Strong, unique voice** (≥0.85): Ready for publication
+- **Good quality, minor improvements** (≥0.7): Small tweaks needed
+- **Acceptable but needs work** (≥0.5): Moderate improvements required
+- **Significant improvements required** (<0.5): Major revision needed
+
+**Output Format**:
+```json
+{
+  "score": 0.84,
+  "verdict": "Good quality, minor improvements needed",
+  "issues": ["weak framing", "reused motifs"],
+  "recommendations": ["Open with stronger hook", "Add specific examples"],
+  "voice_feedback": "Tone matches executive voice well",
+  "freshness_details": {...},
+  "structural_details": {...}
+}
+```
+
+**Integration Points**:
+- **EvaluatorAgent**: Enhanced evaluation with narrative quality metrics
+- **SubstackChain**: Post-creation quality assessment
+- **POVChain**: Executive review with voice matching
+- **AutoCritiqueLoop**: Iterative quality improvement
+
 ## Tool System
 
 ### UX Audit Tool
