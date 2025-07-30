@@ -605,6 +605,191 @@ python3 fusion.py autocritique "Evaluate this Figma screen for modern UI trends 
 - **MCP Compatibility**: Magic UI integration for seamless deployment
 - **Live Feedback**: Real-time critique and improvement suggestions
 
+### Full AI-Native Design Intelligence (Fusion v14.3)
+
+**Purpose**: Complete AI-native design orchestration with Figma integration, image analysis, and motion design evaluation
+
+**Core Capabilities**:
+
+#### Design Pipeline Orchestration
+**Purpose**: End-to-end design flow from idea to implementation
+
+**Workflow**:
+1. **Strategic Analysis**: Interpret design declarations and requirements
+2. **Wireframe Generation**: Convert ideas into wireframe-ready formats
+3. **Quality Evaluation**: Assess design against industry standards
+4. **Design Polish**: Apply Apple/OpenAI level craft improvements
+5. **Token Generation**: Create MCP-compatible design system tokens
+
+**Output**:
+```json
+{
+  "tile_logic": {
+    "detected_declaration": "Fallback UX for high-stakes flows",
+    "prompt_template": "Given [context], recommend fallback states using [Copilot tiles + user trust score]",
+    "tile_logic_hints": ["Trigger fallback if confidence < 0.6", "Ask user to confirm before auto-executing"]
+  },
+  "wireframe": {
+    "layout_type": "Data visualization tile",
+    "ascii_sketch": "[Chart Header] | [Transaction List]\n[Summary Stats] | [Action Buttons]",
+    "tailwind_tokens": {"padding": "p-4", "font": "font-inter", "radius": "rounded-2xl"}
+  },
+  "critique": {
+    "heuristics_score": 0.82,
+    "trend_alignment": "Moderate",
+    "criticisms": ["Weak information hierarchy", "Inconsistent spacing tokens"]
+  },
+  "polish": {
+    "fixes_applied": ["Harmonized spacing", "Modernized iconography"],
+    "before_after_diff": {"nav_spacing": "16px → 24px", "font_weight": "Medium → Semibold"}
+  },
+  "tokens": {
+    "design_tokens": {"primary": "#10A37F", "background": "#F9FAFB", "radius": "16px"},
+    "mcp_ready": true,
+    "magic_ui_integration": "✅ Tailwind tokens match Magic UI MCP primitives"
+  },
+  "pipeline_status": "complete",
+  "mcp_ready": true
+}
+```
+
+#### Figma Integration
+**Purpose**: Parse Figma URLs and extract design insights
+
+**Capabilities**:
+- **URL Parsing**: Extract file IDs and frame information
+- **Component Analysis**: Detect design system components
+- **Layout Evaluation**: Identify structural issues and improvements
+- **Accessibility Scoring**: WCAG compliance and usability metrics
+- **Industry Alignment**: Compare against Apple/OpenAI standards
+
+**Output**:
+```json
+{
+  "file_id": "abc123",
+  "frames_analyzed": 12,
+  "components_detected": 45,
+  "layout_issues": [
+    "Inconsistent spacing between elements",
+    "Weak visual hierarchy in navigation",
+    "Overuse of decorative elements"
+  ],
+  "design_system_insights": {
+    "color_palette": ["#00C244", "#F9FAFB", "#333333"],
+    "typography": "Inter, 16px, Medium",
+    "spacing_scale": "8px, 16px, 24px, 32px",
+    "border_radius": "8px, 12px, 16px"
+  },
+  "accessibility_score": 0.78,
+  "industry_alignment": "Moderate - could benefit from Apple/OpenAI patterns"
+}
+```
+
+#### Image Analysis
+**Purpose**: Analyze uploaded images for design critique
+
+**Supported Formats**: PNG, JPG, JPEG, WebP
+
+**Analysis Features**:
+- **Visual Hierarchy**: Information flow and structure evaluation
+- **Color Usage**: Contrast and accessibility assessment
+- **Spacing Analysis**: Consistency and harmonization
+- **Typography Review**: Font choices and readability
+- **Industry Comparison**: Apple, OpenAI, Cash App alignment scores
+
+**Output**:
+```json
+{
+  "image_path": "/path/to/image.png",
+  "dimensions": "1920x1080",
+  "design_analysis": {
+    "visual_hierarchy": "Strong - clear information flow",
+    "color_usage": "Effective - good contrast and accessibility",
+    "spacing": "Inconsistent - needs harmonization",
+    "typography": "Modern - good font choices"
+  },
+  "heuristic_scores": {
+    "clarity": 0.85,
+    "consistency": 0.72,
+    "accessibility": 0.78,
+    "aesthetics": 0.81
+  },
+  "industry_comparison": {
+    "apple_alignment": 0.73,
+    "openai_alignment": 0.68,
+    "cash_app_alignment": 0.82
+  }
+}
+```
+
+#### Motion Design Analysis
+**Purpose**: Evaluate animation principles in GIF/MP4 files
+
+**Supported Formats**: GIF, MP4, MOV, WebM
+
+**Analysis Features**:
+- **Easing Curves**: Natural animation feel evaluation
+- **Timing Analysis**: Keyframe delays and rhythm
+- **Fluidity Assessment**: Smooth transitions and jank detection
+- **Intent Communication**: Purpose and functional clarity
+- **Performance Metrics**: File size, frame rate, optimization
+
+**Output**:
+```json
+{
+  "file_path": "/path/to/animation.gif",
+  "format": "gif",
+  "duration": "2.4s",
+  "frame_count": 72,
+  "motion_analysis": {
+    "easing_curves": "Good use of ease-out for natural feel",
+    "timing": "Appropriate delays between keyframes",
+    "fluidity": "Smooth transitions with minimal jank",
+    "intent_communication": "Clear purpose - loading state"
+  },
+  "animation_principles": {
+    "anticipation": 0.75,
+    "follow_through": 0.68,
+    "squash_stretch": 0.82,
+    "timing": 0.79
+  },
+  "performance_metrics": {
+    "frame_rate": "30fps",
+    "file_size": "2.4MB",
+    "optimization_score": 0.71
+  }
+}
+```
+
+**Usage Examples**:
+```python
+from agents.design_designintelligence import (
+    run_design_pipeline,
+    analyze_figma_frame,
+    analyze_uploaded_image,
+    analyze_motion_design
+)
+
+# Full AI-native design run
+results = run_design_pipeline("Design a fallback UX tile for failed Bitcoin withdrawals")
+
+# Figma frame analysis
+figma_insights = analyze_figma_frame("https://www.figma.com/file/...")
+
+# Screenshot image critique
+img_results = analyze_uploaded_image("/path/to/bitcoin_case_page.png")
+
+# Motion design check
+motion_results = analyze_motion_design("/path/to/loading_animation.gif")
+```
+
+**Integration Benefits**:
+- **Complete Workflow**: From concept to implementation with full toolchain
+- **Multi-Format Support**: Figma, images, motion, and text inputs
+- **Industry Standards**: Apple/OpenAI level evaluation and polish
+- **MCP Compatibility**: Magic UI integration for seamless deployment
+- **Real-Time Analysis**: Live feedback and improvement suggestions
+
 ## Tool System
 
 ### UX Audit Tool
