@@ -605,6 +605,219 @@ Please provide:
 - Consider multiple stakeholder perspectives
 - Plan for iteration and improvement"""
 
+class NarrativeFreshnessRater:
+    """Uses surprisal signals and motif detection to rate narrative freshness"""
+    def __init__(self):
+        self.motif_cache = set()
+        self.cliché_patterns = [
+            "game changer", "paradigm shift", "revolutionary", "disruptive",
+            "innovative solution", "cutting edge", "next generation",
+            "seamless experience", "user-centric", "data-driven"
+        ]
+
+    async def run(self, input_text: str) -> Dict[str, Any]:
+        text = input_text.lower()
+        
+        # Detect reused motifs
+        motifs = self._extract_motifs(text)
+        repeated = [m for m in motifs if m in self.motif_cache]
+        self.motif_cache.update(motifs)
+        
+        # Detect clichés
+        clichés_found = [pattern for pattern in self.cliché_patterns if pattern in text]
+        
+        # Calculate freshness score
+        motif_penalty = len(repeated) * 0.1
+        cliché_penalty = len(clichés_found) * 0.15
+        base_score = 1.0 - motif_penalty - cliché_penalty
+        freshness_score = max(0.0, min(1.0, base_score))
+        
+        return {
+            "score": freshness_score,
+            "repeats": repeated,
+            "clichés": clichés_found,
+            "motifs_detected": motifs
+        }
+
+    def _extract_motifs(self, text: str) -> List[str]:
+        candidates = re.findall(r'\b(Cursor|fallback UX|design systems?|agentic workflows?|pattern registry|user experience|interface design)\b', text, re.IGNORECASE)
+        return [c.lower() for c in set(candidates)]
+
+class StructuralClarityChecker:
+    """Detects weak framing, buried leads, or vague scaffolding"""
+    def __init__(self):
+        self.structural_issues = []
+        
+    async def run(self, input_text: str) -> Dict[str, Any]:
+        issues = []
+        
+        # Check for buried lead
+        if len(input_text.split('\n')) > 3 and not self._has_strong_opening(input_text):
+            issues.append("buried lead")
+            
+        # Check for vague scaffolding
+        if self._has_vague_phrases(input_text):
+            issues.append("vague scaffolding")
+            
+        # Check for weak framing
+        if not self._has_clear_pov(input_text):
+            issues.append("weak framing")
+            
+        # Check for repetitive structure
+        if self._has_repetitive_structure(input_text):
+            issues.append("repetitive structure")
+            
+        return {
+            "issues": issues,
+            "issue_count": len(issues)
+        }
+    
+    def _has_strong_opening(self, text: str) -> bool:
+        first_sentence = text.split('.')[0].lower()
+        strong_openers = ["i used to", "but then", "here's what", "the problem", "imagine"]
+        return any(opener in first_sentence for opener in strong_openers)
+    
+    def _has_vague_phrases(self, text: str) -> bool:
+        vague_patterns = ["kind of", "sort of", "maybe", "perhaps", "might be", "could be"]
+        return any(pattern in text.lower() for pattern in vague_patterns)
+    
+    def _has_clear_pov(self, text: str) -> bool:
+        pov_indicators = ["i believe", "the key insight", "here's why", "the real issue", "the solution"]
+        return any(indicator in text.lower() for indicator in pov_indicators)
+    
+    def _has_repetitive_structure(self, text: str) -> bool:
+        sentences = text.split('.')
+        if len(sentences) < 3:
+            return False
+        # Simple check for repetitive sentence patterns
+        return len(set(sentences[:3])) < 3
+
+class VoiceMatchEvaluator:
+    """Checks if tone aligns with declared audience"""
+    def __init__(self, context="general"):
+        self.context = context
+        self.voice_indicators = {
+            "executive": ["strategic", "business value", "roi", "scalable", "enterprise"],
+            "thoughtful": ["nuanced", "complex", "consider", "reflect", "perspective"],
+            "irreverent": ["cheeky", "bold", "break", "expectations", "subversive"],
+            "founder": ["vision", "frustration", "honest", "direct", "crisp"],
+            "twitter-style": ["viral", "thread", "provoke", "debate", "curiosity"]
+        }
+    
+    async def run(self, input_text: str) -> Dict[str, Any]:
+        text = input_text.lower()
+        
+        # Determine expected voice from context
+        expected_voice = self._get_expected_voice()
+        
+        # Check voice alignment
+        voice_score = self._calculate_voice_match(text, expected_voice)
+        
+        # Generate feedback
+        feedback = self._generate_voice_feedback(voice_score, expected_voice)
+        
+        return {
+            "match": voice_score,
+            "expected_voice": expected_voice,
+            "feedback": feedback
+        }
+    
+    def _get_expected_voice(self) -> str:
+        context_map = {
+            "founder": "founder",
+            "executive": "executive", 
+            "engineering": "thoughtful",
+            "design": "thoughtful",
+            "substack": "irreverent",
+            "twitter": "twitter-style"
+        }
+        return context_map.get(self.context, "thoughtful")
+    
+    def _calculate_voice_match(self, text: str, expected_voice: str) -> float:
+        if expected_voice not in self.voice_indicators:
+            return 0.5
+        
+        indicators = self.voice_indicators[expected_voice]
+        matches = sum(1 for indicator in indicators if indicator in text)
+        return min(1.0, matches / len(indicators))
+    
+    def _generate_voice_feedback(self, score: float, expected_voice: str) -> str:
+        if score > 0.7:
+            return f"Tone matches {expected_voice} voice well"
+        elif score > 0.4:
+            return f"Tone partially matches {expected_voice}, could be stronger"
+        else:
+            return f"Tone doesn't match {expected_voice} voice—needs adjustment"
+
+class RewriteAdvisor:
+    """Offers targeted suggestions per failure point"""
+    def __init__(self):
+        self.suggestion_templates = {
+            "buried lead": "Open with the key tension or shift",
+            "vague scaffolding": "Replace vague phrases with specific examples",
+            "weak framing": "Add a clear POV statement early",
+            "repetitive structure": "Vary sentence structure and length",
+            "reused motifs": "Find fresh alternatives to overused concepts",
+            "clichés": "Replace clichés with original language"
+        }
+    
+    async def run(self, input_text: str) -> Dict[str, Any]:
+        # This would typically analyze the input and generate specific suggestions
+        # For now, return general improvement suggestions
+        suggestions = [
+            "Consider opening with a stronger hook",
+            "Add specific examples to support claims",
+            "Vary sentence structure for better flow",
+            "Ensure each paragraph has a clear purpose"
+        ]
+        
+        return {
+            "suggestions": suggestions,
+            "priority": "medium"
+        }
+
+class NarrativeQualityChain:
+    """Composite scoring engine for narrative quality evaluation"""
+    def __init__(self, context="general"):
+        self.freshness = NarrativeFreshnessRater()
+        self.structure = StructuralClarityChecker()
+        self.voice = VoiceMatchEvaluator(context)
+        self.rewrite = RewriteAdvisor()
+
+    async def run(self, input_text: str) -> Dict[str, Any]:
+        freshness_score = await self.freshness.run(input_text)
+        structural_issues = await self.structure.run(input_text)
+        voice_check = await self.voice.run(input_text)
+        rewrite_suggestions = await self.rewrite.run(input_text)
+
+        # Calculate composite score
+        base_score = freshness_score["score"]
+        voice_bonus = voice_check["match"] * 0.2
+        structure_penalty = len(structural_issues["issues"]) * 0.05
+        
+        score = round(base_score + voice_bonus - structure_penalty, 2)
+        score = max(0.0, min(1.0, score))
+
+        # Determine verdict
+        if score > 0.85:
+            verdict = "Strong, unique voice"
+        elif score > 0.7:
+            verdict = "Good quality, minor improvements needed"
+        elif score > 0.5:
+            verdict = "Acceptable but needs work"
+        else:
+            verdict = "Significant improvements required"
+
+        return {
+            "score": score,
+            "verdict": verdict,
+            "issues": structural_issues["issues"] + freshness_score["repeats"],
+            "recommendations": rewrite_suggestions["suggestions"],
+            "voice_feedback": voice_check["feedback"],
+            "freshness_details": freshness_score,
+            "structural_details": structural_issues
+        }
+
 # Agent Registry
 AGENT_REGISTRY = {
     "vp_design": VPDesignAgent,
@@ -613,7 +826,12 @@ AGENT_REGISTRY = {
     "prompt_master": PromptMasterAgent,
     "surprisal_critic": SurprisalCriticAgent,
     "narrative_divergence": NarrativeDivergenceAgent,
-    "longform_creative_chain": LongformCreativeChain
+    "longform_creative_chain": LongformCreativeChain,
+    "narrative_freshness_rater": NarrativeFreshnessRater,
+    "structural_clarity_checker": StructuralClarityChecker,
+    "voice_match_evaluator": VoiceMatchEvaluator,
+    "rewrite_advisor": RewriteAdvisor,
+    "narrative_quality_chain": NarrativeQualityChain
 }
 
 def get_agent(agent_name: str):
@@ -625,4 +843,4 @@ def get_agent(agent_name: str):
         raise ValueError(f"Agent '{agent_name}' not found. Available agents: {list(AGENT_REGISTRY.keys())}")
 
 # Export for use in other modules
-__all__ = ['VPDesignAgent', 'EvaluatorAgent', 'CreativeDirectorAgent', 'PromptMasterAgent', 'SurprisalCriticAgent', 'NarrativeDivergenceAgent', 'LongformCreativeChain', 'get_agent', 'AGENT_REGISTRY'] 
+__all__ = ['VPDesignAgent', 'EvaluatorAgent', 'CreativeDirectorAgent', 'PromptMasterAgent', 'SurprisalCriticAgent', 'NarrativeDivergenceAgent', 'LongformCreativeChain', 'NarrativeFreshnessRater', 'StructuralClarityChecker', 'VoiceMatchEvaluator', 'RewriteAdvisor', 'NarrativeQualityChain', 'get_agent', 'AGENT_REGISTRY'] 

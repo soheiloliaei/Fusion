@@ -10,7 +10,9 @@ import sys
 
 from agents_combined import (
     VPDesignAgent, EvaluatorAgent, CreativeDirectorAgent, PromptMasterAgent,
-    SurprisalCriticAgent, NarrativeDivergenceAgent, LongformCreativeChain
+    SurprisalCriticAgent, NarrativeDivergenceAgent, LongformCreativeChain,
+    NarrativeFreshnessRater, StructuralClarityChecker, VoiceMatchEvaluator,
+    RewriteAdvisor, NarrativeQualityChain
 )
 from execution_orchestrator_v14 import ExecutionOrchestrator
 from task_classifier_agent import TaskClassifierAgent
@@ -58,7 +60,12 @@ def main():
             # Narrative Freshness Agents (v14.1)
             "surprisal_critic": SurprisalCriticAgent,
             "narrative_divergence": NarrativeDivergenceAgent,
-            "longform_creative_chain": LongformCreativeChain
+            "longform_creative_chain": LongformCreativeChain,
+            "narrative_freshness_rater": NarrativeFreshnessRater,
+            "structural_clarity_checker": StructuralClarityChecker,
+            "voice_match_evaluator": VoiceMatchEvaluator,
+            "rewrite_advisor": RewriteAdvisor,
+            "narrative_quality_chain": NarrativeQualityChain
         }
         
         if args.agent in agent_map:
