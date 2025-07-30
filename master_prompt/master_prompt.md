@@ -490,6 +490,121 @@ python3 fusion.py run design_polish_agent "Apply Apple-level polish to this desi
 - **Design Polish**: Uplift craft to Apple/OpenAI standards
 - **Prompt Architecture**: Structure AI interactions with fallback logic
 
+### Design Intelligence Stack Integration
+
+**Purpose**: End-to-end AI-native design flow orchestration with three specialized modes
+
+**Core Modes**:
+
+#### DesignChain Workspace
+**Purpose**: Full end-to-end design flow orchestration
+
+**Workflow**:
+1. **Declaration Interpretation**: Analyze strategic design requirements
+2. **Wireframe Generation**: Convert ideas into wireframe-ready formats
+3. **Quality Evaluation**: Assess design against industry standards
+4. **Design Polish**: Apply Apple/OpenAI level craft improvements
+5. **Token Generation**: Create consistent design system tokens
+
+**Output**:
+```json
+{
+  "declarations": {
+    "detected_declaration": "Fallback UX for high-stakes flows",
+    "prompt_template": "Given [context], recommend fallback states using [Copilot tiles + user trust score]",
+    "tile_logic_hints": ["Trigger fallback if confidence < 0.6", "Ask user to confirm before auto-executing"]
+  },
+  "wireframe": {
+    "layout_type": "Data visualization tile",
+    "ascii_sketch": "[Chart Header] | [Transaction List]\n[Summary Stats] | [Action Buttons]",
+    "tailwind_tokens": {"padding": "p-4", "font": "font-inter", "radius": "rounded-2xl"}
+  },
+  "critique": {
+    "heuristics_score": 0.82,
+    "trend_alignment": "Moderate",
+    "criticisms": ["Weak information hierarchy", "Inconsistent spacing tokens"]
+  },
+  "polish": {
+    "fixes_applied": ["Harmonized spacing", "Modernized iconography"],
+    "before_after_diff": {"nav_spacing": "16px → 24px", "font_weight": "Medium → Semibold"}
+  },
+  "tokens": {
+    "design_tokens": {"primary": "#10A37F", "background": "#F9FAFB", "radius": "16px"},
+    "mcp_ready": true,
+    "magic_ui_integration": "✅ Tailwind tokens match Magic UI MCP primitives"
+  }
+}
+```
+
+#### CopilotTile Prototyping Mode
+**Purpose**: Focused prototyping for AI-powered tiles
+
+**Components**:
+- **Tile Logic**: AI-native interaction patterns and fallback logic
+- **Wireframe**: Visual layout and component structure
+- **Tailwind Tokens**: MCP-compatible design system tokens
+
+**Output**:
+```json
+{
+  "tile_logic": {
+    "detected_declaration": "Fallback UX for high-stakes flows",
+    "tile_logic_hints": ["Trigger fallback if confidence < 0.6", "Show clear error boundaries"]
+  },
+  "wireframe": {
+    "layout_type": "Data visualization tile",
+    "ascii_sketch": "[Chart Header] | [Transaction List]\n[Summary Stats] | [Action Buttons]"
+  },
+  "tailwind_tokens": {
+    "design_tokens": {"primary": "#00C244", "background": "#F9FAFB", "radius": "16px"},
+    "mcp_ready": true
+  }
+}
+```
+
+#### Auto-Critique Loop
+**Purpose**: Live design quality feedback and improvement recommendations
+
+**Components**:
+- **Critique**: Design evaluation against industry standards
+- **Polish Recommendations**: Specific improvement suggestions
+
+**Output**:
+```json
+{
+  "critique": {
+    "heuristics_score": 0.82,
+    "trend_alignment": "Moderate",
+    "criticisms": ["Weak information hierarchy", "Inconsistent spacing tokens"],
+    "recommendations": ["Study Apple's Human Interface Guidelines", "Reference Airbnb's design system patterns"]
+  },
+  "polish_recommendations": {
+    "fixes_applied": ["Harmonized spacing", "Modernized iconography"],
+    "before_after_diff": {"nav_spacing": "16px → 24px", "font_weight": "Medium → Semibold"},
+    "craft_level": "Apple/OpenAI standard"
+  }
+}
+```
+
+**CLI Usage**:
+```bash
+# Full DesignChain Workspace
+python3 fusion.py design_chain "Design a Copilot tile that explains fallback UX in Bitcoin disputes"
+
+# CopilotTile Prototyping Mode
+python3 fusion.py tile_mode "Prototype a tile for transaction history summary with trust fallback"
+
+# Auto-Critique Loop
+python3 fusion.py autocritique "Evaluate this Figma screen for modern UI trends and polish"
+```
+
+**Integration Benefits**:
+- **End-to-End Flow**: Complete design process from concept to implementation
+- **AI-Native Patterns**: Built-in fallback logic and trust validation
+- **Industry Standards**: Apple/OpenAI level craft and polish
+- **MCP Compatibility**: Magic UI integration for seamless deployment
+- **Live Feedback**: Real-time critique and improvement suggestions
+
 ## Tool System
 
 ### UX Audit Tool
