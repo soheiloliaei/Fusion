@@ -272,6 +272,31 @@ Fusion v14 represents a significant step toward our North Star: **"The Most Inte
 - 🔄 External service APIs
 - 🔄 Professional agency interface
 
+## 🚀 How to Update ChatGPT Upload
+
+### Quick Update Process
+1. **Make changes** to core files or prompt in `~/fusion/`
+2. **Run the update script**: `./fusion_push.command`
+3. **Upload contents** of `~/fusion/ChatGPT_Upload/` into ChatGPT project context
+
+### Example Workflow
+```bash
+# Make your changes to core files
+cd ~/fusion
+# Edit fusion.py, agents_combined.py, etc.
+
+# Update the upload folder
+./fusion_push.command
+
+# Upload ChatGPT_Upload/ contents to ChatGPT
+```
+
+### Version Management
+- **Full versions** stored in `~/fusion/` (unlimited files)
+- **Upload versions** in `~/fusion/ChatGPT_Upload/` (≤10 files, <8000 tokens)
+- **Version history** tracked in `README.md`
+- **Auto-push** to GitHub: `https://github.com/soheiloliaei/Fusion.git`
+
 ## 🤝 Contributing
 
 Fusion v14 is designed to be highly extensible. You can:
