@@ -14,6 +14,7 @@ from agents_combined import (
 )
 from execution_orchestrator_v14 import ExecutionOrchestrator
 from task_classifier_agent import TaskClassifierAgent
+from voice_modulation_engine import VoiceModulationEngine
 
 print("🧠 DEBUG: fusion.py top-level code executed")
 
@@ -83,6 +84,12 @@ def main():
         print(f"Chain: {result['chain_name']}")
         print(f"Agents: {result['agent_chain']}")
         print(f"Voice: {result['voice']}")
+
+        modulator = VoiceModulationEngine()
+        example_output = "Here's a draft memo about fallback UX and modular interface scaffolds."
+        modulated = modulator.apply_voice(example_output, result["voice"])
+        print("\n🎙 Modulated Sample Output:")
+        print(modulated)
 
     elif args.command == "pipeline":
         if not args.input:
