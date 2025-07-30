@@ -299,6 +299,11 @@ python3 fusion.py brief "I'm writing a POV on fallback UX for senior leadership"
 Chain: POVDeclarationChain
 Agents: ['vp_product', 'vp_design', 'content_designer']
 Voice: executive
+
+🎙 Modulated Sample Output:
+Here's a draft memo about fallback UX and modular interface scaffolds.
+
+Rewrite this as if it's being sent to C-level executives. Prioritize clarity, strategic framing, and remove any fluff.
 ```
 
 ## Fusion Version History

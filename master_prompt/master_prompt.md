@@ -124,6 +124,35 @@ Fusion v14 is a programmable agent OS that orchestrates specialized agents and t
 - Original input, divergent input, agent output, and surprisal review
 - Comprehensive freshness analysis
 
+### TaskClassifierAgent
+**Purpose**: Detects intent, audience, and project type from natural language
+
+**Core Functions**:
+- Intent pattern matching (portfolio, deck, substack, one-pager, POV)
+- Audience detection (SLT, engineering, design peers, founders, etc.)
+- Voice style mapping (executive, thoughtful, irreverent, founder, twitter-style)
+- Agent chain recommendation
+
+**Output**:
+- Chain name and recommended agent sequence
+- Detected voice style for audience
+- Complete orchestration parameters
+
+### VoiceModulationEngine
+**Purpose**: Applies appropriate voice styles based on audience and context
+
+**Voice Styles**:
+- **Executive**: Elevated, strategic, succinct for C-level executives
+- **Thoughtful**: Reflective, considered, articulate for peers and collaborators
+- **Irreverent**: Playful, sharp, subversive for Twitter or Substack
+- **Founder**: Clear, direct, vision-driven for builders and startup leads
+- **Twitter-style**: One-liner smart for viral thread starters
+
+**Integration**:
+- Automatically applied after task classification
+- Provides voice-specific rewriting instructions
+- Enhances content appropriateness for target audience
+
 ## Tool System
 
 ### UX Audit Tool
