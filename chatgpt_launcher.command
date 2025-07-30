@@ -23,7 +23,7 @@ echo ""
 # Show the trimmed version for copy-paste
 echo "📄 TRIMMED VERSION (Under 8000 tokens):"
 echo "----------------------------------------"
-cat ~/fusion/master_prompt/master_prompt_trimmed.md
+cat ~/fusion/master_prompt/master_prompt_8000.md
 echo ""
 echo "----------------------------------------"
 echo ""
@@ -31,8 +31,8 @@ echo ""
 # Show the full version for reference
 echo "📄 FULL VERSION (Complete documentation):"
 echo "----------------------------------------"
-echo "File: ~/fusion/master_prompt/master_prompt.md"
-echo "Size: $(wc -c < ~/fusion/master_prompt/master_prompt.md) characters"
+echo "File: ~/fusion/master_prompt/master_prompt_main.md"
+echo "Size: $(wc -c < ~/fusion/master_prompt/master_prompt_main.md) characters"
 echo "Use: For complete development reference"
 echo ""
 
