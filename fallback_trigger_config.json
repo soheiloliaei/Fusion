@@ -1,0 +1,9 @@
+{
+  "risk_threshold": 0.65,
+  "default_fallback_agent": "rewrite_loop_agent",
+  "pattern_routing": {
+    "vp_design": "rewrite_loop_agent",
+    "evaluator": "creative_director",
+    "creative_director": "rewrite_loop_agent"
+  }
+} 

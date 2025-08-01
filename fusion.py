@@ -19,14 +19,100 @@ from agents_combined import (
 )
 from synthetic_reasoner_agent import SyntheticReasonerAgent
 from autocritique_loop import AutoCritiqueLoop
+import json
 from execution_orchestrator_v14 import ExecutionOrchestrator
 from task_classifier_agent import TaskClassifierAgent
 from voice_modulation_engine import VoiceModulationEngine
 
 print("🧠 DEBUG: fusion.py top-level code executed")
 
+# Load fallback config
+try:
+    with open("fallback_trigger_config.json", "r") as f:
+        fallback_config = json.load(f)
+except FileNotFoundError:
+    fallback_config = {
+        "risk_threshold": 0.65,
+        "default_fallback_agent": "rewrite_loop_agent",
+        "pattern_routing": {
+            "vp_design": "rewrite_loop_agent",
+            "evaluator": "creative_director",
+            "creative_director": "rewrite_loop_agent"
+        }
+    }
+
+# Util: maps string name to agent class instance
+def get_agent_by_name(name):
+    from agents_combined import (
+        VPDesignAgent,
+        PromptArchitectAgent,
+        CreativeDirectorAgent,
+        EvaluatorAgent,
+        RewriteLoopAgent,
+        # Add any additional agents here
+    )
+    mapping = {
+        "vp_design": VPDesignAgent(),
+        "prompt_architect": PromptArchitectAgent(),
+        "creative_director": CreativeDirectorAgent(),
+        "evaluator": EvaluatorAgent(),
+        "rewrite_loop_agent": RewriteLoopAgent(),
+    }
+    return mapping.get(name)
+
+async def risk_aware_agent_runner(user_input, primary_agent, agent_name):
+    """
+    🧠 Sprint 2 – Risk-Based Routing and Pattern Override
+    
+    Goal:
+    If SyntheticReasonerAgent detects a high-risk input (risk_score > threshold), Fusion will:
+    - Reroute to a fallback agent
+    - Or override the prompt with a safer fallback pattern
+    - Based on external config in fallback_trigger_config.json
+    
+    This layer enables Fusion to act differently based on what it "thinks" before acting.
+    """
+    reasoner = SyntheticReasonerAgent()
+    meta = reasoner.run(user_input, agent_name)
+
+    # Terminal logs
+    print("\n🧠 Synthetic Thoughts:")
+    for t in meta["synthetic_thoughts"]:
+        print(f"  - {t}")
+    print("❓ Internal Questions:")
+    for q in meta["synthetic_queries"]:
+        print(f"  → {q}")
+    print(f"⚠️ Risk Score: {meta['risk_score']}\n")
+
+    threshold = fallback_config.get("risk_threshold", 0.65)
+    if meta["risk_score"] > threshold:
+        print(f"⚠️ Risk too high ({meta['risk_score']}). Switching to fallback.")
+
+        # Option 1: fallback to another agent
+        fallback_agent_name = fallback_config["pattern_routing"].get(agent_name) or fallback_config["default_fallback_agent"]
+
+        print(f"🔁 Routing to fallback agent: {fallback_agent_name}")
+        fallback_agent = get_agent_by_name(fallback_agent_name)
+        response = await fallback_agent.run(user_input)
+
+        return {
+            "synthetic_meta": meta,
+            "routed": True,
+            "original_agent": agent_name,
+            "fallback_agent": fallback_agent_name,
+            "agent_output": response
+        }
+
+    else:
+        response = await primary_agent.run(user_input)
+        return {
+            "synthetic_meta": meta,
+            "routed": False,
+            "agent_output": response
+        }
+
 async def run_with_reasoning(user_input, agent):
-    """Run agent with synthetic reasoning meta-agent"""
+    """Run agent with synthetic reasoning meta-agent (Sprint 1 version)"""
     reasoner = SyntheticReasonerAgent()
     agent_name = getattr(agent, "__class__", type(agent)).__name__
     meta = reasoner.run(user_input, agent_name)
@@ -158,8 +244,14 @@ async def main():
             # All agents are now working
             agent_class = agent_map[args.agent]
             agent = agent_class()
-            output = await run_with_reasoning(input_text, agent)
-            print(f"🎨 Output from {args.agent}:\n{output}")
+            agent_name = args.agent
+            result = await risk_aware_agent_runner(input_text, agent, agent_name)
+            
+            if result.get("routed", False):
+                print(f"🔁 Routed from {result['original_agent']} to {result['fallback_agent']}")
+                print(f"🎨 Output from {result['fallback_agent']}:\n{result['agent_output']}")
+            else:
+                print(f"🎨 Output from {agent_name}:\n{result['agent_output']}")
         else:
             print(f"❌ Error: Unknown agent '{args.agent}'")
             print(f"Available agents: {', '.join(agent_map.keys())}")
