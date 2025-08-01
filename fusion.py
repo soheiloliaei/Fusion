@@ -17,12 +17,32 @@ from agents_combined import (
     RewriteAdvisor, NarrativeQualityChain, RewriteLoopAgent,
     DesignJudgmentEngine, PromptArchitectAgent, AINativeUXDesigner, DesignPolishAgent, DesignSystemEngineer
 )
+from synthetic_reasoner_agent import SyntheticReasonerAgent
 from autocritique_loop import AutoCritiqueLoop
 from execution_orchestrator_v14 import ExecutionOrchestrator
 from task_classifier_agent import TaskClassifierAgent
 from voice_modulation_engine import VoiceModulationEngine
 
 print("🧠 DEBUG: fusion.py top-level code executed")
+
+async def run_with_reasoning(user_input, agent):
+    """Run agent with synthetic reasoning meta-agent"""
+    reasoner = SyntheticReasonerAgent()
+    agent_name = getattr(agent, "__class__", type(agent)).__name__
+    meta = reasoner.run(user_input, agent_name)
+
+    print("\n🧠 Synthetic Thoughts:")
+    for t in meta["synthetic_thoughts"]:
+        print(f"  - {t}")
+    print("❓ Internal Questions:")
+    for q in meta["synthetic_queries"]:
+        print(f"  → {q}")
+    print(f"⚠️ Risk Score: {meta['risk_score']}\n")
+
+    # 🧠 Optional for Sprint 2:
+    # if meta['risk_score'] > 0.65: trigger fallback routing
+
+    return await agent.run(user_input)
 
 async def run_design_chain(prompt: str) -> Dict[str, Any]:
     """Full DesignChain workspace - end-to-end design flow orchestration"""
@@ -138,7 +158,7 @@ async def main():
             # All agents are now working
             agent_class = agent_map[args.agent]
             agent = agent_class()
-            output = asyncio.run(agent.run(input_text))
+            output = await run_with_reasoning(input_text, agent)
             print(f"🎨 Output from {args.agent}:\n{output}")
         else:
             print(f"❌ Error: Unknown agent '{args.agent}'")
