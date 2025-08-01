@@ -20,6 +20,7 @@ from agents_combined import (
 from synthetic_reasoner_agent import SyntheticReasonerAgent
 from autocritique_loop import AutoCritiqueLoop
 import json
+from pattern_registry import pattern_templates
 from execution_orchestrator_v14 import ExecutionOrchestrator
 from task_classifier_agent import TaskClassifierAgent
 from voice_modulation_engine import VoiceModulationEngine
@@ -40,6 +41,30 @@ except FileNotFoundError:
             "creative_director": "rewrite_loop_agent"
         }
     }
+
+# Pattern fallback engine
+def risk_pattern_override(user_input, agent_name, synthetic_meta):
+    """
+    🧠 Sprint 3 – Pattern Prompt Override
+    
+    If risk is high, override the prompt structure (not just agent)
+    Enable pattern-based prompt rerouting from config or registry
+    """
+    threshold = fallback_config.get("risk_threshold", 0.65)
+    if synthetic_meta["risk_score"] <= threshold:
+        return user_input  # no change
+
+    pattern_key = fallback_config["pattern_routing"].get(agent_name)
+    if not pattern_key:
+        return user_input
+
+    fallback_prompt = pattern_templates.get(pattern_key)
+    if not fallback_prompt:
+        return user_input
+
+    print(f"🧠 Using fallback pattern: {pattern_key}")
+    # Inject pattern into user_input (pre-pended instruction)
+    return f"{fallback_prompt}\n\n{user_input}"
 
 # Util: maps string name to agent class instance
 def get_agent_by_name(name):
@@ -62,54 +87,37 @@ def get_agent_by_name(name):
 
 async def risk_aware_agent_runner(user_input, primary_agent, agent_name):
     """
-    🧠 Sprint 2 – Risk-Based Routing and Pattern Override
+    🧠 Sprint 3 – LLM-Powered Synthetic Reasoning + Pattern Prompt Override
     
     Goal:
-    If SyntheticReasonerAgent detects a high-risk input (risk_score > threshold), Fusion will:
-    - Reroute to a fallback agent
-    - Or override the prompt with a safer fallback pattern
-    - Based on external config in fallback_trigger_config.json
-    
-    This layer enables Fusion to act differently based on what it "thinks" before acting.
+    1. Replace static synthetic thoughts with LLM-generated ones
+    2. If risk is high, override the prompt structure (not just agent)
+    3. Enable pattern-based prompt rerouting from config or registry
     """
+    # 1. Run LLM-powered reasoning
     reasoner = SyntheticReasonerAgent()
-    meta = reasoner.run(user_input, agent_name)
+    synthetic_meta = reasoner.run(user_input, agent_name)
 
     # Terminal logs
     print("\n🧠 Synthetic Thoughts:")
-    for t in meta["synthetic_thoughts"]:
+    for t in synthetic_meta["synthetic_thoughts"]:
         print(f"  - {t}")
     print("❓ Internal Questions:")
-    for q in meta["synthetic_queries"]:
+    for q in synthetic_meta["synthetic_queries"]:
         print(f"  → {q}")
-    print(f"⚠️ Risk Score: {meta['risk_score']}\n")
+    print(f"⚠️ Risk Score: {synthetic_meta['risk_score']}\n")
 
-    threshold = fallback_config.get("risk_threshold", 0.65)
-    if meta["risk_score"] > threshold:
-        print(f"⚠️ Risk too high ({meta['risk_score']}). Switching to fallback.")
+    # 2. Optionally override prompt with pattern
+    final_input = risk_pattern_override(user_input, agent_name, synthetic_meta)
 
-        # Option 1: fallback to another agent
-        fallback_agent_name = fallback_config["pattern_routing"].get(agent_name) or fallback_config["default_fallback_agent"]
+    # 3. Run agent with potentially modified input
+    agent_output = await primary_agent.run(final_input)
 
-        print(f"🔁 Routing to fallback agent: {fallback_agent_name}")
-        fallback_agent = get_agent_by_name(fallback_agent_name)
-        response = await fallback_agent.run(user_input)
-
-        return {
-            "synthetic_meta": meta,
-            "routed": True,
-            "original_agent": agent_name,
-            "fallback_agent": fallback_agent_name,
-            "agent_output": response
-        }
-
-    else:
-        response = await primary_agent.run(user_input)
-        return {
-            "synthetic_meta": meta,
-            "routed": False,
-            "agent_output": response
-        }
+    return {
+        "synthetic_meta": synthetic_meta,
+        "routed": synthetic_meta["risk_score"] > fallback_config.get("risk_threshold", 0.65),
+        "agent_output": agent_output
+    }
 
 async def run_with_reasoning(user_input, agent):
     """Run agent with synthetic reasoning meta-agent (Sprint 1 version)"""
@@ -248,8 +256,8 @@ async def main():
             result = await risk_aware_agent_runner(input_text, agent, agent_name)
             
             if result.get("routed", False):
-                print(f"🔁 Routed from {result['original_agent']} to {result['fallback_agent']}")
-                print(f"🎨 Output from {result['fallback_agent']}:\n{result['agent_output']}")
+                print(f"🔁 Pattern override applied to {agent_name}")
+                print(f"🎨 Output from {agent_name}:\n{result['agent_output']}")
             else:
                 print(f"🎨 Output from {agent_name}:\n{result['agent_output']}")
         else:

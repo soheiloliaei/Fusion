@@ -2,8 +2,10 @@
   "risk_threshold": 0.65,
   "default_fallback_agent": "rewrite_loop_agent",
   "pattern_routing": {
-    "vp_design": "rewrite_loop_agent",
-    "evaluator": "creative_director",
-    "creative_director": "rewrite_loop_agent"
+    "vp_design": "fallback_safe_design",
+    "evaluator": "fallback_clarify_then_critique",
+    "creative_director": "fallback_soften_for_exec",
+    "prompt_architect": "fallback_systematic",
+    "rewrite_loop_agent": "fallback_metric_narrative"
   }
-} 
+}
