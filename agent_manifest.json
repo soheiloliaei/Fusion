@@ -1,0 +1,150 @@
+{
+  "vp_design": {
+    "role": "VP Design Agent – high-level UI evaluator and recommender",
+    "fallback_pattern": "fallback_clarify_then_critique"
+  },
+  "creative_director": {
+    "role": "Owns visual and narrative direction for design outputs",
+    "fallback_pattern": "fallback_soften_for_exec"
+  },
+  "design_technologist": {
+    "role": "Connects design intent to engineering feasibility",
+    "fallback_pattern": "fallback_safe_design"
+  },
+  "principal_designer": {
+    "role": "Senior design expertise and strategic design decisions",
+    "fallback_pattern": "fallback_clarify_then_critique"
+  },
+  "vp_of_design": {
+    "role": "Design leadership and team management",
+    "fallback_pattern": "fallback_soften_for_exec"
+  },
+  "vp_of_product": {
+    "role": "Product strategy and market analysis",
+    "fallback_pattern": "fallback_metric_narrative"
+  },
+  "product_navigator": {
+    "role": "Understands user flows and product journeys",
+    "fallback_pattern": "fallback_clarify_then_critique"
+  },
+  "strategy_pilot": {
+    "role": "Guides product direction and alignment to strategy",
+    "fallback_pattern": "fallback_metric_narrative"
+  },
+  "product_historian": {
+    "role": "Product evolution analysis and historical context",
+    "fallback_pattern": "fallback_metric_narrative"
+  },
+  "market_analyst": {
+    "role": "Market research and competitive analysis",
+    "fallback_pattern": "fallback_metric_narrative"
+  },
+  "content_designer": {
+    "role": "Content strategy and copywriting optimization",
+    "fallback_pattern": "fallback_clarify_then_critique"
+  },
+  "deck_narrator": {
+    "role": "Crafts executive decks and storytelling structure",
+    "fallback_pattern": "fallback_soften_for_exec"
+  },
+  "portfolio_editor": {
+    "role": "Portfolio curation and case study development",
+    "fallback_pattern": "fallback_soften_for_exec"
+  },
+  "research_summarizer": {
+    "role": "Research synthesis and key insights extraction",
+    "fallback_pattern": "fallback_metric_narrative"
+  },
+  "component_librarian": {
+    "role": "Component management and design system maintenance",
+    "fallback_pattern": "fallback_safe_design"
+  },
+  "ai_interaction_designer": {
+    "role": "AI-native UX design and conversational interfaces",
+    "fallback_pattern": "fallback_safe_design"
+  },
+  "workflow_optimizer": {
+    "role": "Process optimization and efficiency improvements",
+    "fallback_pattern": "fallback_metric_narrative"
+  },
+  "evaluator": {
+    "role": "Comprehensive evaluation and quality assessment",
+    "fallback_pattern": "fallback_metric_narrative"
+  },
+  "prompt_master": {
+    "role": "Pattern analysis and prompt optimization",
+    "fallback_pattern": "fallback_clarify_then_critique"
+  },
+  "dispatcher": {
+    "role": "Task routing and workflow coordination",
+    "fallback_pattern": "fallback_metric_narrative"
+  },
+  "strategy_archivist": {
+    "role": "Strategy documentation and knowledge preservation",
+    "fallback_pattern": "fallback_metric_narrative"
+  },
+  "feedback_amplifier": {
+    "role": "Feedback processing and actionable recommendations",
+    "fallback_pattern": "fallback_clarify_then_critique"
+  },
+  "surprisal_critic": {
+    "role": "Freshness assessment and novelty detection",
+    "fallback_pattern": "fallback_metric_narrative"
+  },
+  "narrative_divergence": {
+    "role": "Story exploration and creative narratives",
+    "fallback_pattern": "fallback_clarify_then_critique"
+  },
+  "rewrite_loop": {
+    "role": "Runs iterative critique-rewrite cycles",
+    "fallback_pattern": "fallback_metric_narrative"
+  },
+  "prompt_architect": {
+    "role": "Prompt template design and AI-native patterns",
+    "fallback_pattern": "fallback_clarify_then_critique"
+  },
+  "design_polish_agent": {
+    "role": "Visual refinement and craft-level improvements",
+    "fallback_pattern": "fallback_safe_design"
+  },
+  "longform_creative_chain": {
+    "role": "Extended creative process and multi-step workflows",
+    "fallback_pattern": "fallback_clarify_then_critique"
+  },
+  "narrative_freshness_rater": {
+    "role": "Content freshness and repetition detection",
+    "fallback_pattern": "fallback_metric_narrative"
+  },
+  "structural_clarity_checker": {
+    "role": "Structure analysis and clarity assessment",
+    "fallback_pattern": "fallback_metric_narrative"
+  },
+  "voice_match_evaluator": {
+    "role": "Tone consistency and voice alignment",
+    "fallback_pattern": "fallback_metric_narrative"
+  },
+  "rewrite_advisor": {
+    "role": "Rewrite suggestions and improvement advice",
+    "fallback_pattern": "fallback_clarify_then_critique"
+  },
+  "narrative_quality_chain": {
+    "role": "Quality assessment and chain evaluation",
+    "fallback_pattern": "fallback_metric_narrative"
+  },
+  "autocritique_loop": {
+    "role": "Self-critique and quality feedback",
+    "fallback_pattern": "fallback_metric_narrative"
+  },
+  "design_judgment_engine": {
+    "role": "Design evaluation and judgment criteria",
+    "fallback_pattern": "fallback_metric_narrative"
+  },
+  "ai_native_ux_designer": {
+    "role": "AI-focused design and UX optimization",
+    "fallback_pattern": "fallback_safe_design"
+  },
+  "design_system_engineer": {
+    "role": "System architecture and component design",
+    "fallback_pattern": "fallback_safe_design"
+  }
+} 
