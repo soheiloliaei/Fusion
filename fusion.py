@@ -10,8 +10,32 @@ import json
 import sys
 from typing import Dict, Any
 
+# Import individual agents from agents directory
+from agents.ai_interaction_designer_agent import AIInteractionDesignerAgent
+from agents.component_librarian_agent import ComponentLibrarianAgent
+from agents.content_designer_agent import ContentDesignerAgent
+from agents.creative_director_agent import CreativeDirectorAgent
+from agents.deck_narrator_agent import DeckNarratorAgent
+from agents.design_technologist_agent import DesignTechnologistAgent
+from agents.dispatcher_agent import DispatcherAgent
+from agents.evaluator_agent import EvaluatorAgent
+from agents.feedback_amplifier_agent import FeedbackAmplifierAgent
+from agents.market_analyst_agent import MarketAnalystAgent
+from agents.portfolio_editor_agent import PortfolioEditorAgent
+from agents.principal_designer_agent import PrincipalDesignerAgent
+from agents.product_historian_agent import ProductHistorianAgent
+from agents.product_navigator_agent import ProductNavigatorAgent
+from agents.prompt_master_agent import PromptMasterAgent
+from agents.research_summarizer_agent import ResearchSummarizerAgent
+from agents.strategy_archivist_agent import StrategyArchivistAgent
+from agents.strategy_pilot_agent import StrategyPilotAgent
+from agents.vp_design_agent import VPDesignAgent
+from agents.vp_of_design_agent import VPOfDesignAgent
+from agents.vp_of_product_agent import VPOfProductAgent
+from agents.workflow_optimizer_agent import WorkflowOptimizerAgent
+
+# Import combined agents for additional functionality
 from agents_combined import (
-    VPDesignAgent, EvaluatorAgent, CreativeDirectorAgent, PromptMasterAgent,
     SurprisalCriticAgent, NarrativeDivergenceAgent, LongformCreativeChain,
     NarrativeFreshnessRater, StructuralClarityChecker, VoiceMatchEvaluator,
     RewriteAdvisor, NarrativeQualityChain, RewriteLoopAgent,
@@ -111,7 +135,13 @@ async def risk_aware_agent_runner(user_input, primary_agent, agent_name):
     final_input = risk_pattern_override(user_input, agent_name, synthetic_meta)
 
     # 3. Run agent with potentially modified input
-    agent_output = await primary_agent.run(final_input)
+    # Handle both run() and run_async() methods
+    if hasattr(primary_agent, 'run'):
+        agent_output = await primary_agent.run(final_input)
+    elif hasattr(primary_agent, 'run_async'):
+        agent_output = await primary_agent.run_async(final_input, {})
+    else:
+        raise AttributeError(f"Agent {agent_name} has no run() or run_async() method")
 
     return {
         "synthetic_meta": synthetic_meta,
@@ -222,17 +252,48 @@ async def main():
         input_text = " ".join(args.input)
         print(f"🚀 Running agent '{args.agent}' on input: {input_text}")
 
-        # Dynamic agent loading
+        # Dynamic agent loading - All 31 Agents
         agent_map = {
-            # Core Agents
+            # Core Design Agents (6)
             "vp_design": VPDesignAgent,
-            "evaluator": EvaluatorAgent,
             "creative_director": CreativeDirectorAgent,
-            "prompt_master": PromptMasterAgent,
+            "design_technologist": DesignTechnologistAgent,
+            "principal_designer": PrincipalDesignerAgent,
+            "vp_of_design": VPOfDesignAgent,
+            "vp_of_product": VPOfProductAgent,
             
-            # Narrative Freshness Agents (v14.1)
+            # Strategy & Product Agents (4)
+            "product_navigator": ProductNavigatorAgent,
+            "strategy_pilot": StrategyPilotAgent,
+            "product_historian": ProductHistorianAgent,
+            "market_analyst": MarketAnalystAgent,
+            
+            # Content & Communication Agents (4)
+            "content_designer": ContentDesignerAgent,
+            "deck_narrator": DeckNarratorAgent,
+            "portfolio_editor": PortfolioEditorAgent,
+            "research_summarizer": ResearchSummarizerAgent,
+            
+            # Component & System Agents (3)
+            "component_librarian": ComponentLibrarianAgent,
+            "ai_interaction_designer": AIInteractionDesignerAgent,
+            "workflow_optimizer": WorkflowOptimizerAgent,
+            
+            # Intelligence & Orchestration Agents (4)
+            "evaluator": EvaluatorAgent,
+            "prompt_master": PromptMasterAgent,
+            "dispatcher": DispatcherAgent,
+            "strategy_archivist": StrategyArchivistAgent,
+            
+            # Feedback & Analysis Agents (1)
+            "feedback_amplifier": FeedbackAmplifierAgent,
+            
+            # Additional Combined Agents (9)
             "surprisal_critic": SurprisalCriticAgent,
             "narrative_divergence": NarrativeDivergenceAgent,
+            "rewrite_loop": RewriteLoopAgent,
+            "prompt_architect": PromptArchitectAgent,
+            "design_polish_agent": DesignPolishAgent,
             "longform_creative_chain": LongformCreativeChain,
             "narrative_freshness_rater": NarrativeFreshnessRater,
             "structural_clarity_checker": StructuralClarityChecker,
@@ -240,11 +301,8 @@ async def main():
             "rewrite_advisor": RewriteAdvisor,
             "narrative_quality_chain": NarrativeQualityChain,
             "autocritique_loop": AutoCritiqueLoop,
-            "rewrite_loop": RewriteLoopAgent,
             "design_judgment_engine": DesignJudgmentEngine,
-            "prompt_architect": PromptArchitectAgent,
             "ai_native_ux_designer": AINativeUXDesigner,
-            "design_polish_agent": DesignPolishAgent,
             "design_system_engineer": DesignSystemEngineer
         }
         
@@ -333,37 +391,56 @@ async def main():
         # Register ALL 22 agents explicitly
         print("📝 Registering all 22 agents...")
         
-        # Core Agents (8)
+        # Core Design Agents (6)
         orchestrator.register_agent("vp_design", VPDesignAgent())
-        orchestrator.register_agent("evaluator", EvaluatorAgent())
         orchestrator.register_agent("creative_director", CreativeDirectorAgent())
         orchestrator.register_agent("design_technologist", DesignTechnologistAgent())
-        orchestrator.register_agent("product_navigator", ProductNavigatorAgent())
-        orchestrator.register_agent("strategy_pilot", StrategyPilotAgent())
+        orchestrator.register_agent("principal_designer", PrincipalDesignerAgent())
         orchestrator.register_agent("vp_of_design", VPOfDesignAgent())
         orchestrator.register_agent("vp_of_product", VPOfProductAgent())
         
-        # Companion Agents (4)
-        orchestrator.register_agent("principal_designer", PrincipalDesignerAgent())
-        orchestrator.register_agent("component_librarian", ComponentLibrarianAgent())
-        orchestrator.register_agent("content_designer", ContentDesignerAgent())
-        orchestrator.register_agent("ai_interaction_designer", AIInteractionDesignerAgent())
-        
-        # Meta Agents (4)
-        orchestrator.register_agent("strategy_archivist", StrategyArchivistAgent())
-        orchestrator.register_agent("market_analyst", MarketAnalystAgent())
-        orchestrator.register_agent("workflow_optimizer", WorkflowOptimizerAgent())
+        # Strategy & Product Agents (4)
+        orchestrator.register_agent("product_navigator", ProductNavigatorAgent())
+        orchestrator.register_agent("strategy_pilot", StrategyPilotAgent())
         orchestrator.register_agent("product_historian", ProductHistorianAgent())
+        orchestrator.register_agent("market_analyst", MarketAnalystAgent())
         
-        # Narrative & Content Agents (4)
+        # Content & Communication Agents (4)
+        orchestrator.register_agent("content_designer", ContentDesignerAgent())
         orchestrator.register_agent("deck_narrator", DeckNarratorAgent())
         orchestrator.register_agent("portfolio_editor", PortfolioEditorAgent())
         orchestrator.register_agent("research_summarizer", ResearchSummarizerAgent())
-        orchestrator.register_agent("feedback_amplifier", FeedbackAmplifierAgent())
         
-        # Intelligence & Orchestration Agents (2)
+        # Component & System Agents (3)
+        orchestrator.register_agent("component_librarian", ComponentLibrarianAgent())
+        orchestrator.register_agent("ai_interaction_designer", AIInteractionDesignerAgent())
+        orchestrator.register_agent("workflow_optimizer", WorkflowOptimizerAgent())
+        
+        # Intelligence & Orchestration Agents (4)
+        orchestrator.register_agent("evaluator", EvaluatorAgent())
         orchestrator.register_agent("prompt_master", PromptMasterAgent())
         orchestrator.register_agent("dispatcher", DispatcherAgent())
+        orchestrator.register_agent("strategy_archivist", StrategyArchivistAgent())
+        
+        # Feedback & Analysis Agents (2)
+        orchestrator.register_agent("feedback_amplifier", FeedbackAmplifierAgent())
+        
+        # Additional Combined Agents (9)
+        orchestrator.register_agent("surprisal_critic", SurprisalCriticAgent())
+        orchestrator.register_agent("narrative_divergence", NarrativeDivergenceAgent())
+        orchestrator.register_agent("rewrite_loop", RewriteLoopAgent())
+        orchestrator.register_agent("prompt_architect", PromptArchitectAgent())
+        orchestrator.register_agent("design_polish_agent", DesignPolishAgent())
+        orchestrator.register_agent("longform_creative_chain", LongformCreativeChain())
+        orchestrator.register_agent("narrative_freshness_rater", NarrativeFreshnessRater())
+        orchestrator.register_agent("structural_clarity_checker", StructuralClarityChecker())
+        orchestrator.register_agent("voice_match_evaluator", VoiceMatchEvaluator())
+        orchestrator.register_agent("rewrite_advisor", RewriteAdvisor())
+        orchestrator.register_agent("narrative_quality_chain", NarrativeQualityChain())
+        orchestrator.register_agent("autocritique_loop", AutoCritiqueLoop())
+        orchestrator.register_agent("design_judgment_engine", DesignJudgmentEngine())
+        orchestrator.register_agent("ai_native_ux_designer", AINativeUXDesigner())
+        orchestrator.register_agent("design_system_engineer", DesignSystemEngineer())
         
         # Register tools
         orchestrator.register_tool("ux_audit", UXAuditTool())
@@ -374,48 +451,28 @@ async def main():
             print(f"  {i:2d}. {agent_name}")
         
         # Define smart agent sequence for pipeline
-        # This ensures all 22 agents are used in a logical order
+        # Using available agents for comprehensive workflow
         agent_sequence = [
-            # 1. Strategy & Planning Phase
-            "strategy_pilot",      # Strategic planning
-            "product_navigator",   # Product strategy
-            "market_analyst",      # Market analysis
-            "product_historian",   # Product context
-            
-            # 2. Design & Creative Phase
+            # 1. Creative & Design Phase
             "creative_director",   # Creative vision
             "vp_design",          # Design analysis
-            "design_technologist", # Technical design
-            "principal_designer",  # Principal expertise
-            "component_librarian", # Component system
+            "design_polish_agent", # Design refinement
             
-            # 3. Content & Communication Phase
-            "content_designer",    # Content creation
-            "ai_interaction_designer", # AI interactions
-            "deck_narrator",      # Presentations
-            "portfolio_editor",    # Portfolio management
+            # 2. Narrative & Content Phase
+            "narrative_divergence", # Narrative exploration
+            "surprisal_critic",    # Freshness check
             
-            # 4. Research & Analysis Phase
-            "research_summarizer", # Research synthesis
-            "strategy_archivist",  # Strategy documentation
-            "feedback_amplifier",  # Feedback processing
-            
-            # 5. Leadership & Evaluation Phase
-            "vp_of_design",       # VP Design review
-            "vp_of_product",      # VP Product review
+            # 3. Evaluation & Intelligence Phase
             "evaluator",          # Final evaluation
-            
-            # 6. Intelligence & Orchestration Phase
             "prompt_master",      # Pattern optimization
-            "dispatcher",         # Final coordination
-            "workflow_optimizer"  # Workflow optimization
+            "prompt_architect",   # Prompt design
         ]
         
         print(f"\n🚀 Executing pipeline with {len(agent_sequence)} agents in sequence:")
         for i, agent in enumerate(agent_sequence, 1):
             print(f"  {i:2d}. {agent}")
         
-        output = asyncio.run(orchestrator.execute_pipeline(input_text, agent_sequence))
+        output = await orchestrator.execute_pipeline(input_text, agent_sequence)
         print(f"🧩 Pipeline Output:\n{output}")
 
     else:
