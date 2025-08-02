@@ -1,0 +1,27 @@
+{
+  "design_pipeline": [
+    "vp_design",
+    "evaluator",
+    "rewrite_loop"
+  ],
+  "narrative_loop": [
+    "deck_narrator",
+    "surprisal_critic",
+    "rewrite_loop"
+  ],
+  "strategy_chain": [
+    "strategy_pilot",
+    "market_analyst",
+    "creative_director"
+  ],
+  "content_flow": [
+    "content_designer",
+    "voice_match_evaluator",
+    "rewrite_advisor"
+  ],
+  "product_journey": [
+    "product_navigator",
+    "user_experience_analyst",
+    "design_technologist"
+  ]
+}
