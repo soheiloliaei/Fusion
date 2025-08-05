@@ -16,11 +16,14 @@ if ! command -v python3 &> /dev/null; then
     exit 1
 fi
 
-# Check if we're in a Fusion project directory
-if [ ! -f "fusion.py" ] && [ ! -f "fusion_api.py" ]; then
-    echo "❌ Error: Not in a Fusion project directory"
-    echo "Please run this launcher from a directory containing Fusion v15 files"
-    echo "Or copy the launcher to your Fusion project directory"
+# Define the original Fusion project directory (where the launcher was created)
+ORIGINAL_FUSION_DIR="/Users/soheil/fusion_v13"
+echo "🔍 Looking for Fusion files in: $ORIGINAL_FUSION_DIR"
+
+# Check if original Fusion directory exists
+if [ ! -d "$ORIGINAL_FUSION_DIR" ]; then
+    echo "❌ Error: Original Fusion directory not found at $ORIGINAL_FUSION_DIR"
+    echo "Please update the ORIGINAL_FUSION_DIR variable in the launcher"
     exit 1
 fi
 
@@ -39,75 +42,96 @@ touch fusion_core/orchestration/__init__.py
 # Create agents directory if it doesn't exist
 mkdir -p agents
 
-# Copy all core Fusion v15 files
+# Copy all core Fusion v15 files from original directory
 echo "📦 Installing Fusion v15 core components..."
 
-# Copy fusion_core files (if they exist in parent directory)
-if [ -d "../fusion_core" ]; then
-    cp -r ../fusion_core/* fusion_core/ 2>/dev/null || echo "⚠️ fusion_core already exists"
+# Copy fusion_core files
+if [ -d "$ORIGINAL_FUSION_DIR/fusion_core" ]; then
+    echo "📁 Copying fusion_core..."
+    cp -r "$ORIGINAL_FUSION_DIR/fusion_core"/* fusion_core/ 2>/dev/null || echo "⚠️ fusion_core already exists"
 fi
 
-# Copy main Fusion files (if they exist in parent directory)
-if [ -f "../fusion_api.py" ]; then
-    cp ../fusion_api.py . 2>/dev/null || echo "⚠️ fusion_api.py already exists"
+# Copy main Fusion files
+if [ -f "$ORIGINAL_FUSION_DIR/fusion_api.py" ]; then
+    echo "📄 Copying fusion_api.py..."
+    cp "$ORIGINAL_FUSION_DIR/fusion_api.py" . 2>/dev/null || echo "⚠️ fusion_api.py already exists"
 fi
 
-if [ -f "../web_app.py" ]; then
-    cp ../web_app.py . 2>/dev/null || echo "⚠️ web_app.py already exists"
+if [ -f "$ORIGINAL_FUSION_DIR/web_app.py" ]; then
+    echo "📄 Copying web_app.py..."
+    cp "$ORIGINAL_FUSION_DIR/web_app.py" . 2>/dev/null || echo "⚠️ web_app.py already exists"
 fi
 
-if [ -f "../fusion.py" ]; then
-    cp ../fusion.py . 2>/dev/null || echo "⚠️ fusion.py already exists"
+if [ -f "$ORIGINAL_FUSION_DIR/fusion.py" ]; then
+    echo "📄 Copying fusion.py..."
+    cp "$ORIGINAL_FUSION_DIR/fusion.py" . 2>/dev/null || echo "⚠️ fusion.py already exists"
 fi
 
-# Copy configuration files (if they exist in parent directory)
-if [ -f "../agent_manifest.json" ]; then
-    cp ../agent_manifest.json . 2>/dev/null || echo "⚠️ agent_manifest.json already exists"
+# Copy configuration files
+if [ -f "$ORIGINAL_FUSION_DIR/agent_manifest.json" ]; then
+    echo "📄 Copying agent_manifest.json..."
+    cp "$ORIGINAL_FUSION_DIR/agent_manifest.json" . 2>/dev/null || echo "⚠️ agent_manifest.json already exists"
 fi
 
-if [ -f "../requirements.txt" ]; then
-    cp ../requirements.txt . 2>/dev/null || echo "⚠️ requirements.txt already exists"
+if [ -f "$ORIGINAL_FUSION_DIR/requirements.txt" ]; then
+    echo "📄 Copying requirements.txt..."
+    cp "$ORIGINAL_FUSION_DIR/requirements.txt" . 2>/dev/null || echo "⚠️ requirements.txt already exists"
 fi
 
-if [ -f "../pyproject.toml" ]; then
-    cp ../pyproject.toml . 2>/dev/null || echo "⚠️ pyproject.toml already exists"
+if [ -f "$ORIGINAL_FUSION_DIR/pyproject.toml" ]; then
+    echo "📄 Copying pyproject.toml..."
+    cp "$ORIGINAL_FUSION_DIR/pyproject.toml" . 2>/dev/null || echo "⚠️ pyproject.toml already exists"
 fi
 
-if [ -f "../Dockerfile" ]; then
-    cp ../Dockerfile . 2>/dev/null || echo "⚠️ Dockerfile already exists"
+if [ -f "$ORIGINAL_FUSION_DIR/Dockerfile" ]; then
+    echo "📄 Copying Dockerfile..."
+    cp "$ORIGINAL_FUSION_DIR/Dockerfile" . 2>/dev/null || echo "⚠️ Dockerfile already exists"
 fi
 
-# Copy documentation (if they exist in parent directory)
-if [ -f "../FUSION_V15_README.md" ]; then
-    cp ../FUSION_V15_README.md . 2>/dev/null || echo "⚠️ FUSION_V15_README.md already exists"
+# Copy documentation
+if [ -f "$ORIGINAL_FUSION_DIR/FUSION_V15_README.md" ]; then
+    echo "📄 Copying FUSION_V15_README.md..."
+    cp "$ORIGINAL_FUSION_DIR/FUSION_V15_README.md" . 2>/dev/null || echo "⚠️ FUSION_V15_README.md already exists"
 fi
 
-if [ -f "../FUSION_V15_DELIVERY_SUMMARY.md" ]; then
-    cp ../FUSION_V15_DELIVERY_SUMMARY.md . 2>/dev/null || echo "⚠️ FUSION_V15_DELIVERY_SUMMARY.md already exists"
+if [ -f "$ORIGINAL_FUSION_DIR/FUSION_V15_DELIVERY_SUMMARY.md" ]; then
+    echo "📄 Copying FUSION_V15_DELIVERY_SUMMARY.md..."
+    cp "$ORIGINAL_FUSION_DIR/FUSION_V15_DELIVERY_SUMMARY.md" . 2>/dev/null || echo "⚠️ FUSION_V15_DELIVERY_SUMMARY.md already exists"
 fi
 
-# Copy prompt masters (if they exist in parent directory)
-if [ -f "../prompt_master_short.md" ]; then
-    cp ../prompt_master_short.md . 2>/dev/null || echo "⚠️ prompt_master_short.md already exists"
+# Copy prompt masters
+if [ -f "$ORIGINAL_FUSION_DIR/prompt_master_short.md" ]; then
+    echo "📄 Copying prompt_master_short.md..."
+    cp "$ORIGINAL_FUSION_DIR/prompt_master_short.md" . 2>/dev/null || echo "⚠️ prompt_master_short.md already exists"
 fi
 
-if [ -f "../prompt_master_main.md" ]; then
-    cp ../prompt_master_main.md . 2>/dev/null || echo "⚠️ prompt_master_main.md already exists"
+if [ -f "$ORIGINAL_FUSION_DIR/prompt_master_main.md" ]; then
+    echo "📄 Copying prompt_master_main.md..."
+    cp "$ORIGINAL_FUSION_DIR/prompt_master_main.md" . 2>/dev/null || echo "⚠️ prompt_master_main.md already exists"
 fi
 
-# Copy all agent files (if they exist in parent directory)
+# Copy all agent files
 echo "🤖 Installing all 32 Fusion agents..."
-if [ -d "../agents" ]; then
-    cp ../agents/*.py agents/ 2>/dev/null || echo "⚠️ agents already exist"
+if [ -d "$ORIGINAL_FUSION_DIR/agents" ]; then
+    echo "📁 Copying agents..."
+    cp "$ORIGINAL_FUSION_DIR/agents"/*.py agents/ 2>/dev/null || echo "⚠️ agents already exist"
 fi
 
-# Copy bootstrap and plugin system (if they exist in parent directory)
-if [ -f "../fusion_bootstrap.py" ]; then
-    cp ../fusion_bootstrap.py . 2>/dev/null || echo "⚠️ fusion_bootstrap.py already exists"
+# Copy bootstrap and plugin system
+if [ -f "$ORIGINAL_FUSION_DIR/fusion_bootstrap.py" ]; then
+    echo "📄 Copying fusion_bootstrap.py..."
+    cp "$ORIGINAL_FUSION_DIR/fusion_bootstrap.py" . 2>/dev/null || echo "⚠️ fusion_bootstrap.py already exists"
 fi
 
-if [ -f "../fusion_plugin_registry.py" ]; then
-    cp ../fusion_plugin_registry.py . 2>/dev/null || echo "⚠️ fusion_plugin_registry.py already exists"
+if [ -f "$ORIGINAL_FUSION_DIR/fusion_plugin_registry.py" ]; then
+    echo "📄 Copying fusion_plugin_registry.py..."
+    cp "$ORIGINAL_FUSION_DIR/fusion_plugin_registry.py" . 2>/dev/null || echo "⚠️ fusion_plugin_registry.py already exists"
+fi
+
+# Copy agents_combined.py if it exists
+if [ -f "$ORIGINAL_FUSION_DIR/agents_combined.py" ]; then
+    echo "📄 Copying agents_combined.py..."
+    cp "$ORIGINAL_FUSION_DIR/agents_combined.py" . 2>/dev/null || echo "⚠️ agents_combined.py already exists"
 fi
 
 # Install required dependencies
