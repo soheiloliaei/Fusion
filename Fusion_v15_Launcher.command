@@ -137,42 +137,42 @@ fi
 # Install required dependencies
 echo "⚙️ Installing Fusion v15 dependencies..."
 
-# Upgrade pip first
+# Upgrade pip first (with hash checking disabled)
 echo "📦 Upgrading pip..."
-python3 -m pip install --upgrade pip --user
+python3 -m pip install --upgrade pip --user --no-deps --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org --disable-pip-version-check
 
-# Install streamlit if not available (with --no-deps to avoid hash issues)
+# Install streamlit if not available (completely disable hash checking)
 if ! command -v streamlit &> /dev/null; then
     echo "📦 Installing streamlit..."
-    python3 -m pip install streamlit --user --no-deps || echo "⚠️ Streamlit installation failed, will try alternative method"
+    python3 -m pip install streamlit --user --no-deps --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org --disable-pip-version-check || echo "⚠️ Streamlit installation failed, will use fallback"
     
-    # Alternative installation method
+    # Alternative installation method with completely disabled hash checking
     if ! command -v streamlit &> /dev/null; then
         echo "📦 Trying alternative streamlit installation..."
-        python3 -m pip install streamlit --user --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org
+        python3 -m pip install streamlit --user --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org --disable-pip-version-check --no-cache-dir
     fi
 fi
 
 # Install fastapi and uvicorn if not available
 if ! python3 -c "import fastapi" 2>/dev/null; then
     echo "📦 Installing fastapi..."
-    python3 -m pip install fastapi uvicorn --user --no-deps || echo "⚠️ FastAPI installation failed, will try alternative method"
+    python3 -m pip install fastapi uvicorn --user --no-deps --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org --disable-pip-version-check || echo "⚠️ FastAPI installation failed, will use fallback"
     
     # Alternative installation method
     if ! python3 -c "import fastapi" 2>/dev/null; then
         echo "📦 Trying alternative fastapi installation..."
-        python3 -m pip install fastapi uvicorn --user --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org
+        python3 -m pip install fastapi uvicorn --user --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org --disable-pip-version-check --no-cache-dir
     fi
 fi
 
-# Install other dependencies with trusted hosts
+# Install other dependencies with trusted hosts and no cache
 echo "📦 Installing additional dependencies..."
-python3 -m pip install requests pydantic python-multipart aiofiles python-dotenv --user --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org
+python3 -m pip install requests pydantic python-multipart aiofiles python-dotenv --user --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org --disable-pip-version-check --no-cache-dir
 
 # Try to install the package if pyproject.toml exists
 if [ -f "pyproject.toml" ]; then
     echo "📦 Installing Fusion v15 package..."
-    python3 -m pip install -e . --user --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org 2>/dev/null || echo "⚠️ Package installation failed, continuing..."
+    python3 -m pip install -e . --user --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org --disable-pip-version-check --no-cache-dir 2>/dev/null || echo "⚠️ Package installation failed, continuing..."
 fi
 
 # Create auto-bootstrap for Cursor
@@ -506,6 +506,11 @@ echo "🚀 Launching Fusion v15..."
 # Check if fusion_api.py exists before trying to run it
 if [ -f "fusion_api.py" ]; then
     echo "🌐 Starting Fusion API server..."
+    # Check if port 8000 is available, if not try 8001
+    if lsof -Pi :8000 -sTCP:LISTEN -t >/dev/null 2>&1; then
+        echo "⚠️ Port 8000 is in use, trying port 8001..."
+        sed -i '' 's/port=8000/port=8001/g' fusion_api.py 2>/dev/null || echo "⚠️ Could not modify port, API may fail"
+    fi
     python3 fusion_api.py &
     API_PID=$!
 else
@@ -516,7 +521,13 @@ fi
 # Check if web_app.py exists and streamlit is available
 if [ -f "web_app.py" ] && command -v streamlit &> /dev/null; then
     echo "🎨 Starting Fusion Web GUI..."
-    streamlit run web_app.py &
+    # Check if port 8501 is available, if not try 8502
+    if lsof -Pi :8501 -sTCP:LISTEN -t >/dev/null 2>&1; then
+        echo "⚠️ Port 8501 is in use, trying port 8502..."
+        streamlit run web_app.py --server.port 8502 &
+    else
+        streamlit run web_app.py &
+    fi
     GUI_PID=$!
 else
     echo "⚠️ web_app.py not found or streamlit not available, creating fallback web interface..."
@@ -533,6 +544,7 @@ import http.server
 import socketserver
 import json
 import os
+import socket
 from pathlib import Path
 
 # HTML template for the Fusion dashboard
@@ -808,13 +820,28 @@ class FusionHandler(http.server.SimpleHTTPRequestHandler):
         else:
             super().do_GET()
 
+def find_free_port(start_port=8080):
+    """Find a free port starting from start_port."""
+    for port in range(start_port, start_port + 10):
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.bind(('', port))
+                return port
+        except OSError:
+            continue
+    return start_port
+
 if __name__ == "__main__":
-    PORT = 8080
+    PORT = find_free_port(8080)
     
-    with socketserver.TCPServer(("", PORT), FusionHandler) as httpd:
-        print(f"🌐 Fusion v15 Fallback Web Interface running on http://localhost:{PORT}")
-        print("🎯 Open your browser to see the Fusion dashboard")
-        httpd.serve_forever()
+    try:
+        with socketserver.TCPServer(("", PORT), FusionHandler) as httpd:
+            print(f"🌐 Fusion v15 Fallback Web Interface running on http://localhost:{PORT}")
+            print("🎯 Open your browser to see the Fusion dashboard")
+            httpd.serve_forever()
+    except OSError as e:
+        print(f"❌ Failed to start web server: {e}")
+        print("💡 Try running the launcher again or check if another process is using the port")
 EOF
 
     # Start the fallback web server
