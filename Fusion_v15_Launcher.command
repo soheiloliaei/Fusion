@@ -2,15 +2,25 @@
 
 echo "🚀 Installing Fusion v15 Complete System..."
 
-# Set working directory
-PROJECT_DIR=$(pwd)
-FUSION_DIR="$PROJECT_DIR/fusion_v15"
+# Get the directory where the launcher is located
+LAUNCHER_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+echo "📁 Launcher Directory: $LAUNCHER_DIR"
 
-echo "📁 Project: $PROJECT_DIR"
+# Set working directory to launcher directory
+cd "$LAUNCHER_DIR"
+echo "📁 Working Directory: $(pwd)"
 
 # Check if Python is available
 if ! command -v python3 &> /dev/null; then
     echo "❌ Error: Python 3 is required but not installed"
+    exit 1
+fi
+
+# Check if we're in a Fusion project directory
+if [ ! -f "fusion.py" ] && [ ! -f "fusion_api.py" ]; then
+    echo "❌ Error: Not in a Fusion project directory"
+    echo "Please run this launcher from a directory containing Fusion v15 files"
+    echo "Or copy the launcher to your Fusion project directory"
     exit 1
 fi
 
@@ -32,39 +42,98 @@ mkdir -p agents
 # Copy all core Fusion v15 files
 echo "📦 Installing Fusion v15 core components..."
 
-# Copy fusion_core files
-cp -r fusion_core/* fusion_core/ 2>/dev/null || echo "⚠️ fusion_core already exists"
+# Copy fusion_core files (if they exist in parent directory)
+if [ -d "../fusion_core" ]; then
+    cp -r ../fusion_core/* fusion_core/ 2>/dev/null || echo "⚠️ fusion_core already exists"
+fi
 
-# Copy main Fusion files
-cp fusion_api.py . 2>/dev/null || echo "⚠️ fusion_api.py already exists"
-cp web_app.py . 2>/dev/null || echo "⚠️ web_app.py already exists"
-cp fusion.py . 2>/dev/null || echo "⚠️ fusion.py already exists"
+# Copy main Fusion files (if they exist in parent directory)
+if [ -f "../fusion_api.py" ]; then
+    cp ../fusion_api.py . 2>/dev/null || echo "⚠️ fusion_api.py already exists"
+fi
 
-# Copy configuration files
-cp agent_manifest.json . 2>/dev/null || echo "⚠️ agent_manifest.json already exists"
-cp requirements.txt . 2>/dev/null || echo "⚠️ requirements.txt already exists"
-cp pyproject.toml . 2>/dev/null || echo "⚠️ pyproject.toml already exists"
-cp Dockerfile . 2>/dev/null || echo "⚠️ Dockerfile already exists"
+if [ -f "../web_app.py" ]; then
+    cp ../web_app.py . 2>/dev/null || echo "⚠️ web_app.py already exists"
+fi
 
-# Copy documentation
-cp FUSION_V15_README.md . 2>/dev/null || echo "⚠️ FUSION_V15_README.md already exists"
-cp FUSION_V15_DELIVERY_SUMMARY.md . 2>/dev/null || echo "⚠️ FUSION_V15_DELIVERY_SUMMARY.md already exists"
+if [ -f "../fusion.py" ]; then
+    cp ../fusion.py . 2>/dev/null || echo "⚠️ fusion.py already exists"
+fi
 
-# Copy prompt masters
-cp prompt_master_short.md . 2>/dev/null || echo "⚠️ prompt_master_short.md already exists"
-cp prompt_master_main.md . 2>/dev/null || echo "⚠️ prompt_master_main.md already exists"
+# Copy configuration files (if they exist in parent directory)
+if [ -f "../agent_manifest.json" ]; then
+    cp ../agent_manifest.json . 2>/dev/null || echo "⚠️ agent_manifest.json already exists"
+fi
 
-# Copy all agent files
+if [ -f "../requirements.txt" ]; then
+    cp ../requirements.txt . 2>/dev/null || echo "⚠️ requirements.txt already exists"
+fi
+
+if [ -f "../pyproject.toml" ]; then
+    cp ../pyproject.toml . 2>/dev/null || echo "⚠️ pyproject.toml already exists"
+fi
+
+if [ -f "../Dockerfile" ]; then
+    cp ../Dockerfile . 2>/dev/null || echo "⚠️ Dockerfile already exists"
+fi
+
+# Copy documentation (if they exist in parent directory)
+if [ -f "../FUSION_V15_README.md" ]; then
+    cp ../FUSION_V15_README.md . 2>/dev/null || echo "⚠️ FUSION_V15_README.md already exists"
+fi
+
+if [ -f "../FUSION_V15_DELIVERY_SUMMARY.md" ]; then
+    cp ../FUSION_V15_DELIVERY_SUMMARY.md . 2>/dev/null || echo "⚠️ FUSION_V15_DELIVERY_SUMMARY.md already exists"
+fi
+
+# Copy prompt masters (if they exist in parent directory)
+if [ -f "../prompt_master_short.md" ]; then
+    cp ../prompt_master_short.md . 2>/dev/null || echo "⚠️ prompt_master_short.md already exists"
+fi
+
+if [ -f "../prompt_master_main.md" ]; then
+    cp ../prompt_master_main.md . 2>/dev/null || echo "⚠️ prompt_master_main.md already exists"
+fi
+
+# Copy all agent files (if they exist in parent directory)
 echo "🤖 Installing all 32 Fusion agents..."
-cp agents/*.py agents/ 2>/dev/null || echo "⚠️ agents already exist"
+if [ -d "../agents" ]; then
+    cp ../agents/*.py agents/ 2>/dev/null || echo "⚠️ agents already exist"
+fi
 
-# Copy bootstrap and plugin system
-cp fusion_bootstrap.py . 2>/dev/null || echo "⚠️ fusion_bootstrap.py already exists"
-cp fusion_plugin_registry.py . 2>/dev/null || echo "⚠️ fusion_plugin_registry.py already exists"
+# Copy bootstrap and plugin system (if they exist in parent directory)
+if [ -f "../fusion_bootstrap.py" ]; then
+    cp ../fusion_bootstrap.py . 2>/dev/null || echo "⚠️ fusion_bootstrap.py already exists"
+fi
 
-# Install Fusion v15 package
+if [ -f "../fusion_plugin_registry.py" ]; then
+    cp ../fusion_plugin_registry.py . 2>/dev/null || echo "⚠️ fusion_plugin_registry.py already exists"
+fi
+
+# Install required dependencies
 echo "⚙️ Installing Fusion v15 dependencies..."
-pip install -e . 2>/dev/null || echo "⚠️ Package already installed"
+
+# Install streamlit if not available
+if ! command -v streamlit &> /dev/null; then
+    echo "📦 Installing streamlit..."
+    pip3 install streamlit
+fi
+
+# Install fastapi and uvicorn if not available
+if ! python3 -c "import fastapi" 2>/dev/null; then
+    echo "📦 Installing fastapi..."
+    pip3 install fastapi uvicorn
+fi
+
+# Install other dependencies
+echo "📦 Installing additional dependencies..."
+pip3 install requests pydantic python-multipart aiofiles python-dotenv
+
+# Try to install the package if pyproject.toml exists
+if [ -f "pyproject.toml" ]; then
+    echo "📦 Installing Fusion v15 package..."
+    pip3 install -e . 2>/dev/null || echo "⚠️ Package installation failed, continuing..."
+fi
 
 # Create auto-bootstrap for Cursor
 echo "🧠 Creating Cursor auto-bootstrap..."
@@ -394,15 +463,25 @@ echo "🎉 Fusion v15 Complete System Installed!"
 echo ""
 echo "🚀 Launching Fusion v15..."
 
-# Start API server in background
-echo "🌐 Starting Fusion API server..."
-python3 fusion_api.py &
-API_PID=$!
+# Check if fusion_api.py exists before trying to run it
+if [ -f "fusion_api.py" ]; then
+    echo "🌐 Starting Fusion API server..."
+    python3 fusion_api.py &
+    API_PID=$!
+else
+    echo "⚠️ fusion_api.py not found, skipping API server"
+    API_PID=""
+fi
 
-# Start Web GUI in background
-echo "🎨 Starting Fusion Web GUI..."
-streamlit run web_app.py &
-GUI_PID=$!
+# Check if web_app.py exists and streamlit is available
+if [ -f "web_app.py" ] && command -v streamlit &> /dev/null; then
+    echo "🎨 Starting Fusion Web GUI..."
+    streamlit run web_app.py &
+    GUI_PID=$!
+else
+    echo "⚠️ web_app.py not found or streamlit not available, skipping Web GUI"
+    GUI_PID=""
+fi
 
 # Wait a moment for services to start
 sleep 3
@@ -410,8 +489,15 @@ sleep 3
 echo ""
 echo "✅ Fusion v15 is now running!"
 echo ""
-echo "🌐 API Server: http://localhost:8000"
-echo "🎨 Web GUI: http://localhost:8501"
+
+if [ ! -z "$API_PID" ]; then
+    echo "🌐 API Server: http://localhost:8000"
+fi
+
+if [ ! -z "$GUI_PID" ]; then
+    echo "🎨 Web GUI: http://localhost:8501"
+fi
+
 echo ""
 echo "🎯 In Cursor, you can now use:"
 echo "   ask('your prompt', 'agent_name')"
@@ -424,4 +510,13 @@ echo "   - cursor_startup.py (auto-load script)"
 echo "   - .cursorrules (Cursor integration)"
 echo "   - README.md (project documentation)"
 echo ""
-echo "🛑 To stop Fusion: kill $API_PID $GUI_PID" 
+
+if [ ! -z "$API_PID" ] || [ ! -z "$GUI_PID" ]; then
+    echo "🛑 To stop Fusion:"
+    if [ ! -z "$API_PID" ]; then
+        echo "   kill $API_PID"
+    fi
+    if [ ! -z "$GUI_PID" ]; then
+        echo "   kill $GUI_PID"
+    fi
+fi 
