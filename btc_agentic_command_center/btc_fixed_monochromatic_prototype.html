@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin Advocate Hub - Fixed Monochromatic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'geist': ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        'background': '#ffffff',
+                        'foreground': '#0a0a0a',
+                        'muted': '#f5f5f5',
+                        'muted-foreground': '#737373',
+                        'border': '#e5e5e5',
+                        'input': '#f5f5f5',
+                        'primary': '#0a0a0a',
+                        'primary-foreground': '#ffffff',
+                        'secondary': '#f5f5f5',
+                        'secondary-foreground': '#0a0a0a',
+                        'accent': '#f5f5f5',
+                        'accent-foreground': '#0a0a0a',
+                        'destructive': '#0a0a0a',
+                        'destructive-foreground': '#ffffff',
+                        'ring': '#0a0a0a',
+                        'radius': '14px',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-out',
+                        'slide-up': 'slideUp 0.3s ease-out',
+                        'scale-in': 'scaleIn 0.2s ease-out',
+                        'pulse-slow': 'pulse 3s infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        scaleIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+            background: #ffffff;
+            color: #0a0a0a;
+        }
+
+        /* ShadCN Button Component - MONOCHROMATIC */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn:focus-visible {
+            outline: 2px solid #0a0a0a;
+            outline-offset: 2px;
+        }
+
+        .btn-primary {
+            background: #0a0a0a;
+            color: #ffffff;
+            padding: 12px 24px;
+            font-size: 14px;
+        }
+
+        .btn-primary:hover {
+            background: #262626;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #0a0a0a;
+            border: 1px solid #e5e5e5;
+            padding: 12px 24px;
+            font-size: 14px;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e5e5;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: #0a0a0a;
+            padding: 12px 24px;
+            font-size: 14px;
+        }
+
+        .btn-ghost:hover {
+            background: #f5f5f5;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+
+        /* ShadCN Card Component - MONOCHROMATIC */
+        .card {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 14px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            padding: 24px 24px 0 24px;
+        }
+
+        .card-content {
+            padding: 24px;
+        }
+
+        .card-footer {
+            padding: 0 24px 24px 24px;
+        }
+
+        /* ShadCN Input Component - MONOCHROMATIC */
+        .input {
+            display: flex;
+            height: 44px;
+            width: 100%;
+            border-radius: 14px;
+            border: 1px solid #e5e5e5;
+            background: #ffffff;
+            padding: 0 16px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: #0a0a0a;
+            box-shadow: 0 0 0 2px rgba(10, 10, 10, 0.1);
+        }
+
+        .input:hover {
+            border-color: #737373;
+        }
+
+        /* ShadCN Badge Component - MONOCHROMATIC */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 9999px;
+            font-weight: 500;
+            font-size: 12px;
+            padding: 4px 12px;
+            transition: all 0.2s ease;
+        }
+
+        .badge-primary {
+            background: #0a0a0a;
+            color: #ffffff;
+        }
+
+        .badge-secondary {
+            background: #f5f5f5;
+            color: #0a0a0a;
+        }
+
+        .badge-destructive {
+            background: #0a0a0a;
+            color: #ffffff;
+        }
+
+        .badge-success {
+            background: #0a0a0a;
+            color: #ffffff;
+        }
+
+        .badge-warning {
+            background: #737373;
+            color: #ffffff;
+        }
+
+        /* Loading States */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #e5e5e5;
+            border-radius: 50%;
+            border-top-color: #0a0a0a;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Status Indicators - MONOCHROMATIC */
+        .status-online {
+            background: #0a0a0a;
+            color: #ffffff;
+        }
+
+        .status-offline {
+            background: #737373;
+            color: #ffffff;
+        }
+
+        .status-busy {
+            background: #737373;
+            color: #ffffff;
+        }
+
+        /* Message Bubbles - MONOCHROMATIC */
+        .message-bubble {
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin: 8px 0;
+            max-width: 80%;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .message-bubble.customer {
+            background: #f5f5f5;
+            color: #0a0a0a;
+            margin-left: auto;
+        }
+
+        .message-bubble.advocate {
+            background: #0a0a0a;
+            color: #ffffff;
+        }
+
+        .message-bubble.ai {
+            background: #f5f5f5;
+            border: 1px solid #e5e5e5;
+            color: #0a0a0a;
+        }
+
+        /* Phase Transitions - MONOCHROMATIC */
+        .phase-transition {
+            transition: all 0.3s ease;
+        }
+
+        .phase-gathering {
+            border-left: 4px solid #737373;
+        }
+
+        .phase-solving {
+            border-left: 4px solid #0a0a0a;
+        }
+
+        .phase-resolution {
+            border-left: 4px solid #737373;
+        }
+
+        /* Progress Bar - MONOCHROMATIC */
+        .progress-bar {
+            background: #e5e5e5;
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-gathering {
+            background: #737373;
+        }
+
+        .progress-solving {
+            background: #0a0a0a;
+        }
+
+        .progress-resolution {
+            background: #737373;
+        }
+
+        /* Hidden States */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Fade Animations */
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .slide-up {
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .scale-in {
+            animation: scaleIn 0.2s ease-out;
+        }
+
+        /* Hover Effects */
+        .hover-lift {
+            transition: all 0.2s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Focus States */
+        .focus-ring:focus {
+            outline: 2px solid #0a0a0a;
+            outline-offset: 2px;
+        }
+
+        /* Disabled States */
+        .disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* AI Response Area */
+        .ai-response-area {
+            background: #f5f5f5;
+            border: 1px solid #e5e5e5;
+            border-radius: 14px;
+            padding: 16px;
+            margin: 12px 0;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .ai-response-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .ai-response-content {
+            color: #0a0a0a;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="min-h-screen bg-background">
+
+        <!-- Login Screen - AUTO-FILLED -->
+        <div id="login-screen" class="min-h-screen flex items-center justify-center bg-muted">
+            <div class="card w-full max-w-md mx-4 scale-in">
+                <div class="card-header">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-primary-foreground font-bold text-2xl">₿</span>
+                        </div>
+                        <h1 class="text-2xl font-semibold text-foreground">Bitcoin Advocate Hub</h1>
+                        <p class="text-muted-foreground mt-2">Sign in to your advocate account</p>
+                    </div>
+                </div>
+
+                <div class="card-content">
+                    <form id="login-form" class="space-y-4">
+                        <div>
+                            <label class="text-sm font-medium text-foreground mb-2 block">Email</label>
+                            <input type="email" id="email" class="input" value="advocate@cashapp.com" readonly>
+                        </div>
+
+                        <div>
+                            <label class="text-sm font-medium text-foreground mb-2 block">Password</label>
+                            <input type="password" id="password" class="input" value="••••••••" readonly>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-full" id="login-btn">
+                            <span id="login-text">Sign In</span>
+                            <span id="login-spinner" class="loading-spinner hidden ml-2"></span>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="card-footer">
+                    <p class="text-xs text-muted-foreground text-center">
+                        Auto-filled for demo purposes
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard -->
+        <div id="dashboard" class="hidden">
+
+            <!-- Navigation Bar -->
+            <nav class="bg-background border-b border-border px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                            <span class="text-primary-foreground font-bold text-sm">₿</span>
+                        </div>
+                        <span class="text-foreground font-medium">Bitcoin Advocate Hub</span>
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm text-muted-foreground" id="case-count">0 active cases</span>
+                            <div class="badge badge-secondary" id="status-badge">
+                                <div class="w-2 h-2 bg-muted-foreground rounded-full mr-2"></div>
+                                <span id="status-text">Offline</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" id="go-online-btn">
+                            Go Online
+                        </button>
+
+                        <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                            <span class="text-primary-foreground font-bold text-sm" id="user-initials">AM</span>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="max-w-7xl mx-auto px-6 py-8">
+
+                <!-- Welcome Section -->
+                <div class="mb-8 fade-in">
+                    <h1 class="text-3xl font-semibold text-foreground" id="welcome-text">
+                        Welcome back, Alex
+                    </h1>
+                    <p class="text-muted-foreground mt-2" id="status-description">
+                        You're currently offline. Click "Go Online" to start receiving cases.
+                    </p>
+                </div>
+
+                <!-- Cases Grid -->
+                <div id="cases-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 hidden">
+
+                    <!-- Case 1: High Priority Scam Detection -->
+                    <div class="card hover-lift cursor-pointer" onclick="openCase('BTC-2891')">
+                        <div class="card-content">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="badge badge-destructive">HIGH PRIORITY</div>
+                                <div class="badge badge-success">97% AI</div>
+                            </div>
+
+                            <div class="flex items-center space-x-3 mb-4">
+                                <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                                    <span class="text-primary-foreground font-bold">RW</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-foreground">BTC-2891</h3>
+                                    <p class="text-sm text-muted-foreground">Robert Wilson</p>
+                                </div>
+                            </div>
+
+                            <h4 class="text-foreground font-medium mb-2">Potential Scam Detection</h4>
+                            <p class="text-sm text-muted-foreground">$25,000 urgent BTC withdrawal - multiple red flags
+                                detected</p>
+                        </div>
+                    </div>
+
+                    <!-- Case 2: Medium Priority Speed Upgrade -->
+                    <div class="card hover-lift cursor-pointer" onclick="openCase('BTC-2889')">
+                        <div class="card-content">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="badge badge-warning">MEDIUM</div>
+                                <div class="badge badge-success">92% AI</div>
+                            </div>
+
+                            <div class="flex items-center space-x-3 mb-4">
+                                <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                                    <span class="text-primary-foreground font-bold">MC</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-foreground">BTC-2889</h3>
+                                    <p class="text-sm text-muted-foreground">Marcus Chen</p>
+                                </div>
+                            </div>
+
+                            <h4 class="text-foreground font-medium mb-2">Speed Upgrade Request</h4>
+                            <p class="text-sm text-muted-foreground">0.15 BTC withdrawal - customer requesting faster
+                                processing</p>
+                        </div>
+                    </div>
+
+                    <!-- Case 3: Low Priority Deposit Inquiry -->
+                    <div class="card hover-lift cursor-pointer" onclick="openCase('BTC-2890')">
+                        <div class="card-content">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="badge badge-secondary">LOW</div>
+                                <div class="badge badge-success">96% AI</div>
+                            </div>
+
+                            <div class="flex items-center space-x-3 mb-4">
+                                <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                                    <span class="text-primary-foreground font-bold">AL</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-foreground">BTC-2890</h3>
+                                    <p class="text-sm text-muted-foreground">Anna Liu</p>
+                                </div>
+                            </div>
+
+                            <h4 class="text-foreground font-medium mb-2">Deposit Confirmation</h4>
+                            <p class="text-sm text-muted-foreground">0.05 BTC deposit - customer seeking confirmation
+                                status</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Insights Panel -->
+                <div id="ai-insights" class="card hidden">
+                    <div class="card-header">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-lg font-semibold text-foreground">AI Agentic Insights</h2>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-foreground rounded-full pulse-slow"></div>
+                                <span class="text-sm text-muted-foreground">AI Active</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-content">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="text-center">
+                                <span class="text-sm text-muted-foreground">Cases Today</span>
+                                <div class="text-3xl font-semibold text-foreground mt-1">7</div>
+                                <span class="text-sm text-foreground">+2 from yesterday</span>
+                            </div>
+
+                            <div class="text-center">
+                                <span class="text-sm text-muted-foreground">Avg Resolution</span>
+                                <div class="text-3xl font-semibold text-foreground mt-1">3.2m</div>
+                                <span class="text-sm text-foreground">58% faster</span>
+                            </div>
+
+                            <div class="text-center">
+                                <span class="text-sm text-muted-foreground">AI Confidence</span>
+                                <div class="text-3xl font-semibold text-foreground mt-1">94%</div>
+                                <span class="text-sm text-foreground">High accuracy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Case Detail Modal -->
+        <div id="case-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="card w-full max-w-6xl mx-4 max-h-[90vh] overflow-y-auto scale-in">
+
+                <!-- Case Header -->
+                <div class="card-header">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <button class="btn btn-secondary" onclick="closeCase()">
+                                ← Back to Cases
+                            </button>
+                            <div>
+                                <h2 class="text-2xl font-semibold text-foreground" id="case-title">BTC-2891</h2>
+                                <p class="text-sm text-muted-foreground" id="case-subtitle">Potential Scam Detection</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-3">
+                            <div class="badge badge-success" id="case-confidence">97% AI</div>
+                            <div class="badge badge-destructive" id="case-priority">HIGH PRIORITY</div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="mt-6">
+                        <div class="flex justify-between text-xs text-muted-foreground mb-2">
+                            <span>Context Gathering</span>
+                            <span>Problem Solving</span>
+                            <span>Resolution</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-gathering" id="progress-fill" style="width: 35%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-content">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+                        <!-- Left: Context Panel -->
+                        <div class="space-y-6">
+
+                            <!-- Customer Context -->
+                            <div class="card phase-gathering">
+                                <div class="card-header">
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-lg font-semibold text-foreground">Customer Context</h3>
+                                        <div class="badge badge-destructive">URGENT</div>
+                                    </div>
+                                </div>
+
+                                <div class="card-content">
+                                    <div class="space-y-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div
+                                                class="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+                                                <span class="text-primary-foreground font-bold"
+                                                    id="customer-initials">RW</span>
+                                            </div>
+                                            <div>
+                                                <h4 class="text-lg font-semibold text-foreground" id="customer-name">
+                                                    Robert Wilson</h4>
+                                                <p class="text-sm text-muted-foreground" id="customer-email">
+                                                    robert.wilson@email.com</p>
+                                                <div class="flex items-center space-x-2 mt-1">
+                                                    <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                                                    <span class="text-xs text-foreground">Online</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="grid grid-cols-2 gap-4 text-sm">
+                                            <div>
+                                                <span class="text-muted-foreground">Account Since:</span>
+                                                <span class="text-foreground font-medium">Jan 15, 2024</span>
+                                            </div>
+                                            <div>
+                                                <span class="text-muted-foreground">Verification:</span>
+                                                <span class="text-foreground font-medium">✓ Verified</span>
+                                            </div>
+                                            <div>
+                                                <span class="text-muted-foreground">BTC Balance:</span>
+                                                <span class="text-foreground font-medium">0.4821 BTC</span>
+                                            </div>
+                                            <div>
+                                                <span class="text-muted-foreground">Risk Score:</span>
+                                                <span class="text-destructive font-medium">🔴 High</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Transaction Context -->
+                            <div class="card phase-gathering">
+                                <div class="card-header">
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-lg font-semibold text-foreground">Current Transaction</h3>
+                                        <div class="badge badge-warning">FLAGGED</div>
+                                    </div>
+                                </div>
+
+                                <div class="card-content">
+                                    <div class="space-y-3 text-sm">
+                                        <div class="flex justify-between">
+                                            <span class="text-muted-foreground">Amount:</span>
+                                            <span class="text-foreground font-mono font-medium">$25,000 USD</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-muted-foreground">BTC Amount:</span>
+                                            <span class="text-foreground font-mono font-medium">0.4576 BTC</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-muted-foreground">Destination:</span>
+                                            <span class="text-foreground font-mono font-medium">1A1z...Kx9m</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-muted-foreground">Status:</span>
+                                            <span class="text-destructive font-medium">🚨 PENDING REVIEW</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Quick Actions -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="text-lg font-semibold text-foreground">Quick Actions</h3>
+                                </div>
+
+                                <div class="card-content">
+                                    <div class="space-y-3">
+                                        <button class="btn btn-primary w-full btn-sm" onclick="protectCustomer()">
+                                            🛡️ Protect Customer (Recommended)
+                                        </button>
+                                        <button class="btn btn-secondary w-full btn-sm" onclick="pauseForReview()">
+                                            ⏸️ Pause for Review
+                                        </button>
+                                        <button class="btn btn-secondary w-full btn-sm" onclick="escalateCase()">
+                                            📞 Escalate to Senior
+                                        </button>
+                                        <button class="btn btn-secondary w-full btn-sm" onclick="addNote()">
+                                            📝 Add Internal Note
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Center: Chat Interface -->
+                        <div class="lg:col-span-2">
+                            <div class="card h-[600px] flex flex-col">
+                                <div class="card-header">
+                                    <h3 class="text-lg font-semibold text-foreground">3-Way Conversation</h3>
+                                </div>
+
+                                <div class="flex-1 overflow-y-auto p-6" id="chat-messages">
+
+                                    <!-- Customer's Initial Message -->
+                                    <div class="message-bubble customer slide-up">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <div
+                                                class="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                                                <span class="text-primary-foreground text-xs font-bold">C</span>
+                                            </div>
+                                            <span class="text-xs font-bold text-foreground">Robert Wilson</span>
+                                            <span class="text-xs text-muted-foreground">4:28 PM</span>
+                                        </div>
+                                        <p class="text-sm">I need to withdraw $25,000 in Bitcoin urgently. My trading
+                                            partner needs it for a time-sensitive investment opportunity. Please process
+                                            this immediately!</p>
+                                    </div>
+
+                                    <!-- AI Analysis -->
+                                    <div class="message-bubble ai slide-up">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <div
+                                                class="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                                                <span class="text-primary-foreground text-xs font-bold">AI</span>
+                                            </div>
+                                            <span class="text-xs font-bold text-foreground">AI Analysis</span>
+                                            <span class="text-xs text-muted-foreground">97% confidence</span>
+                                        </div>
+                                        <p class="text-sm">🚨 <strong>Scam detected:</strong> This matches pig
+                                            butchering patterns. Customer shows urgency, mentions "trading partner," and
+                                            requests large withdrawal from new account.</p>
+                                    </div>
+
+                                    <!-- AI Suggested Response -->
+                                    <div class="message-bubble ai slide-up">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <div
+                                                class="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                                                <span class="text-primary-foreground text-xs font-bold">AI</span>
+                                            </div>
+                                            <span class="text-xs font-bold text-foreground">Suggested Response</span>
+                                        </div>
+                                        <p class="text-sm mb-3">"Hi Robert, I want to help protect you. I've noticed
+                                            some patterns in your request that match common cryptocurrency scams. Before
+                                            processing this withdrawal, let's discuss your situation to ensure your
+                                            funds are safe. Can you tell me more about this trading partner and
+                                            investment opportunity?"</p>
+                                        <div class="flex space-x-2">
+                                            <button class="btn btn-primary btn-sm" onclick="approveResponse()">
+                                                ✓ Send
+                                            </button>
+                                            <button class="btn btn-secondary btn-sm" onclick="editResponse()">
+                                                ✏️ Edit
+                                            </button>
+                                            <button class="btn btn-secondary btn-sm" onclick="rejectResponse()">
+                                                ✗ Custom
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="card-footer">
+                                    <div class="flex space-x-3">
+                                        <textarea class="input flex-1 resize-none" rows="3"
+                                            placeholder="Type your message to customer or ask AI..."
+                                            id="chat-input"></textarea>
+                                        <div class="flex flex-col space-y-2">
+                                            <button class="btn btn-primary" onclick="sendMessage()">
+                                                📤 Send
+                                            </button>
+                                            <button class="btn btn-secondary" onclick="askAI()">
+                                                🤖 Ask AI
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPhase = 'gathering';
+        let isOnline = false;
+        let currentCase = null;
+
+        // Auto-fill login and skip to dashboard
+        document.addEventListener('DOMContentLoaded', function () {
+            // Auto-login after 1 second
+            setTimeout(() => {
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+            }, 1000);
+        });
+
+        // Go Online functionality
+        document.getElementById('go-online-btn').addEventListener('click', function () {
+            if (!isOnline) {
+                goOnline();
+            } else {
+                goOffline();
+            }
+        });
+
+        function goOnline() {
+            isOnline = true;
+            const btn = document.getElementById('go-online-btn');
+            const statusBadge = document.getElementById('status-badge');
+            const statusText = document.getElementById('status-text');
+            const welcomeText = document.getElementById('welcome-text');
+            const statusDescription = document.getElementById('status-description');
+            const casesGrid = document.getElementById('cases-grid');
+            const aiInsights = document.getElementById('ai-insights');
+
+            // Update button
+            btn.textContent = 'Go Offline';
+            btn.classList.remove('btn-primary');
+            btn.classList.add('btn-destructive');
+
+            // Update status
+            statusBadge.className = 'badge badge-success';
+            statusText.textContent = 'Online';
+
+            // Update welcome message
+            welcomeText.textContent = 'You\'re online and ready for cases';
+            statusDescription.textContent = 'You\'re currently receiving cases. 3 new cases assigned.';
+
+            // Show cases and insights
+            setTimeout(() => {
+                casesGrid.classList.remove('hidden');
+                aiInsights.classList.remove('hidden');
+            }, 1000);
+        }
+
+        function goOffline() {
+            isOnline = false;
+            const btn = document.getElementById('go-online-btn');
+            const statusBadge = document.getElementById('status-badge');
+            const statusText = document.getElementById('status-text');
+            const welcomeText = document.getElementById('welcome-text');
+            const statusDescription = document.getElementById('status-description');
+            const casesGrid = document.getElementById('cases-grid');
+            const aiInsights = document.getElementById('ai-insights');
+
+            // Update button
+            btn.textContent = 'Go Online';
+            btn.classList.remove('btn-destructive');
+            btn.classList.add('btn-primary');
+
+            // Update status
+            statusBadge.className = 'badge badge-secondary';
+            statusText.textContent = 'Offline';
+
+            // Update welcome message
+            welcomeText.textContent = 'Welcome back, Alex';
+            statusDescription.textContent = 'You\'re currently offline. Click "Go Online" to start receiving cases.';
+
+            // Hide cases and insights
+            casesGrid.classList.add('hidden');
+            aiInsights.classList.add('hidden');
+        }
+
+        function openCase(caseId) {
+            currentCase = caseId;
+
+            // Update case details
+            document.getElementById('case-title').textContent = caseId;
+            document.getElementById('case-subtitle').textContent = 'Potential Scam Detection';
+            document.getElementById('case-confidence').textContent = '97% AI';
+            document.getElementById('case-priority').textContent = 'HIGH PRIORITY';
+            document.getElementById('customer-initials').textContent = 'RW';
+            document.getElementById('customer-name').textContent = 'Robert Wilson';
+            document.getElementById('customer-email').textContent = 'robert.wilson@email.com';
+
+            // Show modal
+            document.getElementById('case-modal').classList.remove('hidden');
+        }
+
+        function closeCase() {
+            document.getElementById('case-modal').classList.add('hidden');
+            currentCase = null;
+        }
+
+        function protectCustomer() {
+            // Update phase to solving
+            currentPhase = 'solving';
+            document.getElementById('progress-fill').className = 'progress-fill progress-solving';
+            document.getElementById('progress-fill').style.width = '70%';
+
+            // Add AI action to chat
+            addAIAction("🛡️ <strong>Customer Protection Activated:</strong> Withdrawal paused, fraud review initiated, customer education materials prepared.");
+
+            // Show next steps
+            setTimeout(() => {
+                addAISuggestion("Next steps: 1) Educate customer about scams, 2) Document interaction, 3) Monitor for similar patterns");
+            }, 2000);
+        }
+
+        function pauseForReview() {
+            addAIAction("⏸️ <strong>Case Paused:</strong> Withdrawal temporarily suspended for manual review by senior advocate.");
+        }
+
+        function escalateCase() {
+            addAIAction("📞 <strong>Case Escalated:</strong> Senior advocate notified. Case transferred to fraud prevention team.");
+        }
+
+        function addNote() {
+            const note = prompt('Add internal note:');
+            if (note) {
+                addAIAction(`📝 <strong>Internal Note Added:</strong> ${note}`);
+            }
+        }
+
+        function approveResponse() {
+            // Remove AI suggestion
+            const suggestions = document.querySelectorAll('.message-bubble.ai');
+            suggestions[suggestions.length - 1].remove();
+
+            // Add advocate message
+            addAdvocateMessage("Hi Robert, I want to help protect you. I've noticed some patterns in your request that match common cryptocurrency scams. Before processing this withdrawal, let's discuss your situation to ensure your funds are safe. Can you tell me more about this trading partner and investment opportunity?");
+
+            // Simulate customer response
+            setTimeout(() => {
+                addCustomerMessage("What do you mean scam? This is a legitimate investment opportunity! My partner has made me $50,000 already and now we need to move quickly on this deal.");
+            }, 3000);
+        }
+
+        function editResponse() {
+            const newMessage = prompt('Edit the response:', 'Hi Robert, I want to help protect you...');
+            if (newMessage) {
+                const suggestionText = document.querySelector('.message-bubble.ai:last-child p');
+                suggestionText.textContent = newMessage;
+                alert('Response edited. Please review and approve.');
+            }
+        }
+
+        function rejectResponse() {
+            document.querySelector('.message-bubble.ai:last-child').remove();
+            document.getElementById('chat-input').focus();
+            alert('AI response rejected. Write your custom message below.');
+        }
+
+        function sendMessage() {
+            const messageText = document.getElementById('chat-input').value;
+            if (!messageText.trim()) return;
+
+            addAdvocateMessage(messageText);
+            document.getElementById('chat-input').value = '';
+        }
+
+        function askAI() {
+            const question = document.getElementById('chat-input').value;
+            if (!question.trim()) {
+                alert('Please type a question first, then click "Ask AI"');
+                return;
+            }
+
+            // Clear the input
+            document.getElementById('chat-input').value = '';
+
+            // Show AI response in a dedicated area
+            const chatMessages = document.getElementById('chat-messages');
+            const aiResponseDiv = document.createElement('div');
+            aiResponseDiv.className = 'ai-response-area slide-up';
+            aiResponseDiv.innerHTML = `
+                <div class="ai-response-header">
+                    <div class="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                        <span class="text-primary-foreground text-xs font-bold">AI</span>
+                    </div>
+                    <span class="text-xs font-bold text-foreground">AI Response to: "${question}"</span>
+                </div>
+                <div class="ai-response-content">
+                    <p><strong>Analysis:</strong> Based on your question "${question}", here's what I found:</p>
+                    <ul class="mt-2 space-y-1">
+                        <li>• This confirms the scam pattern detection</li>
+                        <li>• The customer's urgency is a classic red flag</li>
+                        <li>• Recommend maintaining the withdrawal pause</li>
+                        <li>• Continue with customer education approach</li>
+                    </ul>
+                    <p class="mt-2"><strong>Confidence:</strong> 94% - High confidence in scam detection</p>
+                </div>
+            `;
+            chatMessages.appendChild(aiResponseDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addAIAction(action) {
+            const chatMessages = document.getElementById('chat-messages');
+            const actionDiv = document.createElement('div');
+            actionDiv.className = 'message-bubble ai slide-up';
+            actionDiv.innerHTML = `
+                <div class="flex items-center gap-2 mb-2">
+                    <div class="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                        <span class="text-primary-foreground text-xs font-bold">AI</span>
+                    </div>
+                    <span class="text-xs font-bold text-foreground">AI Action</span>
+                </div>
+                <p class="text-sm">${action}</p>
+            `;
+            chatMessages.appendChild(actionDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addAISuggestion(suggestion) {
+            const chatMessages = document.getElementById('chat-messages');
+            const suggestionDiv = document.createElement('div');
+            suggestionDiv.className = 'message-bubble ai slide-up';
+            suggestionDiv.innerHTML = `
+                <div class="flex items-center gap-2 mb-2">
+                    <div class="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                        <span class="text-primary-foreground text-xs font-bold">AI</span>
+                    </div>
+                    <span class="text-xs font-bold text-foreground">AI Suggestion</span>
+                </div>
+                <p class="text-sm">${suggestion}</p>
+            `;
+            chatMessages.appendChild(suggestionDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addAdvocateMessage(message) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message-bubble advocate slide-up';
+            messageDiv.innerHTML = `
+                <div class="flex items-center gap-2 mb-2">
+                    <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                        <span class="text-primary-foreground text-xs font-bold">A</span>
+                    </div>
+                    <span class="text-xs font-bold text-foreground">Alex Morgan (You)</span>
+                    <span class="text-xs text-muted-foreground">4:32 PM</span>
+                </div>
+                <p class="text-sm">${message}</p>
+            `;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addCustomerMessage(message) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message-bubble customer slide-up';
+            messageDiv.innerHTML = `
+                <div class="flex items-center gap-2 mb-2">
+                    <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                        <span class="text-primary-foreground text-xs font-bold">C</span>
+                    </div>
+                    <span class="text-xs font-bold text-foreground">Robert Wilson</span>
+                    <span class="text-xs text-muted-foreground">4:33 PM</span>
+                </div>
+                <p class="text-sm">${message}</p>
+            `;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('case-modal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeCase();
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function (e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+
+</html>

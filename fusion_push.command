@@ -2,6 +2,7 @@
 
 # Fusion v14 Auto-Push Script
 # Commits and pushes to GitHub with timestamp
+# Works from any location by finding the correct Fusion v14 directory
 
 set -e  # Exit on any error
 
@@ -19,10 +20,43 @@ echo -e "${BLUE}🚀 Fusion v14 Auto-Push Script${NC}"
 echo -e "${BLUE}Timestamp: ${TIMESTAMP}${NC}"
 echo ""
 
+# Find the Fusion v14 directory
+FUSION_DIR=""
+POSSIBLE_PATHS=(
+    "/Users/soheil/Desktop/Fusion_v14"
+    "/Users/soheil/Desktop/Fusion_v14_Desktop"
+    "/Users/soheil/fusion_v13"
+    "$(pwd)"
+)
+
+for path in "${POSSIBLE_PATHS[@]}"; do
+    if [ -d "$path" ] && [ -f "$path/fusion.py" ] && [ -d "$path/.git" ]; then
+        FUSION_DIR="$path"
+        break
+    fi
+done
+
+if [ -z "$FUSION_DIR" ]; then
+    echo -e "${RED}❌ Error: Could not find Fusion v14 directory${NC}"
+    echo "Please ensure you're running this from a Fusion v14 directory with git repository"
+    echo "Expected locations:"
+    for path in "${POSSIBLE_PATHS[@]}"; do
+        echo "  - $path"
+    done
+    exit 1
+fi
+
+echo -e "${BLUE}📍 Found Fusion v14 directory: $FUSION_DIR${NC}"
+
+# Change to the Fusion v14 directory
+cd "$FUSION_DIR"
+echo -e "${BLUE}📁 Changed to directory: $(pwd)${NC}"
+
 # Check if we're in a git repository
 if ! git rev-parse --git-dir > /dev/null 2>&1; then
     echo -e "${RED}❌ Error: Not in a git repository${NC}"
-    echo "Please run this script from a git repository directory"
+    echo "Directory: $(pwd)"
+    echo "Please ensure this is a git repository"
     exit 1
 fi
 
@@ -30,6 +64,7 @@ fi
 if git diff-index --quiet HEAD --; then
     echo -e "${YELLOW}⚠️ No changes to commit${NC}"
     echo "Working directory is clean"
+    echo -e "${GREEN}✅ Fusion v14 is up to date!${NC}"
     exit 0
 fi
 
@@ -54,7 +89,8 @@ COMMIT_MESSAGE="Fusion v14 update - $TIMESTAMP
 Auto-commit from Fusion v14 system
 - Timestamp: $TIMESTAMP
 - Branch: $CURRENT_BRANCH
-- Changed files: $(echo "$CHANGED_FILES" | wc -l | tr -d ' ')"
+- Changed files: $(echo "$CHANGED_FILES" | wc -l | tr -d ' ')
+- Directory: $FUSION_DIR"
 
 echo -e "${BLUE}💾 Creating commit...${NC}"
 echo -e "${BLUE}Commit message:${NC}"
@@ -77,6 +113,7 @@ if git remote get-url origin > /dev/null 2>&1; then
         echo -e "${GREEN}✅ Successfully pushed to remote${NC}"
         echo -e "${GREEN}Branch: $CURRENT_BRANCH${NC}"
         echo -e "${GREEN}Commit: ${COMMIT_HASH:0:8}${NC}"
+        echo -e "${GREEN}Repository: $(git remote get-url origin)${NC}"
     else
         echo -e "${RED}❌ Failed to push to remote${NC}"
         echo "You may need to:"
@@ -94,4 +131,5 @@ fi
 
 echo ""
 echo -e "${GREEN}🎉 Fusion v14 auto-push completed successfully!${NC}"
-echo -e "${BLUE}Timestamp: $TIMESTAMP${NC}" 
+echo -e "${BLUE}Timestamp: $TIMESTAMP${NC}"
+echo -e "${BLUE}Directory: $FUSION_DIR${NC}" 

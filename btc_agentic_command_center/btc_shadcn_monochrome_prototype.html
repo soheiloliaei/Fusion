@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTC Support - ShadCN Monochrome with 3-Way Conversation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        'custom': '14px',
+                        'lg': '14px',
+                        'md': '12px',
+                        'sm': '10px',
+                    },
+                    colors: {
+                        // Monochromic theme - blacks, whites, grays only
+                        background: '#ffffff',
+                        foreground: '#0a0a0a',
+                        primary: {
+                            DEFAULT: '#171717',
+                            foreground: '#ffffff',
+                        },
+                        secondary: {
+                            DEFAULT: '#f5f5f5',
+                            foreground: '#171717',
+                        },
+                        muted: {
+                            DEFAULT: '#f5f5f5',
+                            foreground: '#737373',
+                        },
+                        accent: {
+                            DEFAULT: '#e5e5e5',
+                            foreground: '#171717',
+                        },
+                        border: '#e5e5e5',
+                        input: '#f5f5f5',
+                        ring: '#404040',
+                        card: {
+                            DEFAULT: '#ffffff',
+                            foreground: '#0a0a0a',
+                        },
+                        // Status colors in grayscale
+                        success: '#525252',
+                        warning: '#737373',
+                        destructive: '#262626',
+                    },
+                    boxShadow: {
+                        'custom': '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)',
+                        'custom-md': '0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06)',
+                        'custom-lg': '0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Geist', sans-serif;
+            background: #ffffff;
+            color: #0a0a0a;
+        }
+
+        .tile {
+            background: #ffffff;
+            border-radius: 14px;
+            border: 1px solid #e5e5e5;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .conversation-message {
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .message-customer {
+            background: #f5f5f5;
+            border-left: 3px solid #737373;
+        }
+
+        .message-ai {
+            background: #171717;
+            color: #ffffff;
+            border-left: 3px solid #525252;
+        }
+
+        .message-advocate {
+            background: #e5e5e5;
+            border-left: 3px solid #404040;
+        }
+
+        .btn-primary {
+            background: #171717;
+            color: #ffffff;
+            border-radius: 14px;
+            padding: 12px 24px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background: #262626;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #171717;
+            border: 1px solid #e5e5e5;
+            border-radius: 14px;
+            padding: 12px 24px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e5e5;
+        }
+
+        .status-online {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #525252;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        .typing-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #737373;
+            animation: typingBounce 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0s;
+        }
+
+        @keyframes typingBounce {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .channel-button {
+            background: #f5f5f5;
+            border: 1px solid #e5e5e5;
+            border-radius: 14px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+
+        .channel-button:hover {
+            background: #e5e5e5;
+        }
+
+        .channel-button.active {
+            background: #171717;
+            color: #ffffff;
+        }
+
+        .message-input {
+            border: 1px solid #e5e5e5;
+            border-radius: 14px;
+            padding: 12px 16px;
+            background: #ffffff;
+            resize: none;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .message-input:focus {
+            border-color: #404040;
+        }
+
+        .ai-confidence-badge {
+            background: #171717;
+            color: #ffffff;
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .priority-high {
+            border-left: 4px solid #262626;
+        }
+
+        .priority-medium {
+            border-left: 4px solid #525252;
+        }
+
+        .priority-low {
+            border-left: 4px solid #737373;
+        }
+
+        .workflow-state {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="min-h-screen bg-white">
+
+        <!-- Header -->
+        <header class="tile border-b border-gray-200 px-8 py-4 sticky top-0 z-50 rounded-none">
+            <div class="flex items-center justify-between max-w-7xl mx-auto">
+                <div class="flex items-center space-x-6">
+                    <div
+                        class="w-10 h-10 bg-black rounded-custom flex items-center justify-center text-white font-bold text-lg">
+                        ₿
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-semibold text-black">BTC Support Center</h1>
+                        <p class="text-sm text-gray-600">ShadCN Monochrome + 3-Way Conversation</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-6">
+                    <!-- Status Toggle -->
+                    <div class="flex items-center space-x-3">
+                        <span class="text-sm font-medium text-gray-700">Status:</span>
+                        <div
+                            class="flex items-center space-x-2 px-4 py-2 rounded-custom border border-gray-300 bg-gray-50">
+                            <span class="status-online"></span>
+                            <span class="text-sm font-medium">Online</span>
+                        </div>
+                    </div>
+
+                    <!-- Agent Info -->
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                            <span class="text-gray-600 font-semibold text-sm">SM</span>
+                        </div>
+                        <span class="text-sm font-medium text-black">Sarah Martinez</span>
+                    </div>
+
+                    <!-- Time -->
+                    <div class="text-sm text-gray-500">2:52 PM</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-8 py-8">
+
+            <!-- Active Case with 3-Way Conversation -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                <!-- Left: Case Context & AI Recommendation -->
+                <div class="space-y-6">
+
+                    <!-- Customer Context -->
+                    <div class="tile priority-medium p-6">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div class="w-16 h-16 bg-gray-100 rounded-custom flex items-center justify-center">
+                                <span class="font-bold text-gray-700 text-lg">MC</span>
+                            </div>
+                            <div>
+                                <h2 class="text-xl font-semibold text-black">Marcus Chen</h2>
+                                <p class="text-gray-600">Speed up BTC withdrawal</p>
+                                <p class="text-sm text-gray-500">0.15 BTC (~$6,487)</p>
+                            </div>
+                            <div class="ml-auto">
+                                <div class="w-3 h-3 bg-gray-600 rounded-full"></div>
+                                <span class="text-xs text-gray-500 ml-2">Online</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Recommendation -->
+                    <div class="tile p-6">
+                        <div class="flex items-center space-x-4 mb-6">
+                            <div
+                                class="w-12 h-12 bg-black rounded-custom flex items-center justify-center text-white font-bold">
+                                AI
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-black">Rush speed upgrade (+$2.50)</h3>
+                                <p class="text-gray-600">Recommended action</p>
+                            </div>
+                            <div class="ai-confidence-badge">92% Confident</div>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-custom p-6 mb-6">
+                            <h4 class="font-semibold text-black mb-2">AI Analysis:</h4>
+                            <p class="text-gray-700">Customer has chosen Standard speed for all 4 previous transactions,
+                                indicating price sensitivity. Rush offers optimal value.</p>
+                        </div>
+
+                        <div class="space-y-3">
+                            <button class="btn-primary w-full" onclick="approveAIRecommendation()">
+                                ✓ Approve AI Recommendation
+                            </button>
+                            <div class="grid grid-cols-2 gap-3">
+                                <button class="btn-secondary" onclick="editAIMessage()">
+                                    Edit Message
+                                </button>
+                                <button class="btn-secondary" onclick="rejectAIMessage()">
+                                    Write Custom
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: 3-Way Conversation Interface -->
+                <div class="space-y-6">
+
+                    <!-- Conversation History -->
+                    <div class="tile p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-black">3-Way Conversation</h3>
+                            <div class="text-sm text-gray-500">Case BTC-2847</div>
+                        </div>
+
+                        <div class="space-y-3 max-h-80 overflow-y-auto" id="conversation-history">
+                            <!-- Customer Message -->
+                            <div class="conversation-message message-customer">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <div class="w-4 h-4 bg-gray-600 rounded-full"></div>
+                                    <span class="text-xs font-medium text-gray-700">Marcus Chen</span>
+                                    <span class="text-xs text-gray-500">2:45 PM</span>
+                                </div>
+                                <p class="text-sm">Hi, I need to speed up my BTC withdrawal. It's been processing for 20
+                                    minutes. Can you help?</p>
+                            </div>
+
+                            <!-- AI Draft Message (Pending Approval) -->
+                            <div class="conversation-message message-ai" id="ai-draft">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <div class="w-4 h-4 bg-white rounded-full"></div>
+                                    <span class="text-xs font-medium text-white">AI Copilot (Draft)</span>
+                                    <span class="text-xs text-gray-300">Pending Approval</span>
+                                </div>
+                                <p class="text-sm mb-3">Hi Marcus! I can definitely help you speed up your withdrawal. I
+                                    see you have a 0.15 BTC withdrawal in Standard speed. I can upgrade you to Rush
+                                    speed for just $2.50 - this will complete in about 10 minutes instead of 60 minutes.
+                                    Would you like me to proceed with the upgrade?</p>
+                                <div class="flex gap-2">
+                                    <button class="text-xs bg-white text-black px-3 py-1 rounded-lg"
+                                        onclick="approveAIMessage()">✓ Approve</button>
+                                    <button class="text-xs bg-gray-600 text-white px-3 py-1 rounded-lg"
+                                        onclick="editAIMessage()">✏️ Edit</button>
+                                    <button class="text-xs bg-gray-700 text-white px-3 py-1 rounded-lg"
+                                        onclick="rejectAIMessage()">✗ Reject</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Communication Channels -->
+                    <div class="tile p-6">
+                        <h4 class="font-semibold text-black mb-4">Send to Customer</h4>
+
+                        <!-- Channel Selection -->
+                        <div class="flex gap-2 mb-4">
+                            <button class="channel-button active" onclick="selectChannel('chat')">💬 Chat</button>
+                            <button class="channel-button" onclick="selectChannel('voice')">📞 Voice</button>
+                            <button class="channel-button" onclick="selectChannel('sms')">📱 SMS</button>
+                            <button class="channel-button" onclick="selectChannel('email')">📧 Email</button>
+                        </div>
+
+                        <!-- Message Input -->
+                        <div class="space-y-3">
+                            <textarea class="message-input w-full" rows="3"
+                                placeholder="Type your message to customer..." id="advocate-message"></textarea>
+
+                            <div class="flex gap-3">
+                                <button class="btn-primary flex-1" onclick="sendAdvocateMessage()">
+                                    Send Message
+                                </button>
+                                <button class="btn-secondary" onclick="askAI()">
+                                    💭 Ask AI Copilot
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Copilot Chat -->
+                    <div class="tile p-6">
+                        <h4 class="font-semibold text-black mb-4">AI Copilot Chat</h4>
+
+                        <div class="space-y-3 max-h-60 overflow-y-auto mb-4" id="ai-chat">
+                            <div class="text-sm text-gray-600 bg-gray-50 rounded-custom p-3">
+                                <strong>AI:</strong> I'm ready to help! You can ask me questions about this case,
+                                request different message options, or get policy guidance.
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <input type="text" class="message-input flex-1" placeholder="Ask AI copilot..."
+                                id="ai-question" onkeypress="handleAIQuestionEnter(event)" />
+                            <button class="btn-secondary" onclick="askAICopilot()">
+                                Ask
+                            </button>
+                        </div>
+
+                        <!-- Quick AI Actions -->
+                        <div class="flex gap-2 mt-3">
+                            <button class="text-xs bg-gray-100 px-3 py-1 rounded-lg"
+                                onclick="askAIQuestion('What are the fee options?')">Fee Options</button>
+                            <button class="text-xs bg-gray-100 px-3 py-1 rounded-lg"
+                                onclick="askAIQuestion('Check customer history')">Customer History</button>
+                            <button class="text-xs bg-gray-100 px-3 py-1 rounded-lg"
+                                onclick="askAIQuestion('Draft different message')">Alt Message</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let currentChannel = 'chat';
+        let conversationHistory = [];
+        let aiChatHistory = [];
+
+        function selectChannel(channel) {
+            currentChannel = channel;
+
+            // Update UI
+            document.querySelectorAll('.channel-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function approveAIMessage() {
+            // Move AI draft to conversation history
+            const aiDraft = document.getElementById('ai-draft');
+            const conversationDiv = document.getElementById('conversation-history');
+
+            // Create approved message
+            const approvedMessage = aiDraft.cloneNode(true);
+            approvedMessage.id = '';
+            approvedMessage.querySelector('.text-white').textContent = 'AI Copilot';
+            approvedMessage.querySelector('.text-gray-300').textContent = '2:52 PM';
+            approvedMessage.querySelector('.flex.gap-2').remove(); // Remove buttons
+
+            conversationDiv.appendChild(approvedMessage);
+
+            // Remove draft
+            aiDraft.remove();
+
+            // Simulate customer response
+            setTimeout(() => {
+                addCustomerResponse("Yes, please upgrade to Rush speed. Thank you!");
+            }, 2000);
+
+            alert('✅ AI message approved and sent to customer via ' + currentChannel.toUpperCase());
+        }
+
+        function editAIMessage() {
+            const draft = document.querySelector('#ai-draft p');
+            const currentText = draft.textContent;
+
+            const editedText = prompt('Edit AI message:', currentText);
+            if (editedText) {
+                draft.textContent = editedText;
+                alert('✏️ AI message edited. Please review and approve.');
+            }
+        }
+
+        function rejectAIMessage() {
+            document.getElementById('ai-draft').remove();
+            document.getElementById('advocate-message').focus();
+            alert('✗ AI message rejected. Write your custom message below.');
+        }
+
+        function sendAdvocateMessage() {
+            const messageText = document.getElementById('advocate-message').value;
+            if (!messageText.trim()) return;
+
+            const conversationDiv = document.getElementById('conversation-history');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'conversation-message message-advocate';
+            messageDiv.innerHTML = `
+                <div class="flex items-center gap-2 mb-1">
+                    <div class="w-4 h-4 bg-gray-800 rounded-full"></div>
+                    <span class="text-xs font-medium text-gray-700">Sarah Martinez</span>
+                    <span class="text-xs text-gray-500">2:53 PM</span>
+                </div>
+                <p class="text-sm">${messageText}</p>
+            `;
+
+            conversationDiv.appendChild(messageDiv);
+            document.getElementById('advocate-message').value = '';
+
+            // Simulate customer response
+            setTimeout(() => {
+                addCustomerResponse("Thank you for the quick response!");
+            }, 1500);
+
+            alert('📤 Message sent to customer via ' + currentChannel.toUpperCase());
+        }
+
+        function addCustomerResponse(message) {
+            const conversationDiv = document.getElementById('conversation-history');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'conversation-message message-customer slide-in';
+            messageDiv.innerHTML = `
+                <div class="flex items-center gap-2 mb-1">
+                    <div class="w-4 h-4 bg-gray-600 rounded-full"></div>
+                    <span class="text-xs font-medium text-gray-700">Marcus Chen</span>
+                    <span class="text-xs text-gray-500">2:53 PM</span>
+                </div>
+                <p class="text-sm">${message}</p>
+            `;
+
+            conversationDiv.appendChild(messageDiv);
+            conversationDiv.scrollTop = conversationDiv.scrollHeight;
+        }
+
+        function askAICopilot() {
+            const question = document.getElementById('ai-question').value;
+            if (!question.trim()) return;
+
+            askAIQuestion(question);
+            document.getElementById('ai-question').value = '';
+        }
+
+        function askAIQuestion(question) {
+            const aiChatDiv = document.getElementById('ai-chat');
+
+            // Add user question
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'text-sm bg-gray-100 rounded-custom p-3';
+            questionDiv.innerHTML = `<strong>You:</strong> ${question}`;
+            aiChatDiv.appendChild(questionDiv);
+
+            // Simulate AI response
+            setTimeout(() => {
+                const responses = {
+                    'What are the fee options?': 'Standard ($0) - 60 min, Rush ($2.50) - 10 min, Priority ($5.00) - 2 min',
+                    'Check customer history': 'Marcus has made 4 withdrawals, all Standard speed. Average amount: $4,200. No issues.',
+                    'Draft different message': 'Hi Marcus! I can upgrade your withdrawal to Rush speed for $2.50. This reduces wait time from 60 to 10 minutes. Proceed?',
+                    'default': 'I can help with case analysis, fee structures, customer history, message drafting, and policy questions.'
+                };
+
+                const response = responses[question] || responses['default'];
+
+                const responseDiv = document.createElement('div');
+                responseDiv.className = 'text-sm text-gray-600 bg-gray-50 rounded-custom p-3 slide-in';
+                responseDiv.innerHTML = `<strong>AI:</strong> ${response}`;
+                aiChatDiv.appendChild(responseDiv);
+
+                aiChatDiv.scrollTop = aiChatDiv.scrollHeight;
+            }, 1000);
+        }
+
+        function handleAIQuestionEnter(event) {
+            if (event.key === 'Enter') {
+                askAICopilot();
+            }
+        }
+
+        function askAI() {
+            askAIQuestion('How should I respond to this customer?');
+        }
+
+        function approveAIRecommendation() {
+            approveAIMessage();
+        }
+    </script>
+</body>
+
+</html>

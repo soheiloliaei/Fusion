@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTC Support - BossUI Interactive Prototype</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background: 248 250 252;
+            --foreground: 15 23 42;
+            --primary: 59 130 246;
+            --primary-foreground: 248 250 252;
+            --secondary: 241 245 249;
+            --muted: 148 163 184;
+            --border: 226 232 240;
+            --ring: 59 130 246;
+            --success: 34 197 94;
+            --warning: 251 146 60;
+            --danger: 239 68 68;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: rgb(var(--background));
+            color: rgb(var(--foreground));
+        }
+
+        .tile {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .tile-xl {
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+        }
+
+        .btn-primary {
+            background: rgb(var(--primary));
+            color: rgb(var(--primary-foreground));
+            border-radius: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: rgb(29 78 216);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-success {
+            background: rgb(var(--success));
+            color: white;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-success:hover {
+            background: rgb(21 128 61);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+        }
+
+        .btn-danger {
+            background: rgb(var(--danger));
+            color: white;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-danger:hover {
+            background: rgb(220 38 38);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+        }
+
+        .status-indicator {
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        .status-online {
+            background: rgb(var(--success));
+            animation: pulse 2s infinite;
+        }
+
+        .status-offline {
+            background: rgb(var(--muted));
+        }
+
+        .status-away {
+            background: rgb(var(--warning));
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .case-priority-high {
+            border-left: 4px solid rgb(var(--danger));
+            background: linear-gradient(90deg, rgba(239, 68, 68, 0.05) 0%, transparent 100%);
+        }
+
+        .case-priority-medium {
+            border-left: 4px solid rgb(var(--warning));
+            background: linear-gradient(90deg, rgba(251, 146, 60, 0.05) 0%, transparent 100%);
+        }
+
+        .case-priority-low {
+            border-left: 4px solid rgb(var(--success));
+            background: linear-gradient(90deg, rgba(34, 197, 94, 0.05) 0%, transparent 100%);
+        }
+
+        .ai-confidence {
+            background: linear-gradient(135deg, rgb(var(--success)), rgb(52 211 153));
+            color: white;
+            border-radius: 50px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .notification-badge {
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-3px);
+            }
+
+            60% {
+                transform: translateY(-1px);
+            }
+        }
+
+        .slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .chart-bar {
+            background: linear-gradient(180deg, rgb(var(--primary)), rgb(147 197 253));
+            border-radius: 0.25rem 0.25rem 0 0;
+            transition: all 0.3s ease;
+        }
+
+        .metric-tile {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 197, 253, 0.05));
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .workflow-state {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .typing-indicator {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .typing-dot {
+            width: 0.375rem;
+            height: 0.375rem;
+            border-radius: 50%;
+            background: rgb(var(--muted));
+            margin: 0 0.125rem;
+            animation: typingBounce 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0s;
+        }
+
+        @keyframes typingBounce {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+                opacity: 0.5;
+            }
+
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="min-h-screen">
+
+        <!-- Header -->
+        <header class="tile-xl bg-white border-b border-gray-200 px-8 py-4 sticky top-0 z-50">
+            <div class="flex items-center justify-between max-w-7xl mx-auto">
+                <div class="flex items-center space-x-6">
+                    <div
+                        class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center text-white font-bold text-lg">
+                        ₿
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-semibold text-gray-900">BTC Support Center</h1>
+                        <p class="text-sm text-gray-500">Agent Dashboard - BossUI/G2 Style</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-6">
+                    <!-- Status Toggle -->
+                    <div class="flex items-center space-x-3">
+                        <span class="text-sm font-medium text-gray-700">Status:</span>
+                        <button id="status-toggle"
+                            class="flex items-center space-x-2 px-4 py-2 rounded-xl border transition-all">
+                            <span class="status-indicator status-offline" id="status-dot"></span>
+                            <span id="status-text" class="text-sm font-medium">Offline</span>
+                        </button>
+                    </div>
+
+                    <!-- Agent Info -->
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                            <span class="text-blue-600 font-semibold text-sm">SM</span>
+                        </div>
+                        <span class="text-sm font-medium text-gray-900">Sarah Martinez</span>
+                    </div>
+
+                    <!-- Time -->
+                    <div class="text-sm text-gray-500" id="current-time">2:15 PM</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-8 py-8">
+
+            <!-- Offline State -->
+            <div id="offline-state" class="workflow-state">
+                <div class="text-center py-20">
+                    <div class="w-24 h-24 bg-gray-100 rounded-3xl flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2 2v-5m16 0h-2M4 13h2m0 0v-2m0 2v2">
+                            </path>
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-semibold text-gray-900 mb-3">Ready to Start Your Shift?</h2>
+                    <p class="text-gray-600 mb-8 max-w-md mx-auto">Click "Go Online" to start receiving Bitcoin support
+                        cases and help customers with their transactions.</p>
+                    <button class="btn-primary text-lg px-8 py-4" onclick="goOnline()">
+                        🟢 Go Online
+                    </button>
+                </div>
+            </div>
+
+            <!-- Online State -->
+            <div id="online-state" class="workflow-state hidden">
+
+                <!-- Stats Row -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="tile metric-tile p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-sm font-medium text-gray-600">Cases Today</h3>
+                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <span class="text-blue-600 text-sm">📋</span>
+                            </div>
+                        </div>
+                        <div class="text-2xl font-bold text-gray-900" id="cases-today">0</div>
+                        <div class="text-xs text-green-600 font-medium mt-1">+0 from yesterday</div>
+                    </div>
+
+                    <div class="tile metric-tile p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-sm font-medium text-gray-600">Avg Response</h3>
+                            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                                <span class="text-green-600 text-sm">⚡</span>
+                            </div>
+                        </div>
+                        <div class="text-2xl font-bold text-gray-900" id="avg-response">0s</div>
+                        <div class="text-xs text-green-600 font-medium mt-1">Excellent</div>
+                    </div>
+
+                    <div class="tile metric-tile p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-sm font-medium text-gray-600">AI Confidence</h3>
+                            <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                                <span class="text-purple-600 text-sm">🤖</span>
+                            </div>
+                        </div>
+                        <div class="text-2xl font-bold text-gray-900" id="ai-confidence">0%</div>
+                        <div class="text-xs text-blue-600 font-medium mt-1">Learning...</div>
+                    </div>
+
+                    <div class="tile metric-tile p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-sm font-medium text-gray-600">Queue Status</h3>
+                            <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center">
+                                <span class="text-yellow-600 text-sm">⏳</span>
+                            </div>
+                        </div>
+                        <div class="text-2xl font-bold text-gray-900" id="queue-count">0</div>
+                        <div class="text-xs text-gray-500 font-medium mt-1">Waiting for cases</div>
+                    </div>
+                </div>
+
+                <!-- Waiting for Cases -->
+                <div id="waiting-for-cases" class="text-center py-16">
+                    <div class="inline-flex items-center space-x-3 mb-6">
+                        <div class="typing-indicator">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                        <span class="text-lg font-medium text-gray-600">Matching you with incoming cases...</span>
+                    </div>
+                    <p class="text-gray-500">AI system is analyzing current BTC support queue</p>
+                </div>
+
+                <!-- Cases Assignment -->
+                <div id="cases-assigned" class="hidden">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-semibold text-gray-900">Assigned Cases</h2>
+                        <div class="flex items-center space-x-3">
+                            <span
+                                class="notification-badge bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">3
+                                High Priority</span>
+                        </div>
+                    </div>
+
+                    <!-- Case List -->
+                    <div class="space-y-4" id="case-list">
+                        <!-- Cases will be dynamically added here -->
+                    </div>
+                </div>
+
+                <!-- Active Case View -->
+                <div id="active-case" class="hidden">
+                    <!-- Active case content will be dynamically loaded -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let currentState = 'offline';
+        let casesResolved = 0;
+        let currentCaseIndex = 0;
+
+        const cases = [
+            {
+                id: 'BTC-2847',
+                customer: 'Marcus Chen',
+                initials: 'MC',
+                issue: 'Speed up BTC withdrawal',
+                description: 'Customer wants to upgrade withdrawal speed',
+                priority: 'medium',
+                amount: '0.15 BTC (~$6,487)',
+                confidence: 92,
+                recommendation: 'Rush speed upgrade (+$2.50)',
+                reasoning: 'Customer has chosen Standard speed for all 4 previous transactions, indicating price sensitivity. Rush offers optimal value.',
+                waiting: '2 min'
+            },
+            {
+                id: 'BTC-2851',
+                customer: 'Robert Wilson',
+                initials: 'RW',
+                issue: 'Urgent $25,000 withdrawal',
+                description: 'Potential scam - needs protection',
+                priority: 'high',
+                amount: '$25,000 BTC withdrawal',
+                confidence: 97,
+                recommendation: 'PROTECT CUSTOMER - Pause withdrawal',
+                reasoning: 'Classic pig butchering scam pattern detected. Multiple red flags including urgency, new user, large amount.',
+                waiting: '5 min'
+            },
+            {
+                id: 'BTC-2848',
+                customer: 'Anna Liu',
+                initials: 'AL',
+                issue: 'Deposit confirmation',
+                description: 'Customer asking about deposit status',
+                priority: 'low',
+                amount: '0.05 BTC (~$2,156)',
+                confidence: 94,
+                recommendation: 'Send confirmation with timeline',
+                reasoning: 'Standard deposit confirmation. Transaction visible on blockchain with 2/3 confirmations.',
+                waiting: '1 min'
+            }
+        ];
+
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function goOnline() {
+            currentState = 'online';
+
+            // Update status
+            const statusDot = document.getElementById('status-dot');
+            const statusText = document.getElementById('status-text');
+            const statusToggle = document.getElementById('status-toggle');
+
+            statusDot.className = 'status-indicator status-online';
+            statusText.textContent = 'Online';
+            statusToggle.className = 'flex items-center space-x-2 px-4 py-2 rounded-xl border border-green-200 bg-green-50';
+
+            // Hide offline state and show online state
+            document.getElementById('offline-state').classList.add('hidden');
+            document.getElementById('online-state').classList.remove('hidden');
+
+            // Start case assignment process
+            setTimeout(() => {
+                assignCases();
+            }, 3000);
+        }
+
+        function assignCases() {
+            // Hide waiting message
+            document.getElementById('waiting-for-cases').classList.add('hidden');
+
+            // Show cases assigned section
+            document.getElementById('cases-assigned').classList.remove('hidden');
+
+            // Update stats
+            document.getElementById('queue-count').textContent = '3';
+            document.getElementById('queue-count').parentElement.querySelector('.text-xs').textContent = 'Cases assigned';
+            document.getElementById('ai-confidence').textContent = '94%';
+            document.getElementById('ai-confidence').parentElement.querySelector('.text-xs').textContent = 'High confidence';
+
+            // Add cases to the list
+            const caseList = document.getElementById('case-list');
+            cases.forEach((caseData, index) => {
+                setTimeout(() => {
+                    addCaseToList(caseData, index);
+                }, index * 500);
+            });
+        }
+
+        function addCaseToList(caseData, index) {
+            const caseList = document.getElementById('case-list');
+            const priorityClass = `case-priority-${caseData.priority}`;
+            const priorityLabel = caseData.priority.toUpperCase();
+            const priorityColor = caseData.priority === 'high' ? 'text-red-800 bg-red-100' :
+                caseData.priority === 'medium' ? 'text-orange-800 bg-orange-100' :
+                    'text-green-800 bg-green-100';
+
+            const caseElement = document.createElement('div');
+            caseElement.className = `tile ${priorityClass} p-6 cursor-pointer slide-in`;
+            caseElement.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-gray-100 rounded-2xl flex items-center justify-center">
+                            <span class="font-semibold text-gray-700">${caseData.initials}</span>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900">${caseData.customer}</h3>
+                            <p class="text-sm text-gray-600">${caseData.issue}</p>
+                            <p class="text-xs text-gray-500">${caseData.amount} • Waiting ${caseData.waiting}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4">
+                        <div class="text-right">
+                            <div class="ai-confidence text-xs">${caseData.confidence}% AI</div>
+                            <div class="${priorityColor} px-3 py-1 rounded-full text-xs font-medium mt-2">
+                                ${priorityLabel}
+                            </div>
+                        </div>
+                        
+                        <button class="btn-primary text-sm px-4 py-2" onclick="takeCase(${index})">
+                            Take Case
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="mt-4 bg-gray-50 rounded-xl p-4">
+                    <p class="text-sm text-gray-700"><strong>AI Insight:</strong> ${caseData.reasoning}</p>
+                </div>
+            `;
+
+            caseList.appendChild(caseElement);
+        }
+
+        function takeCase(index) {
+            currentCaseIndex = index;
+            const caseData = cases[index];
+
+            // Hide cases list
+            document.getElementById('cases-assigned').classList.add('hidden');
+
+            // Show active case
+            document.getElementById('active-case').classList.remove('hidden');
+
+            // Build active case interface
+            buildActiveCaseInterface(caseData);
+        }
+
+        function buildActiveCaseInterface(caseData) {
+            const activeCaseDiv = document.getElementById('active-case');
+            const priorityColor = caseData.priority === 'high' ? 'bg-red-50 border-red-200' :
+                caseData.priority === 'medium' ? 'bg-orange-50 border-orange-200' :
+                    'bg-green-50 border-green-200';
+
+            const actionColor = caseData.priority === 'high' ? 'btn-danger' : 'btn-success';
+            const actionText = caseData.priority === 'high' ? '🛡️ Protect Customer' : '✅ Approve & Send';
+
+            activeCaseDiv.innerHTML = `
+                <div class="slide-in">
+                    <!-- Header -->
+                    <div class="flex items-center justify-between mb-6">
+                        <button class="flex items-center space-x-2 text-gray-600 hover:text-gray-900" onclick="backToCases()">
+                            <span>←</span>
+                            <span>Back to Cases</span>
+                        </button>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-sm text-gray-600">Case ${caseData.id}</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Customer Context -->
+                    <div class="tile ${priorityColor} p-6 mb-6">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center">
+                                <span class="font-bold text-gray-700 text-lg">${caseData.initials}</span>
+                            </div>
+                            <div>
+                                <h2 class="text-xl font-semibold text-gray-900">${caseData.customer}</h2>
+                                <p class="text-gray-600">${caseData.description}</p>
+                                <p class="text-sm text-gray-500">${caseData.amount}</p>
+                            </div>
+                            <div class="ml-auto">
+                                <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                <span class="text-xs text-gray-500 ml-2">Online</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- AI Recommendation -->
+                    <div class="tile p-8 mb-6">
+                        <div class="flex items-center space-x-4 mb-6">
+                            <div class="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center text-white font-bold">
+                                AI
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-gray-900">${caseData.recommendation}</h3>
+                                <p class="text-gray-600">${caseData.issue}</p>
+                            </div>
+                            <div class="ai-confidence">${caseData.confidence}% Confident</div>
+                        </div>
+                        
+                        <div class="bg-blue-50 rounded-xl p-6 mb-6">
+                            <h4 class="font-semibold text-gray-900 mb-2">Why this recommendation:</h4>
+                            <p class="text-gray-700">${caseData.reasoning}</p>
+                        </div>
+                        
+                        <div class="flex space-x-4">
+                            <button class="${actionColor} flex-1" onclick="resolveCase()">
+                                ${actionText}
+                            </button>
+                            <button class="bg-gray-100 text-gray-700 px-6 py-3 rounded-xl font-medium hover:bg-gray-200">
+                                Need Help
+                            </button>
+                            <button class="bg-gray-100 text-gray-700 px-6 py-3 rounded-xl font-medium hover:bg-gray-200">
+                                More Info
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Next Case Preview -->
+                    ${getNextCasePreview()}
+                </div>
+            `;
+        }
+
+        function getNextCasePreview() {
+            const nextIndex = currentCaseIndex + 1;
+            if (nextIndex >= cases.length) {
+                return `
+                    <div class="tile p-6 bg-green-50 border border-green-200">
+                        <div class="text-center">
+                            <h4 class="font-semibold text-green-900 mb-2">🎉 All Cases Complete!</h4>
+                            <p class="text-green-700">Great work! All assigned cases have been resolved.</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            const nextCase = cases[nextIndex];
+            return `
+                <div class="tile p-6 bg-gray-50">
+                    <h4 class="font-semibold text-gray-900 mb-3">Next in Queue</h4>
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-gray-200 rounded-lg flex items-center justify-center">
+                            <span class="text-gray-600 text-sm font-semibold">${nextCase.initials}</span>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-900">${nextCase.customer}</p>
+                            <p class="text-sm text-gray-600">${nextCase.issue}</p>
+                        </div>
+                        <div class="ml-auto">
+                            <span class="text-xs text-gray-500">Waiting ${nextCase.waiting}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function resolveCase() {
+            casesResolved++;
+
+            // Update stats
+            document.getElementById('cases-today').textContent = casesResolved;
+            document.getElementById('avg-response').textContent = Math.floor(Math.random() * 15 + 5) + 's';
+
+            // Show success message
+            const currentCase = cases[currentCaseIndex];
+            const successMessage = currentCase.priority === 'high' ?
+                'Customer protected! Withdrawal paused and education sent.' :
+                'Message sent successfully! AI monitoring customer response.';
+
+            alert(`✅ Case Resolved!\n\n${successMessage}`);
+
+            // Move to next case or show completion
+            if (currentCaseIndex + 1 < cases.length) {
+                setTimeout(() => {
+                    takeCase(currentCaseIndex + 1);
+                }, 1000);
+            } else {
+                // All cases complete
+                setTimeout(() => {
+                    showCompletionState();
+                }, 1000);
+            }
+        }
+
+        function showCompletionState() {
+            document.getElementById('active-case').innerHTML = `
+                <div class="text-center py-20 slide-in">
+                    <div class="w-24 h-24 bg-green-100 rounded-3xl flex items-center justify-center mx-auto mb-6">
+                        <span class="text-4xl">🎉</span>
+                    </div>
+                    <h2 class="text-2xl font-semibold text-gray-900 mb-3">Excellent Work!</h2>
+                    <p class="text-gray-600 mb-8 max-w-md mx-auto">You've successfully resolved all 3 assigned cases with AI assistance. Your performance today has been outstanding.</p>
+                    
+                    <div class="grid grid-cols-3 gap-6 max-w-md mx-auto mb-8">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-green-600">${casesResolved}</div>
+                            <div class="text-sm text-gray-500">Cases Resolved</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-blue-600">96%</div>
+                            <div class="text-sm text-gray-500">Accuracy</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-purple-600">8s</div>
+                            <div class="text-sm text-gray-500">Avg Decision</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-4 justify-center">
+                        <button class="btn-primary" onclick="startNewShift()">Take More Cases</button>
+                        <button class="bg-gray-100 text-gray-700 px-6 py-3 rounded-xl font-medium hover:bg-gray-200" onclick="goOffline()">End Shift</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function backToCases() {
+            document.getElementById('active-case').classList.add('hidden');
+            document.getElementById('cases-assigned').classList.remove('hidden');
+        }
+
+        function startNewShift() {
+            // Reset and start over
+            casesResolved = 0;
+            currentCaseIndex = 0;
+            goOnline();
+        }
+
+        function goOffline() {
+            currentState = 'offline';
+
+            // Update status
+            const statusDot = document.getElementById('status-dot');
+            const statusText = document.getElementById('status-text');
+            const statusToggle = document.getElementById('status-toggle');
+
+            statusDot.className = 'status-indicator status-offline';
+            statusText.textContent = 'Offline';
+            statusToggle.className = 'flex items-center space-x-2 px-4 py-2 rounded-xl border border-gray-200';
+
+            // Reset interface
+            document.getElementById('online-state').classList.add('hidden');
+            document.getElementById('offline-state').classList.remove('hidden');
+
+            // Reset stats
+            document.getElementById('cases-today').textContent = '0';
+            document.getElementById('avg-response').textContent = '0s';
+            document.getElementById('ai-confidence').textContent = '0%';
+            document.getElementById('queue-count').textContent = '0';
+        }
+
+        // Update time every minute
+        setInterval(updateTime, 60000);
+        updateTime();
+
+        // Status toggle functionality
+        document.getElementById('status-toggle').addEventListener('click', function () {
+            if (currentState === 'offline') {
+                goOnline();
+            } else {
+                goOffline();
+            }
+        });
+    </script>
+</body>
+
+</html>

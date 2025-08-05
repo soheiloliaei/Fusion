@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTC Withdrawal Speed Upgrade - Complete A-Z Workflow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        'custom': '14px',
+                    },
+                    colors: {
+                        background: '#ffffff',
+                        foreground: '#0a0a0a',
+                        primary: '#171717',
+                        secondary: '#f5f5f5',
+                        muted: '#737373',
+                        border: '#e5e5e5',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Geist', sans-serif;
+            background: #ffffff;
+            color: #0a0a0a;
+        }
+
+        .tile {
+            background: #ffffff;
+            border-radius: 14px;
+            border: 1px solid #e5e5e5;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        .workflow-step {
+            opacity: 0.3;
+            transition: all 0.3s ease;
+        }
+
+        .workflow-step.active {
+            opacity: 1;
+            border-left: 4px solid #171717;
+        }
+
+        .workflow-step.completed {
+            opacity: 0.7;
+            border-left: 4px solid #737373;
+        }
+
+        .btn-primary {
+            background: #171717;
+            color: #ffffff;
+            border-radius: 14px;
+            padding: 12px 24px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background: #262626;
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #171717;
+            border: 1px solid #e5e5e5;
+            border-radius: 14px;
+            padding: 12px 24px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e5e5;
+        }
+
+        .data-display {
+            background: #f5f5f5;
+            border-radius: 14px;
+            padding: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-standard {
+            background: #737373;
+        }
+
+        .status-rush {
+            background: #525252;
+        }
+
+        .status-priority {
+            background: #262626;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="min-h-screen bg-white">
+
+        <!-- Header -->
+        <header class="tile border-b px-8 py-4 sticky top-0 z-50 rounded-none">
+            <div class="flex items-center justify-between max-w-7xl mx-auto">
+                <div class="flex items-center space-x-6">
+                    <div
+                        class="w-10 h-10 bg-black rounded-custom flex items-center justify-center text-white font-bold text-lg">
+                        ₿</div>
+                    <div>
+                        <h1 class="text-xl font-semibold">BTC Withdrawal Speed Upgrade</h1>
+                        <p class="text-sm text-gray-600">Complete A-Z Workflow - Marcus Chen Case</p>
+                    </div>
+                </div>
+                <div class="text-sm text-gray-500" id="current-time">3:15 PM</div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-8 py-8">
+
+            <!-- Workflow Progress -->
+            <div class="tile p-6 mb-8">
+                <h2 class="text-lg font-semibold mb-4">Workflow Progress</h2>
+                <div class="space-y-2">
+                    <div class="workflow-step active" id="step-1">
+                        <div class="px-4 py-2">
+                            <span class="font-medium">Step 1:</span> Customer initiates withdrawal speed upgrade request
+                        </div>
+                    </div>
+                    <div class="workflow-step" id="step-2">
+                        <div class="px-4 py-2">
+                            <span class="font-medium">Step 2:</span> Advocate locates transaction data in BTC On-chain
+                            Withdrawals tab
+                        </div>
+                    </div>
+                    <div class="workflow-step" id="step-3">
+                        <div class="px-4 py-2">
+                            <span class="font-medium">Step 3:</span> System retrieves transaction and speed eligibility
+                            data
+                        </div>
+                    </div>
+                    <div class="workflow-step" id="step-4">
+                        <div class="px-4 py-2">
+                            <span class="font-medium">Step 4:</span> AI analyzes customer history and recommends optimal
+                            speed
+                        </div>
+                    </div>
+                    <div class="workflow-step" id="step-5">
+                        <div class="px-4 py-2">
+                            <span class="font-medium">Step 5:</span> Advocate reviews AI recommendation and customer
+                            eligibility
+                        </div>
+                    </div>
+                    <div class="workflow-step" id="step-6">
+                        <div class="px-4 py-2">
+                            <span class="font-medium">Step 6:</span> Advocate communicates upgrade options to customer
+                        </div>
+                    </div>
+                    <div class="workflow-step" id="step-7">
+                        <div class="px-4 py-2">
+                            <span class="font-medium">Step 7:</span> Customer confirms upgrade selection
+                        </div>
+                    </div>
+                    <div class="workflow-step" id="step-8">
+                        <div class="px-4 py-2">
+                            <span class="font-medium">Step 8:</span> System processes speed upgrade and updates
+                            transaction
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                <!-- Left: Data & System Information -->
+                <div class="space-y-6">
+
+                    <!-- Step 1: Customer Request -->
+                    <div class="tile p-6" id="customer-request">
+                        <h3 class="text-lg font-semibold mb-4">Step 1: Customer Request</h3>
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 rounded-custom p-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-600 text-sm font-semibold">MC</span>
+                                    </div>
+                                    <span class="font-medium">Marcus Chen</span>
+                                    <span class="text-sm text-gray-500">3:12 PM</span>
+                                </div>
+                                <p class="text-sm">"Hi, I need to speed up my BTC withdrawal. It's been processing for
+                                    20 minutes and I need it faster. Can you help upgrade the speed?"</p>
+                            </div>
+                            <button class="btn-primary w-full" onclick="moveToStep(2)">
+                                ▶ Acknowledge Request & Start Investigation
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Transaction Lookup -->
+                    <div class="tile p-6 hidden" id="transaction-lookup">
+                        <h3 class="text-lg font-semibold mb-4">Step 2: Locate Transaction Data</h3>
+                        <div class="space-y-4">
+                            <div class="text-sm text-gray-600">
+                                <strong>Data Source:</strong> BTC On-chain Withdrawals tab, Speed field<br>
+                                <strong>Action:</strong> Advocate locates transaction and current speed
+                            </div>
+                            <div class="data-display">
+                                Searching BTC On-chain Withdrawals...<br>
+                                Filter: Customer ID = marcus.chen@email.com<br>
+                                Status: PENDING_BLOCKCHAIN_CONFIRMATION<br>
+                                Found transaction: 0x7f8a9b2c3d4e5f6...
+                            </div>
+                            <button class="btn-primary w-full" onclick="moveToStep(3)">
+                                ▶ Retrieve Transaction Details
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: System Data Retrieval -->
+                    <div class="tile p-6 hidden" id="system-data">
+                        <h3 class="text-lg font-semibold mb-4">Step 3: Transaction & Eligibility Data</h3>
+                        <div class="space-y-4">
+                            <div class="data-display">
+                                <strong>Transaction Details:</strong><br>
+                                Transaction ID: BTC-2847<br>
+                                Amount: 0.15 BTC (~$6,487)<br>
+                                Current Speed: <span class="status-indicator status-standard"></span>Standard<br>
+                                Status: PENDING_BLOCKCHAIN_CONFIRMATION<br>
+                                Time Elapsed: 22 minutes<br>
+                                Estimated Completion: ~38 minutes remaining<br><br>
+                                <strong>Available Speeds:</strong><br>
+                                <span class="status-indicator status-standard"></span>Standard: $0 (60 min total)<br>
+                                <span class="status-indicator status-rush"></span>Rush: +$2.50 (10 min remaining)<br>
+                                <span class="status-indicator status-priority"></span>Priority: +$5.00 (2 min remaining)
+                            </div>
+                            <button class="btn-primary w-full" onclick="moveToStep(4)">
+                                ▶ Analyze Customer History with AI
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: AI Analysis -->
+                    <div class="tile p-6 hidden" id="ai-analysis">
+                        <h3 class="text-lg font-semibold mb-4">Step 4: AI Customer Analysis</h3>
+                        <div class="space-y-4">
+                            <div class="data-display">
+                                <strong>AI Analysis Results:</strong><br>
+                                Customer History: 4 previous withdrawals<br>
+                                All previous selections: Standard speed<br>
+                                Average amount: $4,200<br>
+                                Price sensitivity indicator: HIGH<br>
+                                Risk assessment: LOW<br>
+                                Recommended action: Rush upgrade<br>
+                                Confidence: 92%<br><br>
+                                <strong>Reasoning:</strong> Customer consistently chooses Standard speed,<br>
+                                indicating price sensitivity. Rush offers optimal value<br>
+                                for significant time reduction at minimal cost.
+                            </div>
+                            <button class="btn-primary w-full" onclick="moveToStep(5)">
+                                ▶ Present AI Recommendation to Advocate
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Advocate Actions & Customer Communication -->
+                <div class="space-y-6">
+
+                    <!-- Step 5: Advocate Decision -->
+                    <div class="tile p-6 hidden" id="advocate-decision">
+                        <h3 class="text-lg font-semibold mb-4">Step 5: Advocate Review & Decision</h3>
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 rounded-custom p-4">
+                                <h4 class="font-semibold mb-2">AI Recommendation:</h4>
+                                <p class="text-sm mb-3">Offer Rush speed upgrade (+$2.50) for 10-minute completion.
+                                    Customer history shows price sensitivity but current 38-minute wait suggests
+                                    urgency.</p>
+                                <div class="text-xs text-gray-600">Confidence: 92% | Based on 4 previous transactions
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <button class="btn-primary w-full" onclick="approveAIRecommendation()">
+                                    ✓ Approve AI Recommendation (Rush +$2.50)
+                                </button>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <button class="btn-secondary" onclick="offerPriority()">
+                                        Suggest Priority (+$5.00)
+                                    </button>
+                                    <button class="btn-secondary" onclick="explainOptions()">
+                                        Explain All Options
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 6: Customer Communication -->
+                    <div class="tile p-6 hidden" id="customer-communication">
+                        <h3 class="text-lg font-semibold mb-4">Step 6: Communicate Options to Customer</h3>
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 rounded-custom p-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
+                                        <span class="text-white text-sm font-semibold">SM</span>
+                                    </div>
+                                    <span class="font-medium">Sarah Martinez (You)</span>
+                                    <span class="text-sm text-gray-500">3:15 PM</span>
+                                </div>
+                                <p class="text-sm" id="advocate-message">Hi Marcus! I can help you speed up your
+                                    withdrawal. I see you have a 0.15 BTC withdrawal that's been processing for 22
+                                    minutes. I can upgrade you to Rush speed for just $2.50 - this will complete in
+                                    about 10 minutes instead of the remaining 38 minutes. Would you like me to proceed
+                                    with the Rush upgrade?</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="btn-primary flex-1" onclick="sendMessage()">
+                                    📤 Send via Chat
+                                </button>
+                                <button class="btn-secondary" onclick="editMessage()">
+                                    ✏️ Edit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 7: Customer Response -->
+                    <div class="tile p-6 hidden" id="customer-response">
+                        <h3 class="text-lg font-semibold mb-4">Step 7: Customer Confirmation</h3>
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 rounded-custom p-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-600 text-sm font-semibold">MC</span>
+                                    </div>
+                                    <span class="font-medium">Marcus Chen</span>
+                                    <span class="text-sm text-gray-500">3:16 PM</span>
+                                </div>
+                                <p class="text-sm">"Yes, please upgrade to Rush speed for $2.50. 10 minutes sounds much
+                                    better than 38 minutes. Please proceed!"</p>
+                            </div>
+                            <button class="btn-primary w-full" onclick="moveToStep(8)">
+                                ▶ Process Speed Upgrade
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 8: System Processing -->
+                    <div class="tile p-6 hidden" id="system-processing">
+                        <h3 class="text-lg font-semibent mb-4">Step 8: Speed Upgrade Processing</h3>
+                        <div class="space-y-4">
+                            <div class="data-display">
+                                <strong>Processing Speed Upgrade...</strong><br><br>
+                                ✓ Customer confirmation received<br>
+                                ✓ Fee authorization: +$2.50<br>
+                                ✓ Updating transaction priority<br>
+                                ✓ Blockchain acceleration initiated<br>
+                                ✓ New ETA calculated: 10 minutes<br>
+                                ✓ Customer notification sent<br><br>
+                                <strong>Updated Transaction:</strong><br>
+                                Speed: <span class="status-indicator status-rush"></span>Rush (+$2.50)<br>
+                                New ETA: 3:26 PM (10 minutes)<br>
+                                Status: ACCELERATED_PROCESSING
+                            </div>
+                            <button class="btn-primary w-full" onclick="completeWorkflow()">
+                                ✓ Workflow Complete - Send Confirmation
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Workflow Complete -->
+                    <div class="tile p-6 hidden" id="workflow-complete">
+                        <h3 class="text-lg font-semibold mb-4">✅ Workflow Complete</h3>
+                        <div class="space-y-4">
+                            <div class="bg-green-50 rounded-custom p-4 border border-green-200">
+                                <h4 class="font-semibold text-green-800 mb-2">Success Summary:</h4>
+                                <ul class="text-sm text-green-700 space-y-1">
+                                    <li>• Customer request processed successfully</li>
+                                    <li>• Speed upgraded from Standard to Rush (+$2.50)</li>
+                                    <li>• ETA reduced from 38 minutes to 10 minutes</li>
+                                    <li>• Customer satisfied with resolution</li>
+                                    <li>• Transaction accelerated in blockchain queue</li>
+                                </ul>
+                            </div>
+                            <div class="bg-gray-50 rounded-custom p-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
+                                        <span class="text-white text-sm font-semibold">SM</span>
+                                    </div>
+                                    <span class="font-medium">Sarah Martinez (You)</span>
+                                    <span class="text-sm text-gray-500">3:17 PM</span>
+                                </div>
+                                <p class="text-sm">"Perfect! I've successfully upgraded your withdrawal to Rush speed.
+                                    You're all set! Your withdrawal will complete at 3:26 PM (about 9 minutes from now).
+                                    You'll receive a confirmation once it's fully processed."</p>
+                            </div>
+                            <button class="btn-primary w-full" onclick="resetWorkflow()">
+                                🔄 Start New Case
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let currentStep = 1;
+
+        function moveToStep(step) {
+            // Mark previous step as completed
+            if (currentStep > 0) {
+                document.getElementById(`step-${currentStep}`).classList.remove('active');
+                document.getElementById(`step-${currentStep}`).classList.add('completed');
+            }
+
+            // Hide current content
+            hideAllContent();
+
+            // Show new step content
+            currentStep = step;
+            document.getElementById(`step-${step}`).classList.add('active');
+
+            switch (step) {
+                case 2:
+                    document.getElementById('transaction-lookup').classList.remove('hidden');
+                    document.getElementById('transaction-lookup').classList.add('slide-in');
+                    break;
+                case 3:
+                    document.getElementById('system-data').classList.remove('hidden');
+                    document.getElementById('system-data').classList.add('slide-in');
+                    break;
+                case 4:
+                    document.getElementById('ai-analysis').classList.remove('hidden');
+                    document.getElementById('ai-analysis').classList.add('slide-in');
+                    break;
+                case 5:
+                    document.getElementById('advocate-decision').classList.remove('hidden');
+                    document.getElementById('advocate-decision').classList.add('slide-in');
+                    break;
+                case 6:
+                    document.getElementById('customer-communication').classList.remove('hidden');
+                    document.getElementById('customer-communication').classList.add('slide-in');
+                    break;
+                case 7:
+                    document.getElementById('customer-response').classList.remove('hidden');
+                    document.getElementById('customer-response').classList.add('slide-in');
+                    break;
+                case 8:
+                    document.getElementById('system-processing').classList.remove('hidden');
+                    document.getElementById('system-processing').classList.add('slide-in');
+                    break;
+            }
+        }
+
+        function hideAllContent() {
+            const contents = [
+                'customer-request', 'transaction-lookup', 'system-data',
+                'ai-analysis', 'advocate-decision', 'customer-communication',
+                'customer-response', 'system-processing', 'workflow-complete'
+            ];
+            contents.forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+        }
+
+        function approveAIRecommendation() {
+            moveToStep(6);
+        }
+
+        function offerPriority() {
+            document.getElementById('advocate-message').textContent =
+                "Hi Marcus! I can help speed up your withdrawal. You have two upgrade options: Rush (+$2.50) completes in ~10 minutes, or Priority (+$5.00) completes in ~2 minutes. Given your 22-minute wait, which would you prefer?";
+            moveToStep(6);
+        }
+
+        function explainOptions() {
+            document.getElementById('advocate-message').textContent =
+                "Hi Marcus! Here are your speed options: 1) Keep Standard (free, ~38 min remaining), 2) Rush upgrade (+$2.50, ~10 min), or 3) Priority (+$5.00, ~2 min). Based on your history, I'd recommend Rush for the best value. What works for you?";
+            moveToStep(6);
+        }
+
+        function sendMessage() {
+            setTimeout(() => {
+                moveToStep(7);
+            }, 1000);
+        }
+
+        function editMessage() {
+            const newMessage = prompt('Edit message:', document.getElementById('advocate-message').textContent);
+            if (newMessage) {
+                document.getElementById('advocate-message').textContent = newMessage;
+            }
+        }
+
+        function completeWorkflow() {
+            document.getElementById(`step-${currentStep}`).classList.remove('active');
+            document.getElementById(`step-${currentStep}`).classList.add('completed');
+            hideAllContent();
+            document.getElementById('workflow-complete').classList.remove('hidden');
+            document.getElementById('workflow-complete').classList.add('slide-in');
+        }
+
+        function resetWorkflow() {
+            currentStep = 1;
+
+            // Reset all steps
+            for (let i = 1; i <= 8; i++) {
+                const step = document.getElementById(`step-${i}`);
+                step.classList.remove('active', 'completed');
+                if (i === 1) {
+                    step.classList.add('active');
+                }
+            }
+
+            hideAllContent();
+            document.getElementById('customer-request').classList.remove('hidden');
+        }
+
+        // Update time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        setInterval(updateTime, 60000);
+        updateTime();
+    </script>
+</body>
+
+</html>

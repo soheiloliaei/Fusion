@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTC Agentic Hub - Complete A-to-Z Workflow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'background': '#FAFAFA',
+                        'background-card': '#FFFFFF',
+                        'foreground': '#0A0A0A',
+                        'muted-foreground': '#737373',
+                        'border': '#E5E5E5',
+                        'primary': '#0A0A0A',
+                        'primary-foreground': '#FFFFFF',
+                        'secondary': '#F5F5F5',
+                        'secondary-foreground': '#0A0A0A',
+                        'ai-primary': '#0A0A0A',
+                        'ai-secondary': '#F0F9FF',
+                        'ai-border': '#0A0A0A',
+                        'success': '#0A0A0A',
+                        'warning': '#737373',
+                        'destructive': '#0A0A0A',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        'default': '14px',
+                        'badge': '200px',
+                        'chat-input': '32px',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-out',
+                        'slide-up': 'slideUp 0.3s ease-out',
+                        'ai-thinking': 'aiThinking 2s ease-in-out infinite',
+                        'typing': 'typing 2s steps(40) infinite',
+                    },
+                    keyframes: {
+                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+                        slideUp: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+                        aiThinking: { '0%, 100%': { opacity: '0.6' }, '50%': { opacity: '1' } },
+                        typing: { '0%': { width: '0' }, '100%': { width: '100%' } },
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background min-h-screen font-sans text-foreground antialiased">
+
+    <!-- === COMPLETE A-TO-Z ADVOCATE WORKFLOW === -->
+    
+    <!-- Step 1: Login Screen -->
+    <div id="login-screen" class="min-h-screen flex items-center justify-center bg-background">
+        <div class="bg-background-card border border-border rounded-default p-8 shadow-card w-full max-w-md">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-primary-foreground font-bold text-2xl">₿</span>
+                </div>
+                <h1 class="text-2xl font-semibold text-foreground">BTC Agentic Hub</h1>
+                <p class="text-muted-foreground mt-2">Sign in to start your day</p>
+            </div>
+            
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label class="text-sm font-medium text-foreground">Email</label>
+                    <input type="email" value="alex.morgan@cashapp.com" class="w-full mt-1 px-4 py-2 border border-border rounded-default bg-background-card text-foreground focus:outline-none focus:border-primary">
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-foreground">Password</label>
+                    <input type="password" value="••••••••" class="w-full mt-1 px-4 py-2 border border-border rounded-default bg-background-card text-foreground focus:outline-none focus:border-primary">
+                </div>
+                <button type="submit" class="w-full bg-primary text-primary-foreground py-2 rounded-default font-medium hover:bg-foreground transition-colors">
+                    Sign In
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Step 2: Dashboard (Initially Hidden) -->
+    <div id="dashboard" class="hidden">
+        <!-- Navigation -->
+        <nav class="bg-background-card border-b border-border px-6 py-4 shadow-nav sticky top-0 z-50">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                        <span class="text-primary-foreground font-bold text-sm">₿</span>
+                    </div>
+                    <span class="text-foreground font-medium">BTC Agentic Hub</span>
+                    <div id="ai-status" class="bg-ai-primary text-primary-foreground px-3 py-1 rounded-badge text-xs font-medium">
+                        <div class="w-2 h-2 bg-primary-foreground rounded-full mr-2 inline-block animate-ai-thinking"></div>
+                        AI Active • 97% Trust
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-muted-foreground">0 active cases</span>
+                        <div id="advocate-status" class="bg-secondary text-secondary-foreground px-3 py-1 rounded-badge text-xs font-medium">
+                            <div class="w-2 h-2 bg-muted-foreground rounded-full mr-2"></div>
+                            Offline
+                        </div>
+                    </div>
+                    
+                    <button id="go-online-btn" class="bg-primary text-primary-foreground px-6 py-2 rounded-default font-medium hover:bg-foreground transition-colors">
+                        Go Online
+                    </button>
+                    
+                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                        <span class="text-primary-foreground font-bold text-sm">AM</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-6 py-8">
+            <!-- Welcome Section -->
+            <div class="mb-8 animate-fade-in">
+                <h1 class="text-3xl font-normal leading-loose tracking-tight text-foreground">
+                    Welcome back, Alex
+                </h1>
+                <p class="text-muted-foreground mt-2">
+                    You're currently offline. Click "Go Online" to start receiving cases.
+                </p>
+            </div>
+
+            <!-- Case Grid (Initially Empty) -->
+            <div id="case-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <!-- Cases will be populated here -->
+            </div>
+
+            <!-- AI Insights Panel -->
+            <div class="bg-background-card border border-border rounded-default p-6 shadow-card animate-fade-in">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-semibold text-foreground">AI Insights</h2>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-2 h-2 bg-foreground rounded-full animate-ai-thinking"></div>
+                        <span class="text-sm text-muted-foreground">Real-time Analysis</span>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="text-center">
+                        <span class="text-sm text-muted-foreground">Cases Today</span>
+                        <div class="text-3xl font-semibold text-foreground mt-1">0</div>
+                        <span class="text-sm text-foreground">Waiting for online status</span>
+                    </div>
+                    
+                    <div class="text-center">
+                        <span class="text-sm text-muted-foreground">Avg Resolution</span>
+                        <div class="text-3xl font-semibold text-foreground mt-1">--</div>
+                        <span class="text-sm text-foreground">No data yet</span>
+                    </div>
+                    
+                    <div class="text-center">
+                        <span class="text-sm text-muted-foreground">AI Confidence</span>
+                        <div class="text-3xl font-semibold text-foreground mt-1">97%</div>
+                        <span class="text-sm text-foreground">High accuracy</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Step 3: Case Detail View (Initially Hidden) -->
+    <div id="case-detail" class="hidden">
+        <!-- Case Navigation -->
+        <nav class="bg-background-card border-b border-border px-6 py-4 shadow-nav sticky top-0 z-50">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <button id="back-to-dashboard" class="text-muted-foreground hover:text-foreground transition-colors">
+                        ← Back to Cases
+                    </button>
+                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                        <span class="text-primary-foreground font-bold text-sm">₿</span>
+                    </div>
+                    <span id="case-title" class="text-foreground font-medium">BTC-2891 • Robert Wilson</span>
+                    
+                    <div class="bg-ai-primary text-primary-foreground px-3 py-1 rounded-badge text-xs font-medium animate-ai-thinking">
+                        <div class="w-2 h-2 bg-primary-foreground rounded-full mr-2 inline-block animate-ai-thinking"></div>
+                        AI Active • 97% Trust
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-muted-foreground">Progress</span>
+                        <div class="w-24 h-2 bg-secondary rounded-full overflow-hidden">
+                            <div id="case-progress" class="h-full bg-primary rounded-full transition-all duration-500" style="width: 25%"></div>
+                        </div>
+                        <span class="text-sm text-foreground font-medium">25%</span>
+                    </div>
+                    
+                    <div class="bg-destructive text-primary-foreground px-3 py-1 rounded-badge text-xs font-medium">
+                        🚨 URGENT
+                    </div>
+                    
+                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                        <span class="text-primary-foreground font-bold text-sm">AM</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Case Content -->
+        <main class="max-w-7xl mx-auto px-6 py-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Left Panel: AI Analysis & Chat -->
+                <div class="lg:col-span-2 space-y-6">
+                    
+                    <!-- AI Analysis Summary -->
+                    <div class="bg-background-card border border-border rounded-default p-6 shadow-card animate-fade-in">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-xl font-semibold text-foreground">AI Analysis Summary</h2>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-foreground rounded-full animate-ai-thinking"></div>
+                                <span class="text-sm text-muted-foreground">Real-time Analysis</span>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                            <div class="text-center p-4 bg-ai-secondary border border-ai-border rounded-default">
+                                <div class="text-2xl font-semibold text-foreground">7</div>
+                                <div class="text-sm text-muted-foreground">Red Flags Detected</div>
+                            </div>
+                            <div class="text-center p-4 bg-ai-secondary border border-ai-border rounded-default">
+                                <div class="text-2xl font-semibold text-foreground">87%</div>
+                                <div class="text-sm text-muted-foreground">Scam Pattern Match</div>
+                            </div>
+                            <div class="text-center p-4 bg-ai-secondary border border-ai-border rounded-default">
+                                <div class="text-2xl font-semibold text-foreground">$25K</div>
+                                <div class="text-sm text-muted-foreground">Transaction Amount</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Customer Chat Interface -->
+                    <div class="bg-background-card border border-border rounded-default p-6 shadow-card animate-slide-up">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-xl font-semibold text-foreground">Customer Communication</h2>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-success rounded-full"></div>
+                                <span class="text-sm text-muted-foreground">Connected</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Chat Messages -->
+                        <div id="chat-messages" class="space-y-4 mb-4 max-h-96 overflow-y-auto">
+                            <!-- Customer Message -->
+                            <div class="flex items-start space-x-3">
+                                <div class="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
+                                    <span class="text-secondary-foreground font-bold text-sm">RW</span>
+                                </div>
+                                <div class="bg-secondary rounded-default p-3 max-w-xs">
+                                    <p class="text-sm text-foreground">I need to withdraw $25,000 immediately. This is urgent!</p>
+                                    <span class="text-xs text-muted-foreground">2:34 PM</span>
+                                </div>
+                            </div>
+                            
+                            <!-- AI-Generated Response -->
+                            <div class="flex items-start space-x-3 justify-end">
+                                <div class="bg-ai-primary rounded-default p-3 max-w-xs">
+                                    <div class="flex items-center space-x-2 mb-1">
+                                        <div class="w-4 h-4 bg-primary-foreground rounded-full flex items-center justify-center">
+                                            <span class="text-ai-primary text-xs font-bold">AI</span>
+                                        </div>
+                                        <span class="text-xs text-primary-foreground">AI Generated</span>
+                                    </div>
+                                    <p class="text-sm text-primary-foreground">Hi Robert, I understand this is urgent. For your security, I need to verify a few details first. This will only take a moment and helps protect your account.</p>
+                                    <span class="text-xs text-primary-foreground opacity-70">2:35 PM</span>
+                                </div>
+                                <div class="w-8 h-8 bg-ai-primary rounded-full flex items-center justify-center">
+                                    <span class="text-primary-foreground font-bold text-sm">AI</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Message Input -->
+                        <div class="flex space-x-3">
+                            <input type="text" 
+                                   id="message-input"
+                                   placeholder="Type your message to customer..." 
+                                   class="flex-1 text-base text-foreground placeholder-muted-foreground bg-transparent border border-border rounded-chat-input px-4 py-2 outline-none focus:border-primary">
+                            <button id="send-message" class="bg-primary text-primary-foreground px-4 py-2 rounded-default font-medium hover:bg-foreground transition-colors">
+                                Send
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- AI-Proposed Actions -->
+                    <div class="bg-background-card border border-border rounded-default p-6 shadow-card animate-slide-up">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-xl font-semibold text-foreground">AI-Proposed Actions</h2>
+                            <div class="bg-ai-primary text-primary-foreground px-3 py-1 rounded-badge text-xs font-medium">
+                                97% Confidence
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <!-- Primary Action -->
+                            <div class="p-4 bg-ai-secondary border border-ai-border rounded-default">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h3 class="text-lg font-medium text-foreground">🛡️ Protect Customer</h3>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-xs text-muted-foreground">Primary Action</span>
+                                        <div class="w-2 h-2 bg-foreground rounded-full animate-ai-thinking"></div>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-muted-foreground mb-4">Pause withdrawal, initiate fraud review, prepare customer education materials</p>
+                                <div class="flex space-x-3">
+                                    <button id="approve-protect" class="bg-ai-primary text-primary-foreground px-4 py-2 rounded-default text-sm font-medium hover:bg-foreground transition-colors">
+                                        ✓ Approve & Execute
+                                    </button>
+                                    <button class="bg-secondary text-secondary-foreground px-4 py-2 rounded-default text-sm font-medium hover:bg-muted-foreground transition-colors">
+                                        ✏️ Modify
+                                    </button>
+                                    <button class="bg-secondary text-secondary-foreground px-4 py-2 rounded-default text-sm font-medium hover:bg-muted-foreground transition-colors">
+                                        ❌ Reject
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Secondary Actions -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="p-4 bg-background-card border border-border rounded-default">
+                                    <h3 class="text-base font-medium text-foreground mb-2">📞 Escalate to Senior</h3>
+                                    <p class="text-xs text-muted-foreground mb-3">Notify senior advocate for manual review</p>
+                                    <button class="bg-primary text-primary-foreground px-3 py-2 rounded-default text-sm font-medium hover:bg-foreground transition-colors">
+                                        Execute
+                                    </button>
+                                </div>
+                                
+                                <div class="p-4 bg-background-card border border-border rounded-default">
+                                    <h3 class="text-base font-medium text-foreground mb-2">📝 Document Case</h3>
+                                    <p class="text-xs text-muted-foreground mb-3">Create detailed case notes and flag</p>
+                                    <button class="bg-primary text-primary-foreground px-3 py-2 rounded-default text-sm font-medium hover:bg-foreground transition-colors">
+                                        Execute
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Panel: Case Details & Quick Actions -->
+                <div class="space-y-6">
+                    
+                    <!-- Case Details -->
+                    <div class="bg-background-card border border-border rounded-default p-6 shadow-card animate-fade-in">
+                        <h2 class="text-xl font-semibold text-foreground mb-4">Case Details</h2>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-sm font-medium text-foreground">Case ID</label>
+                                <p class="text-sm text-muted-foreground">BTC-2891</p>
+                            </div>
+                            
+                            <div>
+                                <label class="text-sm font-medium text-foreground">Customer</label>
+                                <p class="text-sm text-muted-foreground">Robert Wilson (robert.wilson@email.com)</p>
+                            </div>
+                            
+                            <div>
+                                <label class="text-sm font-medium text-foreground">Transaction</label>
+                                <p class="text-sm text-muted-foreground">$25,000 BTC Withdrawal</p>
+                            </div>
+                            
+                            <div>
+                                <label class="text-sm font-medium text-foreground">Priority</label>
+                                <div class="bg-destructive text-primary-foreground px-2 py-1 rounded-badge text-xs font-medium inline-block">
+                                    🚨 URGENT
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="text-sm font-medium text-foreground">Status</label>
+                                <div class="bg-warning text-primary-foreground px-2 py-1 rounded-badge text-xs font-medium inline-block">
+                                    Under Review
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="bg-background-card border border-border rounded-default p-6 shadow-card animate-slide-up">
+                        <h2 class="text-xl font-semibold text-foreground mb-4">Quick Actions</h2>
+                        
+                        <div class="space-y-3">
+                            <button class="w-full bg-ai-primary text-primary-foreground px-4 py-3 rounded-default font-medium hover:bg-foreground transition-colors text-left">
+                                🛡️ Protect Customer Account
+                            </button>
+                            
+                            <button class="w-full bg-primary text-primary-foreground px-4 py-3 rounded-default font-medium hover:bg-foreground transition-colors text-left">
+                                📞 Call Customer
+                            </button>
+                            
+                            <button class="w-full bg-primary text-primary-foreground px-4 py-3 rounded-default font-medium hover:bg-foreground transition-colors text-left">
+                                📋 View Full History
+                            </button>
+                            
+                            <button class="w-full bg-primary text-primary-foreground px-4 py-3 rounded-default font-medium hover:bg-foreground transition-colors text-left">
+                                🔍 Deep Analysis
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- AI Performance -->
+                    <div class="bg-background-card border border-border rounded-default p-6 shadow-card animate-slide-up">
+                        <h2 class="text-xl font-semibold text-foreground mb-4">AI Performance</h2>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-muted-foreground">Analysis Speed</span>
+                                <span class="text-sm font-medium text-foreground">2.3s</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-muted-foreground">Confidence Score</span>
+                                <span class="text-sm font-medium text-foreground">97%</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-muted-foreground">Pattern Recognition</span>
+                                <span class="text-sm font-medium text-foreground">87%</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-muted-foreground">Risk Assessment</span>
+                                <span class="text-sm font-medium text-foreground">High</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- === COMPLETE STATE MANAGEMENT === -->
+    <script>
+        // Complete A-to-Z Workflow State Management
+        class CompleteWorkflowState {
+            constructor() {
+                this.currentStep = 'login';
+                this.advocateStatus = 'offline';
+                this.activeCases = [];
+                this.currentCase = null;
+                this.chatMessages = [
+                    {
+                        id: 1,
+                        sender: 'customer',
+                        text: 'I need to withdraw $25,000 immediately. This is urgent!',
+                        timestamp: '2:34 PM',
+                        status: 'sent'
+                    },
+                    {
+                        id: 2,
+                        sender: 'ai',
+                        text: 'Hi Robert, I understand this is urgent. For your security, I need to verify a few details first. This will only take a moment and helps protect your account.',
+                        timestamp: '2:35 PM',
+                        status: 'sent'
+                    }
+                ];
+                
+                this.initializeEventListeners();
+            }
+            
+            initializeEventListeners() {
+                // Login form
+                document.getElementById('login-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.goToDashboard();
+                });
+                
+                // Go online button
+                document.getElementById('go-online-btn').addEventListener('click', () => {
+                    this.goOnline();
+                });
+                
+                // Back to dashboard
+                document.getElementById('back-to-dashboard').addEventListener('click', () => {
+                    this.goToDashboard();
+                });
+                
+                // Send message
+                document.getElementById('send-message').addEventListener('click', () => {
+                    this.sendMessage();
+                });
+                
+                // Message input enter key
+                document.getElementById('message-input').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.sendMessage();
+                    }
+                });
+                
+                // Approve protect action
+                document.getElementById('approve-protect').addEventListener('click', () => {
+                    this.approveAction('protect-customer');
+                });
+            }
+            
+            goToDashboard() {
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                document.getElementById('case-detail').classList.add('hidden');
+                this.currentStep = 'dashboard';
+            }
+            
+            goOnline() {
+                this.advocateStatus = 'online';
+                const statusElement = document.getElementById('advocate-status');
+                const button = document.getElementById('go-online-btn');
+                
+                statusElement.innerHTML = `
+                    <div class="w-2 h-2 bg-success rounded-full mr-2 animate-pulse"></div>
+                    Online
+                `;
+                statusElement.className = 'bg-success text-primary-foreground px-3 py-1 rounded-badge text-xs font-medium';
+                
+                button.textContent = 'Online';
+                button.className = 'bg-success text-primary-foreground px-6 py-2 rounded-default font-medium transition-colors';
+                
+                this.showNotification('You are now online and ready to receive cases', 'success');
+                
+                // Simulate case assignment
+                setTimeout(() => {
+                    this.assignCases();
+                }, 2000);
+            }
+            
+            assignCases() {
+                const cases = [
+                    {
+                        id: 'BTC-2891',
+                        customer: 'Robert Wilson',
+                        title: 'AI-Detected Scam Pattern',
+                        description: '$25,000 urgent BTC withdrawal - AI identified 7 red flags',
+                        priority: 'URGENT',
+                        aiConfidence: 97
+                    },
+                    {
+                        id: 'BTC-2889',
+                        customer: 'Marcus Chen',
+                        title: 'Speed Upgrade Request',
+                        description: '0.15 BTC withdrawal - Customer requesting faster processing',
+                        priority: 'MEDIUM',
+                        aiConfidence: 94
+                    },
+                    {
+                        id: 'BTC-2890',
+                        customer: 'Anna Liu',
+                        title: 'Deposit Confirmation',
+                        description: '0.05 BTC deposit - Customer seeking confirmation status',
+                        priority: 'LOW',
+                        aiConfidence: 96
+                    }
+                ];
+                
+                this.activeCases = cases;
+                this.renderCases();
+                this.showNotification('3 cases assigned to you', 'success');
+            }
+            
+            renderCases() {
+                const caseGrid = document.getElementById('case-grid');
+                caseGrid.innerHTML = '';
+                
+                this.activeCases.forEach(caseData => {
+                    const caseCard = document.createElement('div');
+                    caseCard.className = 'bg-background-card border border-border rounded-default p-6 shadow-card hover:shadow-card transition-all duration-200 cursor-pointer animate-slide-up';
+                    caseCard.innerHTML = `
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="bg-destructive text-primary-foreground px-3 py-1 rounded-badge text-xs font-medium">
+                                ${caseData.priority}
+                            </div>
+                            <div class="bg-ai-primary text-primary-foreground px-3 py-1 rounded-badge text-xs font-medium">
+                                ${caseData.aiConfidence}% AI
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                                <span class="text-primary-foreground font-bold">${caseData.customer.split(' ').map(n => n[0]).join('')}</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-foreground">${caseData.id}</h3>
+                                <p class="text-sm text-muted-foreground">${caseData.customer}</p>
+                            </div>
+                        </div>
+                        
+                        <h4 class="text-lg font-medium text-foreground mb-2">${caseData.title}</h4>
+                        <p class="text-sm text-muted-foreground">${caseData.description}</p>
+                    `;
+                    
+                    caseCard.addEventListener('click', () => {
+                        this.openCase(caseData);
+                    });
+                    
+                    caseGrid.appendChild(caseCard);
+                });
+            }
+            
+            openCase(caseData) {
+                this.currentCase = caseData;
+                document.getElementById('dashboard').classList.add('hidden');
+                document.getElementById('case-detail').classList.remove('hidden');
+                document.getElementById('case-title').textContent = `${caseData.id} • ${caseData.customer}`;
+                
+                this.showNotification(`Opened case: ${caseData.id}`, 'info');
+            }
+            
+            sendMessage() {
+                const input = document.getElementById('message-input');
+                const message = input.value.trim();
+                
+                if (message) {
+                    // Add advocate message
+                    this.chatMessages.push({
+                        id: Date.now(),
+                        sender: 'advocate',
+                        text: message,
+                        timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                        status: 'sent'
+                    });
+                    
+                    input.value = '';
+                    this.renderChatMessages();
+                    
+                    this.showNotification('Message sent to customer', 'success');
+                    
+                    // Simulate AI response
+                    setTimeout(() => {
+                        this.generateAIResponse(message);
+                    }, 1500);
+                }
+            }
+            
+            generateAIResponse(customerMessage) {
+                const responses = [
+                    "I understand your urgency. Let me verify a few security details to ensure your account remains protected.",
+                    "Thank you for your patience. I'm reviewing your request and will have an update shortly.",
+                    "I see you need this processed quickly. I'm working on it while ensuring your security."
+                ];
+                
+                const response = responses[Math.floor(Math.random() * responses.length)];
+                
+                this.chatMessages.push({
+                    id: Date.now(),
+                    sender: 'ai',
+                    text: response,
+                    timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                    status: 'sent'
+                });
+                
+                this.renderChatMessages();
+                this.showNotification('AI responded to customer', 'info');
+            }
+            
+            renderChatMessages() {
+                const chatContainer = document.getElementById('chat-messages');
+                chatContainer.innerHTML = '';
+                
+                this.chatMessages.forEach(message => {
+                    const messageDiv = document.createElement('div');
+                    
+                    if (message.sender === 'customer') {
+                        messageDiv.className = 'flex items-start space-x-3';
+                        messageDiv.innerHTML = `
+                            <div class="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
+                                <span class="text-secondary-foreground font-bold text-sm">RW</span>
+                            </div>
+                            <div class="bg-secondary rounded-default p-3 max-w-xs">
+                                <p class="text-sm text-foreground">${message.text}</p>
+                                <span class="text-xs text-muted-foreground">${message.timestamp}</span>
+                            </div>
+                        `;
+                    } else if (message.sender === 'advocate') {
+                        messageDiv.className = 'flex items-start space-x-3 justify-end';
+                        messageDiv.innerHTML = `
+                            <div class="bg-primary rounded-default p-3 max-w-xs">
+                                <p class="text-sm text-primary-foreground">${message.text}</p>
+                                <span class="text-xs text-primary-foreground opacity-70">${message.timestamp}</span>
+                            </div>
+                            <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                                <span class="text-primary-foreground font-bold text-sm">AM</span>
+                            </div>
+                        `;
+                    } else if (message.sender === 'ai') {
+                        messageDiv.className = 'flex items-start space-x-3 justify-end';
+                        messageDiv.innerHTML = `
+                            <div class="bg-ai-primary rounded-default p-3 max-w-xs">
+                                <div class="flex items-center space-x-2 mb-1">
+                                    <div class="w-4 h-4 bg-primary-foreground rounded-full flex items-center justify-center">
+                                        <span class="text-ai-primary text-xs font-bold">AI</span>
+                                    </div>
+                                    <span class="text-xs text-primary-foreground">AI Generated</span>
+                                </div>
+                                <p class="text-sm text-primary-foreground">${message.text}</p>
+                                <span class="text-xs text-primary-foreground opacity-70">${message.timestamp}</span>
+                            </div>
+                            <div class="w-8 h-8 bg-ai-primary rounded-full flex items-center justify-center">
+                                <span class="text-primary-foreground font-bold text-sm">AI</span>
+                            </div>
+                        `;
+                    }
+                    
+                    chatContainer.appendChild(messageDiv);
+                });
+                
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+            
+            approveAction(actionId) {
+                this.showNotification('Action approved and executed by AI', 'success');
+                
+                // Update progress
+                const progressBar = document.getElementById('case-progress');
+                const progressText = document.querySelector('.text-foreground.font-medium');
+                const currentProgress = 25;
+                const newProgress = Math.min(100, currentProgress + 25);
+                
+                progressBar.style.width = `${newProgress}%`;
+                progressText.textContent = `${newProgress}%`;
+                
+                if (newProgress >= 100) {
+                    this.showNotification('Case resolved successfully!', 'success');
+                }
+            }
+            
+            showNotification(message, type) {
+                const notification = document.createElement('div');
+                notification.className = `fixed top-4 right-4 bg-background-card border border-border rounded-default p-4 shadow-card animate-slide-up z-50 max-w-sm`;
+                notification.innerHTML = `
+                    <div class="flex items-center space-x-2">
+                        <div class="w-2 h-2 bg-${type === 'success' ? 'success' : type === 'info' ? 'info' : 'warning'} rounded-full"></div>
+                        <span class="text-sm text-foreground">${message}</span>
+                    </div>
+                `;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 4000);
+            }
+        }
+        
+        // Initialize complete workflow
+        const workflowState = new CompleteWorkflowState();
+        
+        // Add smooth interactions
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add hover effects
+            document.querySelectorAll('button').forEach(button => {
+                button.addEventListener('mouseenter', () => {
+                    button.style.transform = 'translateY(-1px)';
+                });
+                
+                button.addEventListener('mouseleave', () => {
+                    button.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Add loading states
+            document.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', () => {
+                    button.style.opacity = '0.7';
+                    setTimeout(() => {
+                        button.style.opacity = '1';
+                    }, 200);
+                });
+            });
+        });
+    </script>
+
+</body>
+</html> 

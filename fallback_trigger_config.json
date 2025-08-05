@@ -1,0 +1,89 @@
+{
+    "risk_threshold": 0.65,
+    "default_fallback_agent": "rewrite_loop",
+    "pattern_routing": {
+        "vp_design": "fallback_clarify_then_critique",
+        "evaluator": "fallback_metric_narrative",
+        "creative_director": "fallback_soften_for_exec",
+        "design_technologist": "fallback_safe_design",
+        "product_navigator": "fallback_user_centric",
+        "strategy_pilot": "fallback_systematic",
+        "vp_of_design": "fallback_soften_for_exec",
+        "vp_of_product": "fallback_soften_for_exec",
+        "principal_designer": "fallback_clarify_then_critique",
+        "component_librarian": "fallback_safe_design",
+        "content_designer": "fallback_user_centric",
+        "ai_interaction_designer": "fallback_safe_design",
+        "strategy_archivist": "fallback_systematic",
+        "market_analyst": "fallback_metric_narrative",
+        "workflow_optimizer": "fallback_systematic",
+        "product_historian": "fallback_systematic",
+        "deck_narrator": "fallback_soften_for_exec",
+        "portfolio_editor": "fallback_user_centric",
+        "research_summarizer": "fallback_systematic",
+        "feedback_amplifier": "fallback_metric_narrative",
+        "prompt_master": "fallback_systematic",
+        "dispatcher": "fallback_systematic"
+    },
+    "fallback_patterns": {
+        "vp_design": "fallback_clarify_then_critique",
+        "evaluator": "fallback_metric_narrative",
+        "creative_director": "fallback_soften_for_exec",
+        "design_technologist": "fallback_safe_design",
+        "product_navigator": "fallback_user_centric",
+        "strategy_pilot": "fallback_systematic",
+        "vp_of_design": "fallback_soften_for_exec",
+        "vp_of_product": "fallback_soften_for_exec",
+        "principal_designer": "fallback_clarify_then_critique",
+        "component_librarian": "fallback_safe_design",
+        "content_designer": "fallback_user_centric",
+        "ai_interaction_designer": "fallback_safe_design",
+        "strategy_archivist": "fallback_systematic",
+        "market_analyst": "fallback_metric_narrative",
+        "workflow_optimizer": "fallback_systematic",
+        "product_historian": "fallback_systematic",
+        "deck_narrator": "fallback_soften_for_exec",
+        "portfolio_editor": "fallback_user_centric",
+        "research_summarizer": "fallback_systematic",
+        "feedback_amplifier": "fallback_metric_narrative",
+        "prompt_master": "fallback_systematic",
+        "dispatcher": "fallback_systematic"
+    },
+    "agent_risk_profiles": {
+        "vp_design": {
+            "base_risk": 0.4,
+            "risk_factors": [
+                "design_criticism",
+                "executive_sensitivity"
+            ]
+        },
+        "evaluator": {
+            "base_risk": 0.5,
+            "risk_factors": [
+                "design_criticism",
+                "accessibility_concerns"
+            ]
+        },
+        "creative_director": {
+            "base_risk": 0.35,
+            "risk_factors": [
+                "innovation_risk",
+                "executive_sensitivity"
+            ]
+        },
+        "design_technologist": {
+            "base_risk": 0.3,
+            "risk_factors": [
+                "technical_depth",
+                "complex_requirements"
+            ]
+        },
+        "product_navigator": {
+            "base_risk": 0.25,
+            "risk_factors": [
+                "user_experience",
+                "ambiguous_terms"
+            ]
+        }
+    }
+}

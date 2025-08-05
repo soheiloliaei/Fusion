@@ -1,0 +1,307 @@
+{
+  "system_info": {
+    "version": "v15.0.0",
+    "description": "Fusion v15 Agent Manifest with Memory and Telemetry",
+    "created_at": "2024-01-01T00:00:00Z"
+  },
+  "agents": {
+    "vp_design": {
+      "role": "Design Lead",
+      "capabilities": [
+        "wireframe",
+        "critique",
+        "strategy",
+        "design_system",
+        "ux_review"
+      ],
+      "fallback": "rewrite_loop_agent",
+      "memory_enabled": true,
+      "telemetry_enabled": true,
+      "confidence_threshold": 0.8
+    },
+    "evaluator": {
+      "role": "Quality Evaluator",
+      "capabilities": [
+        "scoring",
+        "voice_check",
+        "freshness",
+        "quality_assessment"
+      ],
+      "fallback": "rewrite_loop_agent",
+      "memory_enabled": true,
+      "telemetry_enabled": true,
+      "confidence_threshold": 0.85
+    },
+    "design_technologist": {
+      "role": "Technical Design Specialist",
+      "capabilities": [
+        "component_design",
+        "token_extraction",
+        "implementation",
+        "accessibility"
+      ],
+      "fallback": "rewrite_loop_agent",
+      "memory_enabled": true,
+      "telemetry_enabled": true,
+      "confidence_threshold": 0.8
+    },
+    "ai_interaction_designer": {
+      "role": "AI-Human Interaction Designer",
+      "capabilities": [
+        "conversational_design",
+        "ai_human_interaction",
+        "trust_building"
+      ],
+      "fallback": "rewrite_loop_agent",
+      "memory_enabled": true,
+      "telemetry_enabled": true,
+      "confidence_threshold": 0.9
+    },
+    "workflow_optimizer": {
+      "role": "Process Optimization Specialist",
+      "capabilities": [
+        "workflow_analysis",
+        "efficiency_improvement",
+        "process_design"
+      ],
+      "fallback": "rewrite_loop_agent",
+      "memory_enabled": true,
+      "telemetry_enabled": true,
+      "confidence_threshold": 0.8
+    },
+    "creative_director": {
+      "role": "Creative Direction Lead",
+      "capabilities": [
+        "creative_strategy",
+        "brand_alignment",
+        "visual_direction"
+      ],
+      "fallback": "rewrite_loop_agent",
+      "memory_enabled": true,
+      "telemetry_enabled": true,
+      "confidence_threshold": 0.85
+    },
+    "dispatcher": {
+      "role": "Agent Dispatcher",
+      "capabilities": [
+        "agent_routing",
+        "task_assignment",
+        "load_balancing"
+      ],
+      "fallback": "rewrite_loop_agent",
+      "memory_enabled": true,
+      "telemetry_enabled": true,
+      "confidence_threshold": 0.9
+    },
+    "prompt_master": {
+      "role": "Prompt Engineering Specialist",
+      "capabilities": [
+        "prompt_optimization",
+        "context_engineering",
+        "instruction_design"
+      ],
+      "fallback": "rewrite_loop_agent",
+      "memory_enabled": true,
+      "telemetry_enabled": true,
+      "confidence_threshold": 0.85
+    },
+    "principal_designer": {
+      "role": "Principal Design Architect",
+      "capabilities": [
+        "design_architecture",
+        "system_design",
+        "design_leadership"
+      ],
+      "fallback": "rewrite_loop_agent",
+      "memory_enabled": true,
+      "telemetry_enabled": true,
+      "confidence_threshold": 0.9
+    },
+    "component_librarian": {
+      "role": "Component System Manager",
+      "capabilities": [
+        "component_design",
+        "design_tokens",
+        "component_library"
+      ],
+      "fallback": "rewrite_loop_agent",
+      "memory_enabled": true,
+      "telemetry_enabled": true,
+      "confidence_threshold": 0.8
+    },
+    "content_designer": {
+      "role": "Content Strategy Specialist",
+      "capabilities": [
+        "content_strategy",
+        "copywriting",
+        "information_architecture"
+      ],
+      "fallback": "rewrite_loop_agent",
+      "memory_enabled": true,
+      "telemetry_enabled": true,
+      "confidence_threshold": 0.8
+    },
+    "strategy_archivist": {
+      "role": "Strategic Knowledge Manager",
+      "capabilities": [
+        "knowledge_management",
+        "strategy_documentation",
+        "pattern_recognition"
+      ],
+      "fallback": "rewrite_loop_agent",
+      "memory_enabled": true,
+      "telemetry_enabled": true,
+      "confidence_threshold": 0.85
+    },
+    "market_analyst": {
+      "role": "Market Intelligence Specialist",
+      "capabilities": [
+        "market_research",
+        "competitive_analysis",
+        "trend_identification"
+      ],
+      "fallback": "rewrite_loop_agent",
+      "memory_enabled": true,
+      "telemetry_enabled": true,
+      "confidence_threshold": 0.8
+    },
+    "product_historian": {
+      "role": "Product Evolution Specialist",
+      "capabilities": [
+        "product_history",
+        "evolution_tracking",
+        "lesson_learning"
+      ],
+      "fallback": "rewrite_loop_agent",
+      "memory_enabled": true,
+      "telemetry_enabled": true,
+      "confidence_threshold": 0.8
+    },
+    "deck_narrator": {
+      "role": "Presentation Specialist",
+      "capabilities": [
+        "presentation_design",
+        "storytelling",
+        "narrative_structure"
+      ],
+      "fallback": "rewrite_loop_agent",
+      "memory_enabled": true,
+      "telemetry_enabled": true,
+      "confidence_threshold": 0.8
+    },
+    "portfolio_editor": {
+      "role": "Portfolio Curator",
+      "capabilities": [
+        "portfolio_curation",
+        "case_study_development",
+        "work_showcase"
+      ],
+      "fallback": "rewrite_loop_agent",
+      "memory_enabled": true,
+      "telemetry_enabled": true,
+      "confidence_threshold": 0.8
+    },
+    "research_summarizer": {
+      "role": "Research Synthesis Specialist",
+      "capabilities": [
+        "research_synthesis",
+        "insight_extraction",
+        "knowledge_compilation"
+      ],
+      "fallback": "rewrite_loop_agent",
+      "memory_enabled": true,
+      "telemetry_enabled": true,
+      "confidence_threshold": 0.85
+    },
+    "feedback_amplifier": {
+      "role": "Feedback Processing Specialist",
+      "capabilities": [
+        "feedback_analysis",
+        "improvement_identification",
+        "action_planning"
+      ],
+      "fallback": "rewrite_loop_agent",
+      "memory_enabled": true,
+      "telemetry_enabled": true,
+      "confidence_threshold": 0.8
+    },
+    "vp_of_product": {
+      "role": "Product Strategy Lead",
+      "capabilities": [
+        "product_strategy",
+        "roadmap_planning",
+        "feature_prioritization"
+      ],
+      "fallback": "rewrite_loop_agent",
+      "memory_enabled": true,
+      "telemetry_enabled": true,
+      "confidence_threshold": 0.9
+    },
+    "strategy_pilot": {
+      "role": "Strategic Execution Specialist",
+      "capabilities": [
+        "strategy_execution",
+        "tactical_planning",
+        "implementation_guidance"
+      ],
+      "fallback": "rewrite_loop_agent",
+      "memory_enabled": true,
+      "telemetry_enabled": true,
+      "confidence_threshold": 0.85
+    },
+    "product_navigator": {
+      "role": "Product Navigation Specialist",
+      "capabilities": [
+        "product_navigation",
+        "ux_strategy",
+        "user_journey_mapping"
+      ],
+      "fallback": "rewrite_loop_agent",
+      "memory_enabled": true,
+      "telemetry_enabled": true,
+      "confidence_threshold": 0.8
+    },
+    "vp_of_design": {
+      "role": "VP of Design",
+      "capabilities": [
+        "design_leadership",
+        "creative_direction",
+        "team_management"
+      ],
+      "fallback": "rewrite_loop_agent",
+      "memory_enabled": true,
+      "telemetry_enabled": true,
+      "confidence_threshold": 0.9
+    }
+  },
+  "system_capabilities": {
+    "memory": {
+      "enabled": true,
+      "persistence": "disk",
+      "context_window": 5
+    },
+    "telemetry": {
+      "enabled": true,
+      "logging": "session_based",
+      "metrics": [
+        "execution_time",
+        "confidence_scores",
+        "fallback_triggers"
+      ]
+    },
+    "orchestration": {
+      "parallel_execution": true,
+      "agent_routing": true,
+      "fallback_handling": true
+    },
+    "api": {
+      "enabled": true,
+      "endpoints": [
+        "/run",
+        "/status",
+        "/memory",
+        "/telemetry"
+      ]
+    }
+  }
+}

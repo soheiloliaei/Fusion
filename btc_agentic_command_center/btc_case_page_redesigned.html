@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTC Case Page - Redesigned Advocate Experience</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'cash-sans': ['Cash Sans', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        'neutral-50': '#FAFAFA',
+                        'neutral-950': '#0A0A0A',
+                        'neutral-500': '#737373',
+                    },
+                    borderRadius: {
+                        'custom': '14px',
+                        'chat': '32px',
+                        'status': '200px',
+                        'priority': '160px',
+                    },
+                    boxShadow: {
+                        'tile': '0px 1px 3px 0px rgba(0,0,0,0.1), 0px 1px 2px -1px rgba(0,0,0,0.1)',
+                        'nav': '0px 12px 32px 0px rgba(0,0,0,0.04), 0px 8px 16px 0px rgba(0,0,0,0.02), 0px 2px 4px 0px rgba(0,0,0,0.04), 0px 0px 1px 0px rgba(0,0,0,0.2)',
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Cash Sans', 'Inter', ui-sans-serif, system-ui, sans-serif;
+            background: #FAFAFA;
+            color: #0A0A0A;
+        }
+
+        .phase-indicator {
+            background: #0A0A0A;
+            color: white;
+            border-radius: 200px;
+            padding: 4px 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .phase-indicator.gathering {
+            background: #f59e0b;
+        }
+
+        .phase-indicator.solving {
+            background: #10b981;
+        }
+
+        .context-card {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px -1px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #0A0A0A;
+        }
+
+        .context-card.urgent {
+            border-left-color: #ef4444;
+        }
+
+        .context-card.warning {
+            border-left-color: #f59e0b;
+        }
+
+        .context-card.info {
+            border-left-color: #3b82f6;
+        }
+
+        .ai-insight {
+            background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+            border: 1px solid #bbf7d0;
+            border-radius: 14px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+
+        .ai-insight.urgent {
+            background: linear-gradient(135deg, #fef2f2, #fef2f2);
+            border-color: #fecaca;
+        }
+
+        .chat-container {
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px -1px rgba(0, 0, 0, 0.1);
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .chat-input-area {
+            border-top: 1px solid #e5e5e5;
+            padding: 20px;
+            background: #fafafa;
+        }
+
+        .message-bubble {
+            background: #0A0A0A;
+            color: white;
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin: 8px 0;
+            max-width: 80%;
+        }
+
+        .message-bubble.customer {
+            background: #f5f5f5;
+            color: #0A0A0A;
+            margin-left: auto;
+        }
+
+        .message-bubble.advocate {
+            background: #0A0A0A;
+            color: white;
+        }
+
+        .message-bubble.ai {
+            background: #10b981;
+            color: #0A0A0A;
+        }
+
+        .ai-suggestion {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 14px;
+            padding: 12px;
+            margin: 8px 0;
+        }
+
+        .btn-primary {
+            background: #0A0A0A;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            padding: 12px 24px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Cash Sans', sans-serif;
+        }
+
+        .btn-primary:hover {
+            background: #262626;
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #0A0A0A;
+            border: 1px solid #e5e5e5;
+            border-radius: 14px;
+            padding: 12px 24px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Cash Sans', sans-serif;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e5e5;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        .progress-bar {
+            background: #e5e5e5;
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: #10b981;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-fill.gathering {
+            background: #f59e0b;
+        }
+
+        .progress-fill.solving {
+            background: #10b981;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="min-h-screen bg-neutral-50">
+
+        <!-- Navigation Bar -->
+        <nav class="bg-white shadow-nav px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <button class="btn-secondary" onclick="goBack()">
+                        ← Back to Cases
+                    </button>
+                    <div>
+                        <h1 class="text-2xl font-semibold text-neutral-950">BTC-2891</h1>
+                        <p class="text-sm text-neutral-500">Potential Scam Detection</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <div class="phase-indicator gathering" id="phase-indicator">
+                        Context Gathering
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-2 h-2 bg-green-500 rounded-full pulse"></div>
+                        <span class="text-sm text-neutral-500">AI Active</span>
+                    </div>
+                    <div class="w-8 h-8 bg-neutral-950 rounded-full flex items-center justify-center">
+                        <span class="text-white font-bold text-sm">AM</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="mt-4">
+                <div class="flex justify-between text-xs text-neutral-500 mb-2">
+                    <span>Context Gathering</span>
+                    <span>Problem Solving</span>
+                    <span>Resolution</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill gathering" id="progress-fill" style="width: 35%"></div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="max-w-7xl mx-auto px-6 py-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+                <!-- Left: Context Gathering Panel -->
+                <div class="space-y-6">
+
+                    <!-- Customer Context -->
+                    <div class="context-card urgent">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-neutral-950">Customer Context</h3>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-red-500 rounded-full"></div>
+                                <span class="text-xs text-red-500 font-medium">URGENT</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-neutral-950 rounded-full flex items-center justify-center">
+                                    <span class="text-white font-bold">RW</span>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-semibold text-neutral-950">Robert Wilson</h4>
+                                    <p class="text-sm text-neutral-500">robert.wilson@email.com</p>
+                                    <div class="flex items-center space-x-2 mt-1">
+                                        <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                                        <span class="text-xs text-green-500">Online</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <span class="text-neutral-500">Account Since:</span>
+                                    <span class="text-neutral-950 font-medium">Jan 15, 2024</span>
+                                </div>
+                                <div>
+                                    <span class="text-neutral-500">Verification:</span>
+                                    <span class="text-green-500 font-medium">✓ Verified</span>
+                                </div>
+                                <div>
+                                    <span class="text-neutral-500">BTC Balance:</span>
+                                    <span class="text-neutral-950 font-medium">0.4821 BTC</span>
+                                </div>
+                                <div>
+                                    <span class="text-neutral-500">Risk Score:</span>
+                                    <span class="text-red-500 font-medium">🔴 High</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transaction Context -->
+                    <div class="context-card warning">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-neutral-950">Current Transaction</h3>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                                <span class="text-xs text-yellow-500 font-medium">FLAGGED</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-neutral-500">Amount:</span>
+                                <span class="text-neutral-950 font-mono font-medium">$25,000 USD</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-neutral-500">BTC Amount:</span>
+                                <span class="text-neutral-950 font-mono font-medium">0.4576 BTC</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-neutral-500">Destination:</span>
+                                <span class="text-neutral-950 font-mono font-medium">1A1z...Kx9m</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-neutral-500">Status:</span>
+                                <span class="text-red-500 font-medium">🚨 PENDING REVIEW</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Context Analysis -->
+                    <div class="ai-insight urgent">
+                        <div class="flex items-center space-x-2 mb-3">
+                            <div class="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-xs font-bold">AI</span>
+                            </div>
+                            <span class="text-sm font-bold text-red-500">SCAM DETECTION ALERT</span>
+                            <div class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-bold">97%</div>
+                        </div>
+
+                        <div class="space-y-2 text-sm">
+                            <p class="text-neutral-950"><strong>Pattern:</strong> Pig butchering scam detected</p>
+                            <ul class="text-neutral-700 space-y-1 ml-4">
+                                <li>• New account (< 30 days)</li>
+                                <li>• First large withdrawal ($25K)</li>
+                                <li>• Urgency language detected</li>
+                                <li>• "Trading partner" mentioned</li>
+                                <li>• Unusual destination pattern</li>
+                            </ul>
+                            <p class="text-green-600 font-medium"><strong>AI Recommendation:</strong> PROTECT CUSTOMER -
+                                Pause withdrawal and educate</p>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="context-card info">
+                        <h3 class="text-lg font-semibold text-neutral-950 mb-4">Quick Actions</h3>
+                        <div class="space-y-3">
+                            <button class="btn-primary w-full btn-small" onclick="protectCustomer()">
+                                🛡️ Protect Customer (Recommended)
+                            </button>
+                            <button class="btn-secondary w-full btn-small" onclick="pauseForReview()">
+                                ⏸️ Pause for Review
+                            </button>
+                            <button class="btn-secondary w-full btn-small" onclick="escalateCase()">
+                                📞 Escalate to Senior
+                            </button>
+                            <button class="btn-secondary w-full btn-small" onclick="addNote()">
+                                📝 Add Internal Note
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center: Chat Interface -->
+                <div class="lg:col-span-2">
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chat-messages">
+
+                            <!-- Customer's Initial Message -->
+                            <div class="message-bubble customer slide-in">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="w-6 h-6 bg-neutral-950 rounded-full flex items-center justify-center">
+                                        <span class="text-white text-xs font-bold">C</span>
+                                    </div>
+                                    <span class="text-xs font-bold text-neutral-950">Robert Wilson</span>
+                                    <span class="text-xs text-neutral-500">4:28 PM</span>
+                                </div>
+                                <p class="text-sm">I need to withdraw $25,000 in Bitcoin urgently. My trading partner
+                                    needs it for a time-sensitive investment opportunity. Please process this
+                                    immediately!</p>
+                            </div>
+
+                            <!-- AI Analysis (Ambient) -->
+                            <div class="ai-suggestion slide-in">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                                        <span class="text-white text-xs font-bold">AI</span>
+                                    </div>
+                                    <span class="text-xs font-bold text-green-500">AI Analysis</span>
+                                    <span class="text-xs text-neutral-500">97% confidence</span>
+                                </div>
+                                <p class="text-sm text-neutral-700">🚨 <strong>Scam detected:</strong> This matches pig
+                                    butchering patterns. Customer shows urgency, mentions "trading partner," and
+                                    requests large withdrawal from new account.</p>
+                            </div>
+
+                            <!-- AI Suggested Response -->
+                            <div class="ai-suggestion slide-in">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
+                                        <span class="text-white text-xs font-bold">AI</span>
+                                    </div>
+                                    <span class="text-xs font-bold text-blue-500">Suggested Response</span>
+                                </div>
+                                <p class="text-sm text-neutral-700 mb-3">"Hi Robert, I want to help protect you. I've
+                                    noticed some patterns in your request that match common cryptocurrency scams. Before
+                                    processing this withdrawal, let's discuss your situation to ensure your funds are
+                                    safe. Can you tell me more about this trading partner and investment opportunity?"
+                                </p>
+                                <div class="flex space-x-2">
+                                    <button class="btn-primary btn-small" onclick="approveResponse()">
+                                        ✓ Send
+                                    </button>
+                                    <button class="btn-secondary btn-small" onclick="editResponse()">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn-secondary btn-small" onclick="rejectResponse()">
+                                        ✗ Custom
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="chat-input-area">
+                            <div class="flex space-x-3">
+                                <textarea
+                                    class="flex-1 bg-white border border-neutral-200 rounded-custom p-3 text-neutral-950 resize-none"
+                                    rows="3" placeholder="Type your message to customer..." id="chat-input"></textarea>
+                                <div class="flex flex-col space-y-2">
+                                    <button class="btn-primary" onclick="sendMessage()">
+                                        📤 Send
+                                    </button>
+                                    <button class="btn-secondary" onclick="askAI()">
+                                        🤖 Ask AI
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPhase = 'gathering';
+        let progress = 35;
+
+        function goBack() {
+            if (confirm('Are you sure you want to go back? Unsaved changes will be lost.')) {
+                window.history.back();
+            }
+        }
+
+        function protectCustomer() {
+            // Update phase to solving
+            currentPhase = 'solving';
+            document.getElementById('phase-indicator').textContent = 'Problem Solving';
+            document.getElementById('phase-indicator').className = 'phase-indicator solving';
+            document.getElementById('progress-fill').className = 'progress-fill solving';
+            document.getElementById('progress-fill').style.width = '70%';
+
+            // Add AI action to chat
+            addAIAction("🛡️ <strong>Customer Protection Activated:</strong> Withdrawal paused, fraud review initiated, customer education materials prepared.");
+
+            // Show next steps
+            setTimeout(() => {
+                addAISuggestion("Next steps: 1) Educate customer about scams, 2) Document interaction, 3) Monitor for similar patterns");
+            }, 2000);
+        }
+
+        function pauseForReview() {
+            addAIAction("⏸️ <strong>Case Paused:</strong> Withdrawal temporarily suspended for manual review by senior advocate.");
+        }
+
+        function escalateCase() {
+            addAIAction("📞 <strong>Case Escalated:</strong> Senior advocate notified. Case transferred to fraud prevention team.");
+        }
+
+        function addNote() {
+            const note = prompt('Add internal note:');
+            if (note) {
+                addAIAction(`📝 <strong>Internal Note Added:</strong> ${note}`);
+            }
+        }
+
+        function approveResponse() {
+            // Remove AI suggestion
+            const suggestions = document.querySelectorAll('.ai-suggestion');
+            suggestions[suggestions.length - 1].remove();
+
+            // Add advocate message
+            addAdvocateMessage("Hi Robert, I want to help protect you. I've noticed some patterns in your request that match common cryptocurrency scams. Before processing this withdrawal, let's discuss your situation to ensure your funds are safe. Can you tell me more about this trading partner and investment opportunity?");
+
+            // Simulate customer response
+            setTimeout(() => {
+                addCustomerMessage("What do you mean scam? This is a legitimate investment opportunity! My partner has made me $50,000 already and now we need to move quickly on this deal.");
+            }, 3000);
+        }
+
+        function editResponse() {
+            const newMessage = prompt('Edit the response:', 'Hi Robert, I want to help protect you...');
+            if (newMessage) {
+                const suggestionText = document.querySelector('.ai-suggestion:last-child p');
+                suggestionText.textContent = newMessage;
+                alert('Response edited. Please review and approve.');
+            }
+        }
+
+        function rejectResponse() {
+            document.querySelector('.ai-suggestion:last-child').remove();
+            document.getElementById('chat-input').focus();
+            alert('AI response rejected. Write your custom message below.');
+        }
+
+        function sendMessage() {
+            const messageText = document.getElementById('chat-input').value;
+            if (!messageText.trim()) return;
+
+            addAdvocateMessage(messageText);
+            document.getElementById('chat-input').value = '';
+        }
+
+        function askAI() {
+            const question = prompt('Ask the AI Copilot:');
+            if (question) {
+                addAIAction(`🤖 <strong>AI Analysis:</strong> Based on the customer's response, this confirms the scam pattern. The mention of "$50,000 already made" is a classic "pig butchering" technique. Recommend continuing with customer education and maintaining the withdrawal pause.`);
+            }
+        }
+
+        function addAIAction(action) {
+            const chatMessages = document.getElementById('chat-messages');
+            const actionDiv = document.createElement('div');
+            actionDiv.className = 'ai-suggestion slide-in';
+            actionDiv.innerHTML = `
+                <div class="flex items-center gap-2 mb-2">
+                    <div class="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                        <span class="text-white text-xs font-bold">AI</span>
+                    </div>
+                    <span class="text-xs font-bold text-green-500">AI Action</span>
+                </div>
+                <p class="text-sm text-neutral-700">${action}</p>
+            `;
+            chatMessages.appendChild(actionDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addAISuggestion(suggestion) {
+            const chatMessages = document.getElementById('chat-messages');
+            const suggestionDiv = document.createElement('div');
+            suggestionDiv.className = 'ai-suggestion slide-in';
+            suggestionDiv.innerHTML = `
+                <div class="flex items-center gap-2 mb-2">
+                    <div class="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
+                        <span class="text-white text-xs font-bold">AI</span>
+                    </div>
+                    <span class="text-xs font-bold text-blue-500">AI Suggestion</span>
+                </div>
+                <p class="text-sm text-neutral-700">${suggestion}</p>
+            `;
+            chatMessages.appendChild(suggestionDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addAdvocateMessage(message) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message-bubble advocate slide-in';
+            messageDiv.innerHTML = `
+                <div class="flex items-center gap-2 mb-2">
+                    <div class="w-6 h-6 bg-neutral-950 rounded-full flex items-center justify-center">
+                        <span class="text-white text-xs font-bold">A</span>
+                    </div>
+                    <span class="text-xs font-bold text-neutral-950">Alex Morgan (You)</span>
+                    <span class="text-xs text-neutral-500">4:32 PM</span>
+                </div>
+                <p class="text-sm">${message}</p>
+            `;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addCustomerMessage(message) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message-bubble customer slide-in';
+            messageDiv.innerHTML = `
+                <div class="flex items-center gap-2 mb-2">
+                    <div class="w-6 h-6 bg-neutral-950 rounded-full flex items-center justify-center">
+                        <span class="text-white text-xs font-bold">C</span>
+                    </div>
+                    <span class="text-xs font-bold text-neutral-950">Robert Wilson</span>
+                    <span class="text-xs text-neutral-500">4:33 PM</span>
+                </div>
+                <p class="text-sm">${message}</p>
+            `;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    </script>
+</body>
+
+</html>

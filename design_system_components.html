@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design System Components</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        // Inline Tailwind config for demonstration
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'background': '#FAFAFA',
+                        'background-card': '#FFFFFF',
+                        'foreground': '#0A0A0A',
+                        'muted-foreground': '#737373',
+                        'description-text': 'rgba(0,0,0,0.7)',
+                        'placeholder': 'rgba(0,0,0,0.3)',
+                        'border': '#E5E5E5',
+                        'primary': '#0A0A0A',
+                        'primary-foreground': '#FFFFFF',
+                        'secondary': '#F5F5F5',
+                        'secondary-foreground': '#0A0A0A',
+                        'success': '#0A0A0A',
+                        'warning': '#737373',
+                        'destructive': '#0A0A0A',
+                        'info': '#737373',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': '11px',
+                        'sm': '12px',
+                        'base': '14px',
+                        'md': '16px',
+                        'lg': '18px',
+                        'xl': '30px',
+                        '2xl': '30px',
+                    },
+                    lineHeight: {
+                        'tight': '12px',
+                        'snug': '14px',
+                        'normal': '20px',
+                        'relaxed': '36px',
+                        'loose': '37.5px',
+                    },
+                    letterSpacing: {
+                        'tight': '-0.75px',
+                    },
+                    borderRadius: {
+                        'default': '14px',
+                        'badge': '200px',
+                        'chat-input': '32px',
+                        'status': '200px',
+                        'priority': '160px',
+                    },
+                    boxShadow: {
+                        'card': '0px 1px 3px 0px rgba(0,0,0,0.1), 0px 1px 2px -1px rgba(0,0,0,0.1)',
+                        'nav': '0px 12px 32px 0px rgba(0,0,0,0.04), 0px 8px 16px 0px rgba(0,0,0,0.02), 0px 2px 4px 0px rgba(0,0,0,0.04), 0px 0px 1px 0px rgba(0,0,0,0.2)',
+                        'card-hover': '0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                        'tile': '0px 1px 3px 0px rgba(0,0,0,0.1), 0px 1px 2px -1px rgba(0,0,0,0.1)',
+                        'chat': '0px 12px 32px 0px rgba(0,0,0,0.04), 0px 8px 16px 0px rgba(0,0,0,0.02), 0px 2px 4px 0px rgba(0,0,0,0.04), 0px 0px 1px 0px rgba(0,0,0,0.2)',
+                    },
+                    spacing: {
+                        '25': '25px',
+                        '76': '76px',
+                        '11.2': '11.2px',
+                        '6.4': '6.4px',
+                        '128': '128px',
+                        '19': '19px',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-out',
+                        'slide-up': 'slideUp 0.3s ease-out',
+                        'scale-in': 'scaleIn 0.2s ease-out',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'typing': 'typing 2s steps(40) infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        scaleIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        },
+                        typing: {
+                            '0%': { width: '0' },
+                            '100%': { width: '100%' },
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-background min-h-screen font-sans text-foreground">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-background-card border-b border-border px-6 py-4 shadow-nav">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                    <span class="text-primary-foreground font-bold text-sm">₿</span>
+                </div>
+                <span class="text-foreground font-medium">Bitcoin Advocate Hub</span>
+                <div class="bg-success text-primary-foreground px-3 py-1 rounded-badge text-xs font-medium">
+                    <div class="w-2 h-2 bg-primary-foreground rounded-full mr-2 inline-block animate-pulse-slow"></div>
+                    AI Active
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm text-muted-foreground">0 active cases</span>
+                    <div class="bg-secondary text-secondary-foreground px-3 py-1 rounded-badge text-xs font-medium">
+                        <div class="w-2 h-2 bg-muted-foreground rounded-full mr-2"></div>
+                        Offline
+                    </div>
+                </div>
+
+                <button
+                    class="bg-primary text-primary-foreground px-6 py-2 rounded-default font-medium hover:bg-foreground transition-colors">
+                    Go Online
+                </button>
+
+                <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                    <span class="text-primary-foreground font-bold text-sm">AM</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 py-8">
+
+        <!-- Welcome Section -->
+        <div class="mb-8 animate-fade-in">
+            <h1 class="text-2xl font-normal leading-loose tracking-tight text-foreground">
+                Welcome back, Alex
+            </h1>
+            <p class="text-muted-foreground mt-2">
+                You're currently offline. Click "Go Online" to start receiving cases.
+            </p>
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+
+            <!-- Case Card 1 -->
+            <div
+                class="bg-background-card border border-border rounded-default p-6 shadow-card hover:shadow-card-hover transition-all duration-200 cursor-pointer animate-slide-up">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="bg-destructive text-primary-foreground px-3 py-1 rounded-priority text-xs font-medium">
+                        HIGH PRIORITY
+                    </div>
+                    <div class="bg-success text-primary-foreground px-3 py-1 rounded-badge text-xs font-medium">
+                        97% AI
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                        <span class="text-primary-foreground font-bold">RW</span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-foreground">BTC-2891</h3>
+                        <p class="text-sm text-muted-foreground">Robert Wilson</p>
+                    </div>
+                </div>
+
+                <h4 class="text-lg font-medium text-foreground mb-2">Potential Scam Detection</h4>
+                <p class="text-sm text-description-text">$25,000 urgent BTC withdrawal - multiple red flags detected</p>
+            </div>
+
+            <!-- Case Card 2 -->
+            <div
+                class="bg-background-card border border-border rounded-default p-6 shadow-card hover:shadow-card-hover transition-all duration-200 cursor-pointer animate-slide-up">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="bg-warning text-primary-foreground px-3 py-1 rounded-priority text-xs font-medium">
+                        MEDIUM
+                    </div>
+                    <div class="bg-success text-primary-foreground px-3 py-1 rounded-badge text-xs font-medium">
+                        92% AI
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                        <span class="text-primary-foreground font-bold">MC</span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-foreground">BTC-2889</h3>
+                        <p class="text-sm text-muted-foreground">Marcus Chen</p>
+                    </div>
+                </div>
+
+                <h4 class="text-lg font-medium text-foreground mb-2">Speed Upgrade Request</h4>
+                <p class="text-sm text-description-text">0.15 BTC withdrawal - customer requesting faster processing</p>
+            </div>
+
+            <!-- Case Card 3 -->
+            <div
+                class="bg-background-card border border-border rounded-default p-6 shadow-card hover:shadow-card-hover transition-all duration-200 cursor-pointer animate-slide-up">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="bg-secondary text-secondary-foreground px-3 py-1 rounded-priority text-xs font-medium">
+                        LOW
+                    </div>
+                    <div class="bg-success text-primary-foreground px-3 py-1 rounded-badge text-xs font-medium">
+                        96% AI
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                        <span class="text-primary-foreground font-bold">AL</span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-foreground">BTC-2890</h3>
+                        <p class="text-sm text-muted-foreground">Anna Liu</p>
+                    </div>
+                </div>
+
+                <h4 class="text-lg font-medium text-foreground mb-2">Deposit Confirmation</h4>
+                <p class="text-sm text-description-text">0.05 BTC deposit - customer seeking confirmation status</p>
+            </div>
+        </div>
+
+        <!-- AI Insights Panel -->
+        <div class="bg-background-card border border-border rounded-default p-6 shadow-card">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-semibold text-foreground">AI Agentic Insights</h2>
+                <div class="flex items-center space-x-2">
+                    <div class="w-2 h-2 bg-foreground rounded-full animate-pulse-slow"></div>
+                    <span class="text-sm text-muted-foreground">Real-time Analysis</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="text-center">
+                    <span class="text-sm text-muted-foreground">Cases Today</span>
+                    <div class="text-3xl font-semibold text-foreground mt-1">7</div>
+                    <span class="text-sm text-foreground">+2 from yesterday</span>
+                </div>
+
+                <div class="text-center">
+                    <span class="text-sm text-muted-foreground">Avg Resolution</span>
+                    <div class="text-3xl font-semibold text-foreground mt-1">3.2m</div>
+                    <span class="text-sm text-foreground">58% faster</span>
+                </div>
+
+                <div class="text-center">
+                    <span class="text-sm text-muted-foreground">AI Confidence</span>
+                    <div class="text-3xl font-semibold text-foreground mt-1">94%</div>
+                    <span class="text-sm text-foreground">High accuracy</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Chat Input Example -->
+    <div class="fixed bottom-6 left-1/2 transform -translate-x-1/2">
+        <div class="bg-background-card border border-border rounded-chat-input px-6 py-3 shadow-chat">
+            <input type="text" placeholder="Type your message to customer or ask AI..."
+                class="w-96 text-base text-foreground placeholder-placeholder bg-transparent border-none outline-none"
+                style="font-family: 'Inter', sans-serif;">
+        </div>
+    </div>
+
+</body>
+
+</html>

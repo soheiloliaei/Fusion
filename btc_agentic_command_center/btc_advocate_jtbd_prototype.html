@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin Advocate Tooling - Jobs-to-be-Done Agentic Prototype</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['JetBrains Mono', 'monospace'],
+                    },
+                    borderRadius: {
+                        'custom': '14px',
+                    },
+                    colors: {
+                        'boss-bg': '#0A0A0A',
+                        'boss-surface': '#151515',
+                        'boss-border': '#2A2A2A',
+                        'boss-text': '#FFFFFF',
+                        'boss-muted': '#888888',
+                        'boss-accent': '#00FF88',
+                        'boss-warning': '#FF6B35',
+                        'boss-error': '#FF3B30',
+                        'boss-info': '#007AFF',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: #0A0A0A;
+            color: #FFFFFF;
+        }
+
+        .boss-card {
+            background: #151515;
+            border: 1px solid #2A2A2A;
+            border-radius: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .boss-card:hover {
+            border-color: #404040;
+            background: #1A1A1A;
+        }
+
+        .boss-btn-primary {
+            background: #00FF88;
+            color: #0A0A0A;
+            border-radius: 14px;
+            padding: 12px 24px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .boss-btn-primary:hover {
+            background: #00E67A;
+            transform: translateY(-1px);
+        }
+
+        .boss-btn-secondary {
+            background: #2A2A2A;
+            color: #FFFFFF;
+            border: 1px solid #404040;
+            border-radius: 14px;
+            padding: 12px 24px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .boss-btn-secondary:hover {
+            background: #353535;
+            border-color: #555555;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        .status-offline {
+            background: #888888;
+        }
+
+        .status-online {
+            background: #00FF88;
+            animation: pulse 2s infinite;
+        }
+
+        .status-busy {
+            background: #FF6B35;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        .priority-high {
+            border-left: 4px solid #FF3B30;
+            background: linear-gradient(90deg, rgba(255, 59, 48, 0.1) 0%, transparent 100%);
+        }
+
+        .priority-medium {
+            border-left: 4px solid #FF6B35;
+            background: linear-gradient(90deg, rgba(255, 107, 53, 0.1) 0%, transparent 100%);
+        }
+
+        .priority-low {
+            border-left: 4px solid #007AFF;
+            background: linear-gradient(90deg, rgba(0, 122, 255, 0.1) 0%, transparent 100%);
+        }
+
+        .confidence-score {
+            background: linear-gradient(135deg, #00FF88, #007AFF);
+            color: #0A0A0A;
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .message-customer {
+            background: #2A2A2A;
+            border-left: 3px solid #007AFF;
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+        }
+
+        .message-ai {
+            background: #00FF88;
+            color: #0A0A0A;
+            border-left: 3px solid #00E67A;
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+        }
+
+        .message-advocate {
+            background: #404040;
+            border-left: 3px solid #FFFFFF;
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+        }
+
+        .ai-action-pending {
+            background: #1A1A1A;
+            border: 2px dashed #00FF88;
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .workflow-state {
+            transition: all 0.4s ease;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .jtbd-indicator {
+            background: #FF6B35;
+            color: #FFFFFF;
+            border-radius: 20px;
+            padding: 4px 8px;
+            font-size: 10px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .account-info {
+            background: #1A1A1A;
+            border: 1px solid #2A2A2A;
+            border-radius: 14px;
+            padding: 16px;
+        }
+
+        .chat-input {
+            background: #2A2A2A;
+            border: 1px solid #404040;
+            border-radius: 14px;
+            padding: 12px 16px;
+            color: #FFFFFF;
+            width: 100%;
+            resize: none;
+            outline: none;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .chat-input:focus {
+            border-color: #00FF88;
+            background: #353535;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="min-h-screen bg-boss-bg">
+
+        <!-- Header -->
+        <header class="boss-card border-b px-8 py-4 sticky top-0 z-50 rounded-none border-l-0 border-r-0 border-t-0">
+            <div class="flex items-center justify-between max-w-7xl mx-auto">
+                <div class="flex items-center space-x-6">
+                    <div
+                        class="w-12 h-12 bg-boss-accent rounded-custom flex items-center justify-center text-boss-bg font-bold text-xl">
+                        ₿</div>
+                    <div>
+                        <h1 class="text-xl font-bold text-boss-text">Bitcoin Advocate Hub</h1>
+                        <p class="text-sm text-boss-muted">Agentic Support Platform</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-6">
+                    <!-- Advocate Status -->
+                    <div class="flex items-center space-x-3">
+                        <span class="text-sm font-medium text-boss-muted">Status:</span>
+                        <div
+                            class="flex items-center space-x-2 px-4 py-2 rounded-custom border border-boss-border bg-boss-surface">
+                            <span class="status-dot status-offline" id="status-dot"></span>
+                            <span class="text-sm font-medium" id="status-text">Offline</span>
+                        </div>
+                    </div>
+
+                    <!-- Advocate Info -->
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-boss-border rounded-full flex items-center justify-center">
+                            <span class="text-boss-accent font-bold text-sm">AM</span>
+                        </div>
+                        <div>
+                            <span class="text-sm font-medium text-boss-text">Alex Morgan</span>
+                            <div class="text-xs text-boss-muted">Senior BTC Advocate</div>
+                        </div>
+                    </div>
+
+                    <!-- Time -->
+                    <div class="text-sm text-boss-muted" id="current-time">4:32 PM</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-8 py-8">
+
+            <!-- PHASE 1: Offline State - JTBD: Get Ready for Shift -->
+            <div id="offline-state" class="workflow-state">
+                <div class="jtbd-indicator">JTBD: Get Ready for My Support Shift</div>
+                <div class="text-center py-16">
+                    <div
+                        class="w-24 h-24 bg-boss-surface rounded-custom flex items-center justify-center mx-auto mb-6 border border-boss-border">
+                        <svg class="w-12 h-12 text-boss-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-boss-text mb-3">Ready to Support Bitcoin Customers?</h2>
+                    <p class="text-boss-muted mb-8 max-w-md mx-auto">Set your status to online to start receiving
+                        Bitcoin support cases. The AI will automatically match you with the most suitable cases based on
+                        complexity and urgency.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-8">
+                        <div class="boss-card p-6">
+                            <h3 class="font-semibold text-boss-text mb-2">AI Case Matching</h3>
+                            <p class="text-sm text-boss-muted">Get cases matched to your expertise and current workload
+                            </p>
+                        </div>
+                        <div class="boss-card p-6">
+                            <h3 class="font-semibold text-boss-text mb-2">Real-time Assistance</h3>
+                            <p class="text-sm text-boss-muted">AI copilot helps with responses and policy guidance</p>
+                        </div>
+                        <div class="boss-card p-6">
+                            <h3 class="font-semibold text-boss-text mb-2">Workflow Optimization</h3>
+                            <p class="text-sm text-boss-muted">Smart automation reduces manual tasks by 70%</p>
+                        </div>
+                    </div>
+
+                    <button class="boss-btn-primary text-lg px-8 py-4" onclick="goOnline()">
+                        🟢 Go Online & Start Receiving Cases
+                    </button>
+                </div>
+            </div>
+
+            <!-- PHASE 2: Case Assignment - JTBD: Get Matched with Right Cases -->
+            <div id="assignment-state" class="workflow-state hidden">
+                <div class="jtbd-indicator">JTBD: Get Matched with Cases I Can Handle Best</div>
+                <div class="text-center py-12">
+                    <div class="inline-flex items-center space-x-3 mb-6">
+                        <div class="w-6 h-6 bg-boss-accent rounded-full animate-ping"></div>
+                        <span class="text-lg font-medium text-boss-text">AI analyzing incoming Bitcoin cases...</span>
+                    </div>
+                    <p class="text-boss-muted mb-8">Matching cases based on complexity, urgency, and your expertise</p>
+                    <div class="boss-card p-6 max-w-md mx-auto">
+                        <div class="text-sm text-boss-muted mb-2">Current Queue Analysis</div>
+                        <div class="text-2xl font-bold text-boss-accent mb-4" id="queue-analysis">Analyzing...</div>
+                        <div class="text-xs text-boss-muted">12 cases in queue • 3 high priority • 5 medium • 4 low
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PHASE 3: Case Queue Home Page - JTBD: See My Work Dashboard -->
+            <div id="home-page" class="workflow-state hidden">
+                <div class="jtbd-indicator">JTBD: See My Current Workload and Prioritize</div>
+
+                <!-- Stats Dashboard -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="boss-card p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-sm font-medium text-boss-muted">Cases Today</h3>
+                            <div
+                                class="w-8 h-8 bg-boss-accent bg-opacity-20 rounded-lg flex items-center justify-center">
+                                <span class="text-boss-accent text-sm">📋</span>
+                            </div>
+                        </div>
+                        <div class="text-2xl font-bold text-boss-text">7</div>
+                        <div class="text-xs text-boss-accent font-medium mt-1">+2 from yesterday</div>
+                    </div>
+
+                    <div class="boss-card p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-sm font-medium text-boss-muted">Avg Resolution</h3>
+                            <div class="w-8 h-8 bg-boss-info bg-opacity-20 rounded-lg flex items-center justify-center">
+                                <span class="text-boss-info text-sm">⚡</span>
+                            </div>
+                        </div>
+                        <div class="text-2xl font-bold text-boss-text">3.2m</div>
+                        <div class="text-xs text-boss-accent font-medium mt-1">58% faster</div>
+                    </div>
+
+                    <div class="boss-card p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-sm font-medium text-boss-muted">AI Confidence</h3>
+                            <div
+                                class="w-8 h-8 bg-boss-accent bg-opacity-20 rounded-lg flex items-center justify-center">
+                                <span class="text-boss-accent text-sm">🤖</span>
+                            </div>
+                        </div>
+                        <div class="text-2xl font-bold text-boss-text">94%</div>
+                        <div class="text-xs text-boss-accent font-medium mt-1">High accuracy</div>
+                    </div>
+
+                    <div class="boss-card p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-sm font-medium text-boss-muted">Active Cases</h3>
+                            <div
+                                class="w-8 h-8 bg-boss-warning bg-opacity-20 rounded-lg flex items-center justify-center">
+                                <span class="text-boss-warning text-sm">⏳</span>
+                            </div>
+                        </div>
+                        <div class="text-2xl font-bold text-boss-text">3</div>
+                        <div class="text-xs text-boss-warning font-medium mt-1">2 urgent</div>
+                    </div>
+                </div>
+
+                <!-- Assigned Cases Queue -->
+                <div class="boss-card p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold text-boss-text">My Assigned Cases</h2>
+                        <div class="flex items-center space-x-3">
+                            <span class="text-sm text-boss-muted">Auto-assigned by AI</span>
+                            <div class="w-3 h-3 bg-boss-accent rounded-full animate-pulse"></div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4" id="case-queue">
+                        <!-- Case 1: High Priority -->
+                        <div class="boss-card priority-high p-6 cursor-pointer" onclick="openCase('BTC-2891')">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div
+                                        class="w-12 h-12 bg-boss-surface rounded-custom flex items-center justify-center border border-boss-border">
+                                        <span class="font-bold text-boss-text">RW</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-boss-text">Robert Wilson</h3>
+                                        <p class="text-sm text-boss-muted">Potential scam - urgent $25,000 BTC
+                                            withdrawal</p>
+                                        <p class="text-xs text-boss-error font-medium">⚠ Waiting 8 minutes</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center space-x-4">
+                                    <div class="text-right">
+                                        <div class="confidence-score">97% AI</div>
+                                        <div class="text-boss-error text-xs font-bold mt-2">HIGH PRIORITY</div>
+                                    </div>
+                                    <button class="boss-btn-primary">
+                                        Take Case
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 bg-boss-bg rounded-custom p-4">
+                                <p class="text-sm text-boss-text"><strong>AI Analysis:</strong> Classic pig butchering
+                                    scam pattern detected. Multiple red flags including urgency, new user, large amount.
+                                    <strong>Recommend: PROTECT CUSTOMER</strong></p>
+                            </div>
+                        </div>
+
+                        <!-- Case 2: Medium Priority -->
+                        <div class="boss-card priority-medium p-6 cursor-pointer" onclick="openCase('BTC-2889')">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div
+                                        class="w-12 h-12 bg-boss-surface rounded-custom flex items-center justify-center border border-boss-border">
+                                        <span class="font-bold text-boss-text">MC</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-boss-text">Marcus Chen</h3>
+                                        <p class="text-sm text-boss-muted">Speed upgrade request for 0.15 BTC withdrawal
+                                        </p>
+                                        <p class="text-xs text-boss-warning font-medium">⏱ Waiting 3 minutes</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center space-x-4">
+                                    <div class="text-right">
+                                        <div class="confidence-score">92% AI</div>
+                                        <div class="text-boss-warning text-xs font-bold mt-2">MEDIUM PRIORITY</div>
+                                    </div>
+                                    <button class="boss-btn-primary">
+                                        Take Case
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 bg-boss-bg rounded-custom p-4">
+                                <p class="text-sm text-boss-text"><strong>AI Analysis:</strong> Customer consistently
+                                    chooses Standard speed (4 previous transactions). Rush upgrade (+$2.50) recommended
+                                    for optimal value.</p>
+                            </div>
+                        </div>
+
+                        <!-- Case 3: Low Priority -->
+                        <div class="boss-card priority-low p-6 cursor-pointer" onclick="openCase('BTC-2890')">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div
+                                        class="w-12 h-12 bg-boss-surface rounded-custom flex items-center justify-center border border-boss-border">
+                                        <span class="font-bold text-boss-text">AL</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-boss-text">Anna Liu</h3>
+                                        <p class="text-sm text-boss-muted">Deposit confirmation inquiry - 0.05 BTC</p>
+                                        <p class="text-xs text-boss-info font-medium">ℹ Waiting 1 minute</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center space-x-4">
+                                    <div class="text-right">
+                                        <div class="confidence-score">96% AI</div>
+                                        <div class="text-boss-info text-xs font-bold mt-2">LOW PRIORITY</div>
+                                    </div>
+                                    <button class="boss-btn-primary">
+                                        Take Case
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 bg-boss-bg rounded-custom p-4">
+                                <p class="text-sm text-boss-text"><strong>AI Analysis:</strong> Standard deposit
+                                    confirmation. Transaction visible on blockchain with 2/3 confirmations. Send
+                                    standard timeline response.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PHASE 4: Individual Case Page - JTBD: Handle Customer Case Efficiently -->
+            <div id="case-page" class="workflow-state hidden">
+                <div class="jtbd-indicator">JTBD: Resolve Customer Issue with AI Assistance</div>
+
+                <!-- Case Header -->
+                <div class="flex items-center justify-between mb-6">
+                    <button class="boss-btn-secondary" onclick="backToQueue()">
+                        ← Back to Queue
+                    </button>
+                    <div class="text-sm text-boss-muted">Case <span id="current-case-id">BTC-2891</span></div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+                    <!-- Left Column: Customer Account Info -->
+                    <div class="space-y-6">
+
+                        <!-- Customer Profile -->
+                        <div class="boss-card p-6">
+                            <h3 class="text-lg font-bold text-boss-text mb-4">Customer Account</h3>
+                            <div class="account-info">
+                                <div class="flex items-center space-x-4 mb-4">
+                                    <div
+                                        class="w-16 h-16 bg-boss-accent rounded-custom flex items-center justify-center">
+                                        <span class="font-bold text-boss-bg text-lg" id="customer-initials">RW</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-bold text-boss-text" id="customer-name">Robert Wilson
+                                        </h4>
+                                        <p class="text-sm text-boss-muted" id="customer-email">robert.wilson@email.com
+                                        </p>
+                                        <div class="flex items-center space-x-2 mt-1">
+                                            <div class="w-2 h-2 bg-boss-accent rounded-full"></div>
+                                            <span class="text-xs text-boss-accent">Online</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-3">
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-boss-muted">Account Since:</span>
+                                        <span class="text-sm text-boss-text">Jan 15, 2024</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-boss-muted">Verification:</span>
+                                        <span class="text-sm text-boss-accent">✓ Verified</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-boss-muted">BTC Balance:</span>
+                                        <span class="text-sm text-boss-text">0.4821 BTC</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-boss-muted">Previous Withdrawals:</span>
+                                        <span class="text-sm text-boss-text">2 total</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-boss-muted">Risk Score:</span>
+                                        <span class="text-sm text-boss-error">🔴 High (New User + Large Amount)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Transaction Details -->
+                        <div class="boss-card p-6">
+                            <h3 class="text-lg font-bold text-boss-text mb-4">Current Transaction</h3>
+                            <div class="account-info">
+                                <div class="space-y-3">
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-boss-muted">Amount:</span>
+                                        <span class="text-sm text-boss-text font-mono">$25,000 USD</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-boss-muted">BTC Amount:</span>
+                                        <span class="text-sm text-boss-text font-mono">0.4576 BTC</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-boss-muted">Destination:</span>
+                                        <span class="text-sm text-boss-text font-mono">1A1z...Kx9m</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-boss-muted">Speed:</span>
+                                        <span class="text-sm text-boss-text">Standard</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-boss-muted">Status:</span>
+                                        <span class="text-sm text-boss-error">🚨 FLAGGED - PENDING REVIEW</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Center Column: 3-Way Chat -->
+                    <div class="boss-card p-6">
+                        <h3 class="text-lg font-bold text-boss-text mb-4">3-Way Conversation</h3>
+
+                        <div class="space-y-4 max-h-96 overflow-y-auto mb-4" id="chat-messages">
+                            <!-- Customer Message -->
+                            <div class="message-customer">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="w-6 h-6 bg-boss-info rounded-full flex items-center justify-center">
+                                        <span class="text-white text-xs font-bold">C</span>
+                                    </div>
+                                    <span class="text-xs font-bold text-boss-text">Robert Wilson</span>
+                                    <span class="text-xs text-boss-muted">4:28 PM</span>
+                                </div>
+                                <p class="text-sm">I need to withdraw $25,000 in Bitcoin urgently. My trading partner
+                                    needs it for a time-sensitive investment opportunity. Please process this
+                                    immediately!</p>
+                            </div>
+
+                            <!-- AI Analysis & Draft Response -->
+                            <div class="ai-action-pending">
+                                <div class="flex items-center gap-2 mb-3">
+                                    <div class="w-6 h-6 bg-boss-accent rounded-full flex items-center justify-center">
+                                        <span class="text-boss-bg text-xs font-bold">AI</span>
+                                    </div>
+                                    <span class="text-xs font-bold text-boss-accent">AI Copilot Analysis</span>
+                                    <div class="confidence-score">97% Confidence</div>
+                                </div>
+
+                                <div class="bg-boss-bg rounded-custom p-4 mb-4">
+                                    <h4 class="text-sm font-bold text-boss-error mb-2">🚨 SCAM DETECTION ALERT</h4>
+                                    <p class="text-sm text-boss-text mb-3"><strong>Pattern:</strong> Pig butchering
+                                        scam. Multiple red flags detected:</p>
+                                    <ul class="text-sm text-boss-muted space-y-1 mb-3">
+                                        <li>• New account (< 30 days)</li>
+                                        <li>• First large withdrawal ($25K)</li>
+                                        <li>• Urgency language ("immediately", "time-sensitive")</li>
+                                        <li>• "Trading partner" mentioned</li>
+                                        <li>• Unusual destination address pattern</li>
+                                    </ul>
+                                    <p class="text-sm text-boss-accent"><strong>AI Recommendation:</strong> PROTECT
+                                        CUSTOMER - Pause withdrawal and educate about scam</p>
+                                </div>
+
+                                <div class="bg-boss-surface rounded-custom p-4 mb-4">
+                                    <h4 class="text-sm font-bold text-boss-text mb-2">Suggested Response:</h4>
+                                    <p class="text-sm text-boss-muted">"Hi Robert, I want to help protect you. I've
+                                        noticed some patterns in your request that match common cryptocurrency scams.
+                                        Before processing this withdrawal, let's discuss your situation to ensure your
+                                        funds are safe. Can you tell me more about this trading partner and investment
+                                        opportunity?"</p>
+                                </div>
+
+                                <div class="flex space-x-3">
+                                    <button class="boss-btn-primary flex-1" onclick="approveAIResponse()">
+                                        ✓ Approve & Send (Protect Customer)
+                                    </button>
+                                    <button class="boss-btn-secondary" onclick="editAIResponse()">
+                                        ✏️ Edit Response
+                                    </button>
+                                    <button class="boss-btn-secondary" onclick="rejectAIResponse()">
+                                        ✗ Write Custom
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chat Input -->
+                        <div class="space-y-3">
+                            <textarea class="chat-input" rows="3" placeholder="Type your message to customer..."
+                                id="chat-input"></textarea>
+
+                            <div class="flex space-x-3">
+                                <button class="boss-btn-primary flex-1" onclick="sendMessage()">
+                                    📤 Send to Customer
+                                </button>
+                                <button class="boss-btn-secondary" onclick="askAI()">
+                                    🤖 Ask AI Copilot
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: AI Actions & Tools -->
+                    <div class="space-y-6">
+
+                        <!-- AI Actions Panel -->
+                        <div class="boss-card p-6">
+                            <h3 class="text-lg font-bold text-boss-text mb-4">AI Actions Available</h3>
+
+                            <div class="space-y-4">
+                                <!-- Pending AI Action -->
+                                <div class="bg-boss-accent bg-opacity-10 border border-boss-accent rounded-custom p-4">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h4 class="text-sm font-bold text-boss-accent">Fraud Prevention Action</h4>
+                                        <div class="confidence-score">97%</div>
+                                    </div>
+                                    <p class="text-sm text-boss-text mb-3">AI wants to automatically pause this
+                                        withdrawal and flag for fraud review</p>
+                                    <div class="flex space-x-2">
+                                        <button class="boss-btn-primary text-xs px-3 py-2" onclick="approveAIAction()">
+                                            ✓ Approve Action
+                                        </button>
+                                        <button class="boss-btn-secondary text-xs px-3 py-2">
+                                            Details
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Available Actions -->
+                                <div class="space-y-3">
+                                    <button class="boss-btn-secondary w-full text-left p-3">
+                                        🔍 Run Advanced Risk Analysis
+                                    </button>
+                                    <button class="boss-btn-secondary w-full text-left p-3">
+                                        📊 Check Address History
+                                    </button>
+                                    <button class="boss-btn-secondary w-full text-left p-3">
+                                        📚 Get Policy Guidance
+                                    </button>
+                                    <button class="boss-btn-secondary w-full text-left p-3">
+                                        🎓 Show Customer Education
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Case Actions -->
+                        <div class="boss-card p-6">
+                            <h3 class="text-lg font-bold text-boss-text mb-4">Case Actions</h3>
+
+                            <div class="space-y-3">
+                                <button class="boss-btn-primary w-full">
+                                    🛡️ Protect Customer (Recommended)
+                                </button>
+                                <button class="boss-btn-secondary w-full">
+                                    ⏸️ Pause for Review
+                                </button>
+                                <button class="boss-btn-secondary w-full">
+                                    📞 Escalate to Senior
+                                </button>
+                                <button class="boss-btn-secondary w-full">
+                                    📝 Add Internal Note
+                                </button>
+                                <button class="boss-btn-secondary w-full">
+                                    📋 Create Follow-up Task
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- AI Insights -->
+                        <div class="boss-card p-6">
+                            <h3 class="text-lg font-bold text-boss-text mb-4">AI Insights</h3>
+
+                            <div class="space-y-3">
+                                <div class="bg-boss-bg rounded-custom p-3">
+                                    <h4 class="text-xs font-bold text-boss-error mb-1">RISK FACTORS</h4>
+                                    <p class="text-xs text-boss-muted">5 red flags detected • 97% scam probability</p>
+                                </div>
+
+                                <div class="bg-boss-bg rounded-custom p-3">
+                                    <h4 class="text-xs font-bold text-boss-warning mb-1">CUSTOMER PROFILE</h4>
+                                    <p class="text-xs text-boss-muted">New user • No transaction history • High risk</p>
+                                </div>
+
+                                <div class="bg-boss-bg rounded-custom p-3">
+                                    <h4 class="text-xs font-bold text-boss-info mb-1">SIMILAR CASES</h4>
+                                    <p class="text-xs text-boss-muted">23 similar patterns this month • All confirmed
+                                        scams</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let currentState = 'offline';
+        let currentCase = null;
+
+        const cases = {
+            'BTC-2891': {
+                id: 'BTC-2891',
+                customer: 'Robert Wilson',
+                initials: 'RW',
+                email: 'robert.wilson@email.com',
+                priority: 'high',
+                issue: 'Potential scam - urgent $25,000 BTC withdrawal',
+                confidence: 97
+            },
+            'BTC-2889': {
+                id: 'BTC-2889',
+                customer: 'Marcus Chen',
+                initials: 'MC',
+                email: 'marcus.chen@email.com',
+                priority: 'medium',
+                issue: 'Speed upgrade request for 0.15 BTC withdrawal',
+                confidence: 92
+            },
+            'BTC-2890': {
+                id: 'BTC-2890',
+                customer: 'Anna Liu',
+                initials: 'AL',
+                email: 'anna.liu@email.com',
+                priority: 'low',
+                issue: 'Deposit confirmation inquiry - 0.05 BTC',
+                confidence: 96
+            }
+        };
+
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function goOnline() {
+            currentState = 'assignment';
+
+            // Update status indicator
+            const statusDot = document.getElementById('status-dot');
+            const statusText = document.getElementById('status-text');
+
+            statusDot.className = 'status-dot status-online';
+            statusText.textContent = 'Online';
+
+            // Show assignment state
+            document.getElementById('offline-state').classList.add('hidden');
+            document.getElementById('assignment-state').classList.remove('hidden');
+
+            // Simulate AI analysis
+            setTimeout(() => {
+                document.getElementById('queue-analysis').textContent = '3 Cases Matched';
+
+                setTimeout(() => {
+                    showHomePage();
+                }, 2000);
+            }, 3000);
+        }
+
+        function showHomePage() {
+            currentState = 'home';
+            document.getElementById('assignment-state').classList.add('hidden');
+            document.getElementById('home-page').classList.remove('hidden');
+            document.getElementById('home-page').classList.add('slide-in');
+        }
+
+        function openCase(caseId) {
+            currentCase = cases[caseId];
+            currentState = 'case';
+
+            // Update case details
+            document.getElementById('current-case-id').textContent = caseId;
+            document.getElementById('customer-initials').textContent = currentCase.initials;
+            document.getElementById('customer-name').textContent = currentCase.customer;
+            document.getElementById('customer-email').textContent = currentCase.email;
+
+            // Show case page
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('case-page').classList.remove('hidden');
+            document.getElementById('case-page').classList.add('slide-in');
+        }
+
+        function backToQueue() {
+            currentState = 'home';
+            document.getElementById('case-page').classList.add('hidden');
+            document.getElementById('home-page').classList.remove('hidden');
+        }
+
+        function approveAIResponse() {
+            // Add AI message to chat
+            const chatMessages = document.getElementById('chat-messages');
+            const aiMessage = document.createElement('div');
+            aiMessage.className = 'message-ai';
+            aiMessage.innerHTML = `
+                <div class="flex items-center gap-2 mb-2">
+                    <div class="w-6 h-6 bg-boss-bg rounded-full flex items-center justify-center">
+                        <span class="text-boss-accent text-xs font-bold">A</span>
+                    </div>
+                    <span class="text-xs font-bold text-boss-bg">Alex Morgan (You)</span>
+                    <span class="text-xs text-boss-bg opacity-70">4:32 PM</span>
+                </div>
+                <p class="text-sm text-boss-bg">Hi Robert, I want to help protect you. I've noticed some patterns in your request that match common cryptocurrency scams. Before processing this withdrawal, let's discuss your situation to ensure your funds are safe. Can you tell me more about this trading partner and investment opportunity?</p>
+            `;
+
+            // Remove AI pending action
+            document.querySelector('.ai-action-pending').remove();
+            chatMessages.appendChild(aiMessage);
+
+            // Simulate customer response
+            setTimeout(() => {
+                addCustomerResponse("What do you mean scam? This is a legitimate investment opportunity! My partner has made me $50,000 already and now we need to move quickly on this deal.");
+            }, 3000);
+
+            alert('✅ AI response approved and sent to customer. Customer protection measures activated.');
+        }
+
+        function editAIResponse() {
+            const newMessage = prompt('Edit the AI response:', 'Hi Robert, I want to help protect you...');
+            if (newMessage) {
+                // Update the suggested response
+                document.querySelector('.ai-action-pending .bg-boss-surface p').textContent = newMessage;
+                alert('✏️ AI response edited. Please review and approve.');
+            }
+        }
+
+        function rejectAIResponse() {
+            document.querySelector('.ai-action-pending').remove();
+            document.getElementById('chat-input').focus();
+            alert('✗ AI response rejected. Write your custom message below.');
+        }
+
+        function sendMessage() {
+            const messageText = document.getElementById('chat-input').value;
+            if (!messageText.trim()) return;
+
+            const chatMessages = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message-advocate';
+            messageDiv.innerHTML = `
+                <div class="flex items-center gap-2 mb-2">
+                    <div class="w-6 h-6 bg-boss-text rounded-full flex items-center justify-center">
+                        <span class="text-boss-bg text-xs font-bold">A</span>
+                    </div>
+                    <span class="text-xs font-bold text-boss-text">Alex Morgan (You)</span>
+                    <span class="text-xs text-boss-muted">4:33 PM</span>
+                </div>
+                <p class="text-sm">${messageText}</p>
+            `;
+
+            chatMessages.appendChild(messageDiv);
+            document.getElementById('chat-input').value = '';
+
+            alert('📤 Message sent to customer');
+        }
+
+        function addCustomerResponse(message) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message-customer slide-in';
+            messageDiv.innerHTML = `
+                <div class="flex items-center gap-2 mb-2">
+                    <div class="w-6 h-6 bg-boss-info rounded-full flex items-center justify-center">
+                        <span class="text-white text-xs font-bold">C</span>
+                    </div>
+                    <span class="text-xs font-bold text-boss-text">Robert Wilson</span>
+                    <span class="text-xs text-boss-muted">4:33 PM</span>
+                </div>
+                <p class="text-sm">${message}</p>
+            `;
+
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function askAI() {
+            const question = prompt('Ask the AI Copilot:');
+            if (question) {
+                alert(`🤖 AI Copilot: Based on the customer's response, this confirms the scam pattern. The mention of "$50,000 already made" is a classic "pig butchering" technique. Recommend continuing with customer education and maintaining the withdrawal pause.`);
+            }
+        }
+
+        function approveAIAction() {
+            alert('✅ AI action approved: Withdrawal paused and flagged for fraud review. Customer will be educated about cryptocurrency scams.');
+        }
+
+        // Update time every minute
+        setInterval(updateTime, 60000);
+        updateTime();
+    </script>
+</body>
+
+</html>

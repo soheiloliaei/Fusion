@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTC Case Triage - AI-Driven Experience</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        // Comprehensive Design Token System for Case Triage
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Monochromatic System
+                        'background': '#FAFAFA',
+                        'background-card': '#FFFFFF',
+                        'background-elevated': '#F8F9FA',
+                        'foreground': '#0A0A0A',
+                        'foreground-secondary': '#1A1A1A',
+                        'muted-foreground': '#737373',
+                        'muted-foreground-light': '#A3A3A3',
+                        'description-text': 'rgba(0,0,0,0.7)',
+                        'placeholder': 'rgba(0,0,0,0.3)',
+
+                        // Border System
+                        'border': '#E5E5E5',
+                        'border-light': '#F0F0F0',
+                        'border-dark': '#D1D5DB',
+
+                        // Interactive States
+                        'primary': '#0A0A0A',
+                        'primary-foreground': '#FFFFFF',
+                        'secondary': '#F5F5F5',
+                        'secondary-foreground': '#0A0A0A',
+                        'accent': '#F0F9FF',
+                        'accent-foreground': '#0A0A0A',
+
+                        // Status Colors (Monochromatic)
+                        'success': '#0A0A0A',
+                        'warning': '#737373',
+                        'destructive': '#0A0A0A',
+                        'info': '#737373',
+
+                        // AI-Specific Colors
+                        'ai-primary': '#0A0A0A',
+                        'ai-secondary': '#F0F9FF',
+                        'ai-accent': '#E0F2FE',
+                        'ai-border': '#0A0A0A',
+
+                        // Trust Indicators
+                        'trust-high': '#0A0A0A',
+                        'trust-medium': '#737373',
+                        'trust-low': '#A3A3A3',
+
+                        // Case Status Colors
+                        'case-urgent': '#0A0A0A',
+                        'case-medium': '#737373',
+                        'case-low': '#A3A3A3',
+                        'case-resolved': '#0A0A0A',
+                    },
+
+                    fontFamily: {
+                        'sans': ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                    },
+
+                    fontSize: {
+                        'xs': '11px',
+                        'sm': '12px',
+                        'base': '14px',
+                        'md': '16px',
+                        'lg': '18px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '30px',
+                        '4xl': '36px',
+                    },
+
+                    borderRadius: {
+                        'default': '14px',
+                        'badge': '200px',
+                        'chat-input': '32px',
+                        'status': '200px',
+                        'priority': '160px',
+                        'card': '16px',
+                        'button': '12px',
+                        'input': '10px',
+                    },
+
+                    boxShadow: {
+                        'card': '0px 1px 3px 0px rgba(0,0,0,0.1), 0px 1px 2px -1px rgba(0,0,0,0.1)',
+                        'card-hover': '0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                        'nav': '0px 12px 32px 0px rgba(0,0,0,0.04), 0px 8px 16px 0px rgba(0,0,0,0.02), 0px 2px 4px 0px rgba(0,0,0,0.04), 0px 0px 1px 0px rgba(0,0,0,0.2)',
+                        'ai-glow': '0 0 20px rgba(10, 10, 10, 0.1)',
+                        'trust-indicator': '0 0 10px rgba(10, 10, 10, 0.05)',
+                    },
+
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-out',
+                        'slide-up': 'slideUp 0.3s ease-out',
+                        'scale-in': 'scaleIn 0.2s ease-out',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'ai-thinking': 'aiThinking 2s ease-in-out infinite',
+                        'trust-pulse': 'trustPulse 2s ease-in-out infinite',
+                        'ambient-glow': 'ambientGlow 4s ease-in-out infinite',
+                        'progress-fill': 'progressFill 2s ease-out',
+                    },
+
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        scaleIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        },
+                        aiThinking: {
+                            '0%, 100%': { opacity: '0.6' },
+                            '50%': { opacity: '1' },
+                        },
+                        trustPulse: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.05)' },
+                        },
+                        ambientGlow: {
+                            '0%, 100%': { boxShadow: '0 0 20px rgba(10, 10, 10, 0.1)' },
+                            '50%': { boxShadow: '0 0 30px rgba(10, 10, 10, 0.2)' },
+                        },
+                        progressFill: {
+                            '0%': { width: '0%' },
+                            '100%': { width: '100%' },
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-background min-h-screen font-sans text-foreground antialiased">
+
+    <!-- === CASE TRIAGE EXPERIENCE - AI DOES 90% OF THE WORK === -->
+
+    <!-- Navigation with Case Context -->
+    <nav class="bg-background-card border-b border-border px-6 py-4 shadow-nav sticky top-0 z-50">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <button id="back-to-cases" class="text-muted-foreground hover:text-foreground transition-colors">
+                    ← Back to Cases
+                </button>
+                <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                    <span class="text-primary-foreground font-bold text-sm">₿</span>
+                </div>
+                <span class="text-foreground font-medium">BTC-2891 • Robert Wilson</span>
+
+                <!-- AI Status with Trust Calibration -->
+                <div
+                    class="bg-ai-primary text-primary-foreground px-3 py-1 rounded-badge text-xs font-medium animate-trust-pulse">
+                    <div class="w-2 h-2 bg-primary-foreground rounded-full mr-2 inline-block animate-ai-thinking"></div>
+                    AI Active • 97% Trust
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <!-- Case Progress -->
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm text-muted-foreground">Progress</span>
+                    <div class="w-24 h-2 bg-secondary rounded-full overflow-hidden">
+                        <div id="case-progress" class="h-full bg-primary rounded-full transition-all duration-500"
+                            style="width: 65%"></div>
+                    </div>
+                    <span class="text-sm text-foreground font-medium">65%</span>
+                </div>
+
+                <!-- AI-Driven Status -->
+                <div class="bg-case-urgent text-primary-foreground px-3 py-1 rounded-badge text-xs font-medium">
+                    🚨 URGENT
+                </div>
+
+                <!-- User Avatar -->
+                <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                    <span class="text-primary-foreground font-bold text-sm">AM</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Case Triage Interface -->
+    <main class="max-w-7xl mx-auto px-6 py-8">
+
+        <!-- === AI-DRIVEN CASE ANALYSIS PANEL === -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <!-- Left Panel: AI Analysis & Recommendations -->
+            <div class="lg:col-span-2 space-y-6">
+
+                <!-- AI Analysis Summary -->
+                <div class="bg-background-card border border-border rounded-card p-6 shadow-card animate-fade-in">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-semibold text-foreground">AI Analysis Summary</h2>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-foreground rounded-full animate-ai-thinking"></div>
+                            <span class="text-sm text-muted-foreground">Real-time Analysis</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="text-center p-4 bg-ai-secondary border border-ai-border rounded-card">
+                            <div class="text-2xl font-semibold text-foreground">7</div>
+                            <div class="text-sm text-muted-foreground">Red Flags Detected</div>
+                        </div>
+                        <div class="text-center p-4 bg-ai-secondary border border-ai-border rounded-card">
+                            <div class="text-2xl font-semibold text-foreground">87%</div>
+                            <div class="text-sm text-muted-foreground">Scam Pattern Match</div>
+                        </div>
+                        <div class="text-center p-4 bg-ai-secondary border border-ai-border rounded-card">
+                            <div class="text-2xl font-semibold text-foreground">$25K</div>
+                            <div class="text-sm text-muted-foreground">Transaction Amount</div>
+                        </div>
+                    </div>
+
+                    <!-- AI Analysis Details -->
+                    <div class="space-y-3">
+                        <div class="flex items-start space-x-3 p-3 bg-background-elevated rounded-card">
+                            <div
+                                class="w-6 h-6 bg-destructive rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-primary-foreground text-xs font-bold">!</span>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-medium text-foreground">High-Risk Pattern Detected</h4>
+                                <p class="text-xs text-muted-foreground">Transaction matches known scam template with
+                                    87% confidence</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-3 p-3 bg-background-elevated rounded-card">
+                            <div class="w-6 h-6 bg-warning rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-primary-foreground text-xs font-bold">⚠</span>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-medium text-foreground">Urgent Withdrawal Request</h4>
+                                <p class="text-xs text-muted-foreground">Customer requesting immediate $25K withdrawal
+                                    with pressure tactics</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-3 p-3 bg-background-elevated rounded-card">
+                            <div class="w-6 h-6 bg-info rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-primary-foreground text-xs font-bold">ℹ</span>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-medium text-foreground">Account History Analysis</h4>
+                                <p class="text-xs text-muted-foreground">Account shows normal activity until 2 days ago,
+                                    then suspicious patterns</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Recommendations -->
+                <div class="bg-background-card border border-border rounded-card p-6 shadow-card animate-slide-up">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-semibold text-foreground">AI Recommendations</h2>
+                        <div class="bg-trust-high text-primary-foreground px-3 py-1 rounded-badge text-xs font-medium">
+                            97% Confidence
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- Primary Recommendation -->
+                        <div class="p-4 bg-ai-secondary border border-ai-border rounded-card">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-lg font-medium text-foreground">🛡️ Protect Customer</h3>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-xs text-muted-foreground">Primary Action</span>
+                                    <div class="w-2 h-2 bg-foreground rounded-full animate-pulse-slow"></div>
+                                </div>
+                            </div>
+                            <p class="text-sm text-muted-foreground mb-4">Pause withdrawal, initiate fraud review,
+                                prepare customer education materials</p>
+                            <div class="flex space-x-3">
+                                <button id="approve-protect"
+                                    class="bg-ai-primary text-primary-foreground px-4 py-2 rounded-button text-sm font-medium hover:bg-foreground transition-colors">
+                                    ✓ Approve & Execute
+                                </button>
+                                <button
+                                    class="bg-secondary text-secondary-foreground px-4 py-2 rounded-button text-sm font-medium hover:bg-muted-foreground transition-colors">
+                                    ✏️ Modify
+                                </button>
+                                <button
+                                    class="bg-secondary text-secondary-foreground px-4 py-2 rounded-button text-sm font-medium hover:bg-muted-foreground transition-colors">
+                                    ❌ Reject
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Secondary Recommendations -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-4 bg-background-elevated border border-border rounded-card">
+                                <h3 class="text-base font-medium text-foreground mb-2">📞 Escalate to Senior</h3>
+                                <p class="text-xs text-muted-foreground mb-3">Notify senior advocate for manual review
+                                </p>
+                                <button
+                                    class="bg-primary text-primary-foreground px-3 py-2 rounded-button text-sm font-medium hover:bg-foreground transition-colors">
+                                    Execute
+                                </button>
+                            </div>
+
+                            <div class="p-4 bg-background-elevated border border-border rounded-card">
+                                <h3 class="text-base font-medium text-foreground mb-2">📝 Document Case</h3>
+                                <p class="text-xs text-muted-foreground mb-3">Create detailed case notes and flag</p>
+                                <button
+                                    class="bg-primary text-primary-foreground px-3 py-2 rounded-button text-sm font-medium hover:bg-foreground transition-colors">
+                                    Execute
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer Communication -->
+                <div class="bg-background-card border border-border rounded-card p-6 shadow-card animate-slide-up">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-semibold text-foreground">Customer Communication</h2>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-success rounded-full"></div>
+                            <span class="text-sm text-muted-foreground">Connected</span>
+                        </div>
+                    </div>
+
+                    <!-- AI-Generated Message -->
+                    <div class="mb-4 p-4 bg-ai-secondary border border-ai-border rounded-card">
+                        <div class="flex items-center space-x-2 mb-2">
+                            <div class="w-4 h-4 bg-ai-primary rounded-full flex items-center justify-center">
+                                <span class="text-primary-foreground text-xs font-bold">AI</span>
+                            </div>
+                            <span class="text-xs font-medium text-foreground">AI-Generated Message</span>
+                        </div>
+                        <p class="text-sm text-muted-foreground mb-3">"Hi Robert, I understand you need to process this
+                            withdrawal urgently. For your security, I need to verify a few details first. This will only
+                            take a moment and helps protect your account."</p>
+                        <div class="flex space-x-2">
+                            <button
+                                class="bg-ai-primary text-primary-foreground px-3 py-1 rounded-button text-xs font-medium hover:bg-foreground transition-colors">
+                                ✓ Send to Customer
+                            </button>
+                            <button
+                                class="bg-secondary text-secondary-foreground px-3 py-1 rounded-button text-xs font-medium hover:bg-muted-foreground transition-colors">
+                                ✏️ Edit
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Message Input -->
+                    <div class="flex space-x-3">
+                        <input type="text" id="customer-message-input" placeholder="Type your message to customer..."
+                            class="flex-1 text-base text-foreground placeholder-placeholder bg-transparent border border-border rounded-input px-4 py-2 outline-none focus:border-primary">
+                        <button id="send-customer-message"
+                            class="bg-primary text-primary-foreground px-4 py-2 rounded-button font-medium hover:bg-foreground transition-colors">
+                            Send
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Case Details & Actions -->
+            <div class="space-y-6">
+
+                <!-- Case Details -->
+                <div class="bg-background-card border border-border rounded-card p-6 shadow-card animate-fade-in">
+                    <h2 class="text-xl font-semibold text-foreground mb-4">Case Details</h2>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="text-sm font-medium text-foreground">Case ID</label>
+                            <p class="text-sm text-muted-foreground">BTC-2891</p>
+                        </div>
+
+                        <div>
+                            <label class="text-sm font-medium text-foreground">Customer</label>
+                            <p class="text-sm text-muted-foreground">Robert Wilson (robert.wilson@email.com)</p>
+                        </div>
+
+                        <div>
+                            <label class="text-sm font-medium text-foreground">Transaction</label>
+                            <p class="text-sm text-muted-foreground">$25,000 BTC Withdrawal</p>
+                        </div>
+
+                        <div>
+                            <label class="text-sm font-medium text-foreground">Priority</label>
+                            <div
+                                class="bg-case-urgent text-primary-foreground px-2 py-1 rounded-badge text-xs font-medium inline-block">
+                                🚨 URGENT
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="text-sm font-medium text-foreground">Status</label>
+                            <div
+                                class="bg-warning text-primary-foreground px-2 py-1 rounded-badge text-xs font-medium inline-block">
+                                Under Review
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-background-card border border-border rounded-card p-6 shadow-card animate-slide-up">
+                    <h2 class="text-xl font-semibold text-foreground mb-4">Quick Actions</h2>
+
+                    <div class="space-y-3">
+                        <button
+                            class="w-full bg-ai-primary text-primary-foreground px-4 py-3 rounded-button font-medium hover:bg-foreground transition-colors text-left">
+                            🛡️ Protect Customer Account
+                        </button>
+
+                        <button
+                            class="w-full bg-primary text-primary-foreground px-4 py-3 rounded-button font-medium hover:bg-foreground transition-colors text-left">
+                            📞 Call Customer
+                        </button>
+
+                        <button
+                            class="w-full bg-primary text-primary-foreground px-4 py-3 rounded-button font-medium hover:bg-foreground transition-colors text-left">
+                            📋 View Full History
+                        </button>
+
+                        <button
+                            class="w-full bg-primary text-primary-foreground px-4 py-3 rounded-button font-medium hover:bg-foreground transition-colors text-left">
+                            🔍 Deep Analysis
+                        </button>
+                    </div>
+                </div>
+
+                <!-- AI Performance -->
+                <div class="bg-background-card border border-border rounded-card p-6 shadow-card animate-slide-up">
+                    <h2 class="text-xl font-semibold text-foreground mb-4">AI Performance</h2>
+
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-muted-foreground">Analysis Speed</span>
+                            <span class="text-sm font-medium text-foreground">2.3s</span>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-muted-foreground">Confidence Score</span>
+                            <span class="text-sm font-medium text-foreground">97%</span>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-muted-foreground">Pattern Recognition</span>
+                            <span class="text-sm font-medium text-foreground">87%</span>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-muted-foreground">Risk Assessment</span>
+                            <span class="text-sm font-medium text-foreground">High</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- === ADVANCED STATE MANAGEMENT FOR CASE TRIAGE === -->
+    <script>
+        // Case Triage State Management - AI Does 90% of the Work
+        class CaseTriageState {
+            constructor() {
+                this.state = {
+                    caseId: 'BTC-2891',
+                    customer: {
+                        name: 'Robert Wilson',
+                        email: 'robert.wilson@email.com',
+                        phone: '+1 (555) 123-4567'
+                    },
+                    transaction: {
+                        amount: 25000,
+                        type: 'BTC Withdrawal',
+                        status: 'pending',
+                        urgency: 'high'
+                    },
+                    aiAnalysis: {
+                        redFlags: 7,
+                        scamPatternMatch: 87,
+                        confidence: 97,
+                        riskLevel: 'high',
+                        recommendations: [
+                            {
+                                id: 'protect-customer',
+                                title: 'Protect Customer',
+                                description: 'Pause withdrawal, initiate fraud review, prepare customer education materials',
+                                priority: 'primary',
+                                confidence: 97,
+                                approved: false
+                            },
+                            {
+                                id: 'escalate-senior',
+                                title: 'Escalate to Senior',
+                                description: 'Notify senior advocate for manual review',
+                                priority: 'secondary',
+                                confidence: 85,
+                                approved: false
+                            },
+                            {
+                                id: 'document-case',
+                                title: 'Document Case',
+                                description: 'Create detailed case notes and flag for monitoring',
+                                priority: 'secondary',
+                                confidence: 92,
+                                approved: false
+                            }
+                        ]
+                    },
+                    progress: 65,
+                    status: 'under_review',
+                    messages: [],
+                    actions: []
+                };
+
+                this.initializeEventListeners();
+                this.startAmbientAI();
+            }
+
+            initializeEventListeners() {
+                // Back to cases
+                document.getElementById('back-to-cases').addEventListener('click', () => {
+                    this.showNotification('Returning to case list', 'info');
+                });
+
+                // Approve protect customer action
+                document.getElementById('approve-protect').addEventListener('click', () => {
+                    this.approveAction('protect-customer');
+                });
+
+                // Send customer message
+                document.getElementById('send-customer-message').addEventListener('click', () => {
+                    this.sendCustomerMessage();
+                });
+
+                // Customer message input
+                document.getElementById('customer-message-input').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.sendCustomerMessage();
+                    }
+                });
+            }
+
+            approveAction(actionId) {
+                const action = this.state.aiAnalysis.recommendations.find(rec => rec.id === actionId);
+                if (action) {
+                    action.approved = true;
+                    this.state.progress += 15;
+                    this.updateProgress();
+                    this.showNotification(`Action approved: ${action.title}`, 'success');
+
+                    // Simulate AI execution
+                    setTimeout(() => {
+                        this.showNotification(`AI executed: ${action.title}`, 'success');
+                        this.state.progress += 10;
+                        this.updateProgress();
+                    }, 2000);
+                }
+            }
+
+            sendCustomerMessage() {
+                const input = document.getElementById('customer-message-input');
+                const message = input.value.trim();
+
+                if (message) {
+                    this.state.messages.push({
+                        id: Date.now(),
+                        text: message,
+                        sender: 'advocate',
+                        timestamp: new Date(),
+                        status: 'sent'
+                    });
+
+                    input.value = '';
+                    this.showNotification('Message sent to customer', 'success');
+
+                    // Simulate AI response
+                    setTimeout(() => {
+                        this.generateAIResponse(message);
+                    }, 1500);
+                }
+            }
+
+            generateAIResponse(customerMessage) {
+                const responses = [
+                    "I understand your urgency. Let me verify a few security details to ensure your account remains protected.",
+                    "Thank you for your patience. I'm reviewing your request and will have an update shortly.",
+                    "I see you need this processed quickly. I'm working on it while ensuring your security."
+                ];
+
+                const response = responses[Math.floor(Math.random() * responses.length)];
+
+                this.state.messages.push({
+                    id: Date.now(),
+                    text: response,
+                    sender: 'ai',
+                    timestamp: new Date(),
+                    status: 'sent'
+                });
+
+                this.showNotification('AI responded to customer', 'info');
+            }
+
+            updateProgress() {
+                const progressBar = document.getElementById('case-progress');
+                const progressText = document.querySelector('.text-foreground.font-medium');
+
+                progressBar.style.width = `${this.state.progress}%`;
+                progressText.textContent = `${this.state.progress}%`;
+
+                if (this.state.progress >= 100) {
+                    this.showNotification('Case resolved successfully!', 'success');
+                }
+            }
+
+            startAmbientAI() {
+                // Simulate ambient AI processing
+                setInterval(() => {
+                    // Update AI confidence
+                    const variation = (Math.random() - 0.5) * 2;
+                    this.state.aiAnalysis.confidence = Math.max(90, Math.min(99, this.state.aiAnalysis.confidence + variation));
+
+                    // Update progress slightly
+                    if (this.state.progress < 100) {
+                        this.state.progress += Math.random() * 2;
+                        this.updateProgress();
+                    }
+                }, 8000);
+            }
+
+            showNotification(message, type) {
+                const notification = document.createElement('div');
+                notification.className = `fixed top-4 right-4 bg-background-card border border-border rounded-card p-4 shadow-card animate-slide-up z-50 max-w-sm`;
+                notification.innerHTML = `
+                    <div class="flex items-center space-x-2">
+                        <div class="w-2 h-2 bg-${type === 'success' ? 'success' : type === 'info' ? 'info' : 'warning'} rounded-full"></div>
+                        <span class="text-sm text-foreground">${message}</span>
+                    </div>
+                `;
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    notification.remove();
+                }, 4000);
+            }
+        }
+
+        // Initialize case triage state
+        const caseTriageState = new CaseTriageState();
+
+        // Add smooth interactions
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add hover effects
+            document.querySelectorAll('button').forEach(button => {
+                button.addEventListener('mouseenter', () => {
+                    button.style.transform = 'translateY(-1px)';
+                });
+
+                button.addEventListener('mouseleave', () => {
+                    button.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Add loading states
+            document.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', () => {
+                    button.style.opacity = '0.7';
+                    setTimeout(() => {
+                        button.style.opacity = '1';
+                    }, 200);
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>
